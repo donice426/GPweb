@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Defectos | GP Graders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root{
+      --bg0:#070e18;
+      --bg2:#0f1e33;
+      --panel: rgba(255,255,255,.04);
+      --stroke: rgba(255,255,255,.10);
+      --text:#eaf1ff;
+      --muted:#b9c6e3;
+      --brand:#4da3ff;
+      --brand2:#38d4ff;
+      --shadow: 0 16px 50px rgba(0,0,0,.45);
+      --r20:20px;
+      --card: rgba(255,255,255,.04);
+      --r: 16px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family:"Segoe UI", Tahoma, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(77,163,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 80% 90%, rgba(77,163,255,.10), transparent 55%),
+        linear-gradient(135deg, var(--bg0), var(--bg2));
+      overflow-x:hidden;
+    }
+
+    /* ===== animated ambient glow (same palette) ===== */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      background:
+        radial-gradient(520px 320px at 18% 18%, rgba(77,163,255,.14), transparent 62%),
+        radial-gradient(520px 320px at 85% 82%, rgba(56,212,255,.10), transparent 64%);
+      opacity:.95;
+      animation: bgFloat 10s ease-in-out infinite alternate;
+      z-index:0;
+    }
+    @keyframes bgFloat{
+      from{ transform: translate3d(-10px,-6px,0) scale(1); }
+      to  { transform: translate3d(10px,8px,0) scale(1.02); }
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(8,14,24,.9);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      z-index:10;
+      transform: translateY(-6px);
+      opacity:0;
+      animation: fadeDown .45s ease forwards;
+      backdrop-filter: blur(10px);
+    }
+    @keyframes fadeDown{
+      to{ transform: translateY(0); opacity:1; }
+    }
+
+    header .wrap{
+      max-width:1100px;
+      margin:auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+
+    header h1{
+      margin:0;
+      font-size:16px;
+    }
+
+    header span{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .btn{
+      padding:9px 14px;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:700;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      cursor:pointer;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
+      position: relative;
+      overflow:hidden;
+      will-change: transform;
+    }
+    .btn::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(420px 140px at 10% 10%, rgba(77,163,255,.18), transparent 65%);
+      opacity:0;
+      transition: opacity .2s ease;
+      pointer-events:none;
+    }
+    .btn:hover{
+      border-color: rgba(77,163,255,.55);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(0,0,0,.28);
+      background: rgba(0,0,0,.10);
+    }
+    .btn:hover::after{ opacity:1; }
+    .btn:active{ transform: translateY(0) scale(.99); }
+
+    .btn.primary{
+      border-color: rgba(77,163,255,.55);
+      background: linear-gradient(180deg, rgba(77,163,255,.18), rgba(56,212,255,.12));
+    }
+    .btn.primary:hover{ border-color: rgba(77,163,255,.85); }
+
+    main{
+      max-width:1100px;
+      margin:auto;
+      padding:26px 18px 50px;
+      position: relative;
+      z-index:1;
+    }
+
+    .section{ margin-top:40px; }
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:8px;
+    }
+
+    .bar{
+      width:10px;
+      height:22px;
+      border-radius:8px;
+      background:linear-gradient(180deg,var(--brand),var(--brand2));
+      box-shadow: 0 10px 26px rgba(77,163,255,.10);
+    }
+
+    .section-title h2{
+      margin:0;
+      font-size:18px;
+    }
+
+    .section-sub{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:18px;
+      max-width:850px;
+      line-height: 1.6;
+    }
+
+    footer{
+      text-align:center;
+      font-size:12px;
+      color:rgba(255,255,255,.4);
+      padding:20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== BUSCADOR ===== */
+    .search-wrap{
+      margin-top: 14px;
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow: visible; /* para autocomplete */
+      transform: translateY(10px);
+      opacity:0;
+      transition: transform .55s ease, opacity .55s ease;
+    }
+    .search-wrap.reveal{ transform: translateY(0); opacity:1; }
+
+    .search-head{
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .search-head h3{ margin:0; font-size: 14px; }
+    .search-head .hint{
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .search-body{ padding: 14px 16px 16px; }
+    .search-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+    .search-input{
+      flex: 1;
+      min-width: 220px;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      outline: none;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+    }
+    .search-input:focus{
+      border-color: rgba(77,163,255,.55);
+      box-shadow: 0 0 0 6px rgba(77,163,255,.12);
+      transform: translateY(-1px);
+    }
+    .search-meta{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(230,237,245,.60);
+    }
+
+    mark.gp-hit{
+      background: rgba(77,163,255,.25);
+      border: 1px solid rgba(77,163,255,.35);
+      color: var(--text);
+      padding: 0 2px;
+      border-radius: 6px;
+      transition: box-shadow .2s ease, background .2s ease, border-color .2s ease;
+    }
+    mark.gp-hit.active{
+      background: rgba(77,163,255,.45);
+      border-color: rgba(77,163,255,.75);
+      box-shadow: 0 0 0 6px rgba(77,163,255,.14);
+      animation: popHit .28s ease;
+    }
+    @keyframes popHit{
+      from{ transform: scale(.98); }
+      to{ transform: scale(1); }
+    }
+
+    /* ===== AUTOCOMPLETE ===== */
+    .search-suggest{
+      position: relative;
+      flex: 1;
+      min-width: 220px;
+    }
+    .search-suggest .search-input{ width: 100%; }
+
+    .suggest-list{
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: rgba(10,20,34,.98);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 14px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
+      overflow: hidden;
+      z-index: 999;
+      max-height: 280px;
+      overflow-y: auto;
+      display: none;
+      transform-origin: top;
+      animation: drop .16s ease;
+    }
+    @keyframes drop{
+      from{ transform: translateY(-6px) scale(.98); opacity:.4; }
+      to{ transform: translateY(0) scale(1); opacity:1; }
+    }
+
+    .suggest-item{
+      padding: 10px 12px;
+      cursor: pointer;
+      border-top: 1px solid rgba(255,255,255,.08);
+      transition: background .12s ease, transform .12s ease;
+    }
+    .suggest-item:first-child{ border-top: none; }
+    .suggest-item:hover,
+    .suggest-item.active{ background: rgba(77,163,255,.12); transform: translateX(2px); }
+
+    .suggest-title{
+      font-size: 13px;
+      color: rgba(230,237,245,.92);
+      line-height: 1.35;
+    }
+
+    .suggest-hi{
+      background: rgba(77,163,255,.22);
+      border: 1px solid rgba(77,163,255,.35);
+      padding: 0 2px;
+      border-radius: 6px;
+    }
+
+    /* ===== SELECTOR DE DEFECTOS ===== */
+    .defect-selector{
+      display:flex;
+      gap:14px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      transform: translateY(10px);
+      opacity:0;
+      transition: transform .55s ease, opacity .55s ease;
+    }
+    .defect-selector.reveal{ transform: translateY(0); opacity:1; }
+
+    .defect-btn{
+      flex:1;
+      min-width: 220px;
+      padding:14px 16px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.16);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      color: var(--text);
+      font-weight:700;
+      cursor:pointer;
+      text-align:left;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
+      position: relative;
+      overflow:hidden;
+      will-change: transform;
+    }
+
+    .defect-btn span{
+      display:block;
+      font-size:12px;
+      font-weight:400;
+      color: var(--muted);
+      margin-top:4px;
+    }
+
+    .defect-btn::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius:16px;
+      background: radial-gradient(520px 220px at 10% 0%, rgba(77,163,255,.14), transparent 60%);
+      opacity:0;
+      transition: opacity .18s ease;
+      pointer-events:none;
+    }
+    .defect-btn:hover{ transform: translateY(-2px); }
+    .defect-btn:hover::before{ opacity:1; }
+
+    .defect-btn.color:hover{
+      border-color: rgba(77,163,255,.75);
+      box-shadow: 0 0 0 6px rgba(77,163,255,.12);
+    }
+    .defect-btn.nir:hover{
+      border-color: rgba(56,212,255,.75);
+      box-shadow: 0 0 0 6px rgba(56,212,255,.12);
+    }
+    .defect-btn:active{ transform: translateY(-1px) scale(.99); }
+
+    /* ===== GRID (mantienes 4 por fila) ===== */
+    .defects-grid{
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+    @media (max-width: 1100px){
+      .defects-grid{ grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 800px){
+      .defects-grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px){
+      .defects-grid{ grid-template-columns: 1fr; }
+    }
+
+    /* ===== CARD ===== */
+    .defect-card{
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      cursor:pointer;
+      display:flex;
+      flex-direction:column;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, filter .15s ease;
+      max-width: 260px;
+      margin: 0 auto;
+      position: relative;
+      will-change: transform;
+      transform: translateY(10px);
+      opacity:0;
+    }
+    .defect-card.reveal{
+      transform: translateY(0);
+      opacity:1;
+      transition: transform .55s ease, opacity .55s ease, border-color .15s ease, box-shadow .15s ease, filter .15s ease;
+    }
+
+    .defect-card::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius: 18px;
+      background: radial-gradient(520px 220px at 10% 0%, rgba(77,163,255,.10), transparent 60%);
+      opacity:0;
+      transition: opacity .18s ease;
+      pointer-events:none;
+    }
+    .defect-card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(77,163,255,.30);
+      box-shadow: 0 22px 70px rgba(0,0,0,.45);
+      filter: saturate(1.04);
+    }
+    .defect-card:hover::before{ opacity:1; }
+    .defect-card:active{ transform: translateY(-1px) scale(.995); }
+
+    .defect-thumb{
+      width:100%;
+      aspect-ratio: 1 / 1;
+      background: rgba(0,0,0,.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      padding: 12px;
+    }
+
+    .defect-thumb img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display:block;
+      transform: translateZ(0);
+      transition: transform .18s ease, filter .18s ease;
+    }
+    .defect-card:hover .defect-thumb img{
+      transform: scale(1.02);
+      filter: contrast(1.02);
+    }
+
+    .defect-names{
+      padding: 10px 12px 12px;
+    }
+    .defect-names .es{ font-size: 13px; font-weight:900; letter-spacing:.2px; }
+    .defect-names .en{ font-size: 11.5px; color: rgba(234,241,255,.78); margin-top:3px; }
+
+    /* ===== MODAL ===== */
+    .modalOverlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display:none;
+      z-index: 5000;
+      padding: 16px;
+    }
+    .modalOverlay.open{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      animation: overlayIn .18s ease-out;
+    }
+    @keyframes overlayIn{
+      from{ opacity: 0; }
+      to{ opacity: 1; }
+    }
+
+    .modal{
+      width: min(920px, 100%);
+      max-height: 92vh;
+      overflow: hidden;
+      background: rgba(8,14,24,.96);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 20px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.65);
+      display:flex;
+      flex-direction:column;
+
+      transform: translateY(10px) scale(.98);
+      opacity: 0;
+      animation: modalIn .18s ease-out forwards;
+    }
+    @keyframes modalIn{
+      to{ transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .modalHandle{
+      display:none;
+      width: 44px;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      margin: 10px auto 0;
+    }
+
+    .modalHead{
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      padding: 12px 14px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      background: rgba(8,14,24,.94);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+
+    .modalTitle{ margin:0; font-size:16px; letter-spacing:.2px; }
+    .modalSub{ margin-top:4px; font-size:12px; color: var(--muted); line-height:1.35; }
+
+    .modalClose{
+      border-radius: 12px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      cursor:pointer;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .modalClose:hover{
+      border-color: rgba(77,163,255,.55);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(0,0,0,.28);
+      background: rgba(0,0,0,.10);
+    }
+    .modalClose:active{ transform: translateY(0) scale(.99); }
+
+    .modalBody{
+      padding: 14px;
+      overflow:auto;
+
+      display:grid;
+      grid-template-columns: 1.1fr 1fr;
+      grid-template-areas:
+        "fig pasos"
+        "info info";
+      gap: 12px;
+      align-items:start;
+    }
+
+    .modalFigure{ grid-area: fig; }
+    .modalPanel.pasos{ grid-area: pasos; }
+    .modalPanel.info{ grid-area: info; }
+
+    .modalFigure{
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      overflow:hidden;
+    }
+
+    #modalImg{ cursor: zoom-in; }
+
+    .modalFigure .img{
+      width:100%;
+      aspect-ratio: 16 / 10;
+      background: rgba(0,0,0,.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px;
+    }
+
+    .modalFigure .img img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display:block;
+    }
+
+    .modalFigure .cap{
+      padding: 10px 12px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+
+    .modalPanel{
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: 12px 12px;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+      position: relative;
+      overflow:hidden;
+    }
+    .modalPanel::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius: 16px;
+      background: radial-gradient(520px 180px at 10% 0%, rgba(77,163,255,.10), transparent 60%);
+      opacity:0;
+      transition: opacity .18s ease;
+      pointer-events:none;
+    }
+    .modalPanel:hover{
+      transform: translateY(-1px);
+      border-color: rgba(77,163,255,.22);
+      box-shadow: 0 18px 55px rgba(0,0,0,.35);
+    }
+    .modalPanel:hover::before{ opacity:1; }
+
+    .modalPanel h4{
+      margin:0 0 8px;
+      font-size:13px;
+      letter-spacing:.15px;
+    }
+
+    .modalPanel p, .modalPanel li{
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .modalPanel ul{ margin: 8px 0 0 18px; }
+
+    .badgeType{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      font-size: 12px;
+      color: rgba(230,237,245,.88);
+      margin-top: 8px;
+    }
+    .badgeDot{ width: 8px; height: 8px; border-radius: 999px; background: rgba(77,163,255,.85); }
+    .badgeType.nir .badgeDot{ background: rgba(56,212,255,.85); }
+
+    /* ===== ACCORDEÓN ===== */
+    .modalPanel.pasos{ align-self: start; padding: 10px; }
+
+    .accBtn{
+      width: 100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.14);
+      color: var(--text);
+      cursor:pointer;
+      font-weight: 800;
+      font-size: 13px;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .accBtn:hover{
+      border-color: rgba(77,163,255,.55);
+      box-shadow: 0 0 0 6px rgba(77,163,255,.10);
+      transform: translateY(-1px);
+      background: rgba(0,0,0,.16);
+    }
+    .accBtn:active{ transform: translateY(0) scale(.99); }
+
+    .accIcon{
+      transition: transform .18s ease;
+      opacity: .9;
+    }
+    .accBtn[aria-expanded="true"] .accIcon{ transform: rotate(180deg); }
+
+    .accPanel{
+      margin-top: 10px;
+      max-height: 45vh;
+      overflow: auto;
+      padding-right: 6px;
+      animation: accIn .16s ease;
+    }
+    @keyframes accIn{
+      from{ opacity:.3; transform: translateY(-4px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+
+    .steps{ display:grid; gap: 10px; margin-top: 10px; }
+    .step{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.16);
+      border-radius: 14px;
+      padding: 10px 12px;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .step:hover{
+      transform: translateY(-1px);
+      border-color: rgba(77,163,255,.22);
+    }
+
+    .step .n{ font-weight: 900; font-size: 12px; color: rgba(230,237,245,.92); }
+    .step .t{ margin-top: 6px; font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    .accNotes{
+      margin-top: 10px;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .accPanel::-webkit-scrollbar{ width: 8px; }
+    .accPanel::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.12);
+      border-radius: 999px;
+    }
+
+    /* ===== MOBILE MODAL ===== */
+    @media (max-width: 820px){
+      .modalOverlay{
+        padding: 10px;
+        align-items: flex-end;
+        justify-content: center;
+      }
+
+      .modal{
+        width: 100%;
+        max-height: 90vh;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      .modalHandle{ display:block; }
+
+      .modalBody{
+        display:flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .modalFigure{ order: 1; }
+      .modalPanel.info{ order: 2; }
+      .modalPanel.pasos{ order: 3; }
+
+      .accPanel{ max-height: 38vh; }
+    }
+
+    /* ===== LIGHTBOX IMAGEN MODAL ===== */
+    .img-lightbox{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.85);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 6000;
+      cursor: zoom-out;
+
+      opacity:0;
+      transition: opacity .14s ease;
+    }
+    .img-lightbox.open{
+      display: flex;
+      opacity:1;
+    }
+    .img-lightbox img{
+      max-width: 92vw;
+      max-height: 92vh;
+      border-radius: 14px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.65);
+      transform: translateY(8px) scale(.99);
+      animation: lbIn .16s ease forwards;
+    }
+    @keyframes lbIn{
+      to{ transform: translateY(0) scale(1); }
+    }
+
+    /* ===== Reduced motion ===== */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation: none !important; transition: none !important; }
+      html{ scroll-behavior:auto; }
+      body::before{ display:none; }
+      .modalOverlay.open{ animation: none; }
+      .modal{ animation: none; opacity: 1; transform: none; }
+    }
+
+    /* Ocultar header cuando el modal está abierto */
+body.modal-open header{
+  display: none;
+}
+
+  </style>
+
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <div>
+      <h1>Defectos – GP Graders</h1>
+      <span>Catálogo visual de defectos de cereza (MultiView™ Color + NIR)</span>
+    </div>
+    <a href="menu.html" class="btn">⬅ Volver al menú</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== BUSCADOR ===== -->
+  <section class="search-wrap" id="buscador">
+    <div class="search-head">
+      <div>
+        <h3>Búsqueda rápida en el catálogo</h3>
+        <div class="hint">Busca por nombre de defecto, palabra clave o criterio visual</div>
+      </div>
+      <button class="btn" id="clearSearchBtn" type="button">Limpiar</button>
+    </div>
+
+    <div class="search-body">
+      <div class="search-row">
+        <div class="search-suggest">
+          <input class="search-input" id="searchInput" type="text" autocomplete="off"
+            placeholder="Ej: cracking, pitting, pudrición, deshidratación, NIR...">
+          <div class="suggest-list" id="suggestList"></div>
+        </div>
+
+        <button class="btn primary" id="searchBtn" type="button">Buscar</button>
+        <button class="btn" id="prevBtn" type="button">◀</button>
+        <button class="btn" id="nextBtn" type="button">▶</button>
+      </div>
+
+      <div class="search-meta" id="searchMeta">Sin búsqueda activa.</div>
+    </div>
+  </section>
+
+  <!-- 1. INTRODUCCIÓN DEFECTOS -->
+  <section class="section" id="introduccion-defectos">
+    <div class="section-title">
+      <div class="bar"></div>
+      <h2>1. Introducción al catálogo de defectos</h2>
+    </div>
+
+    <p class="section-sub">
+      En el contexto de clasificación de cerezas, un <strong>defecto</strong> se entiende como cualquier condición
+      visual, estructural o fisiológica del fruto que disminuye su calidad comercial, su vida útil o su aptitud para
+      el proceso de empaque. Estos defectos pueden manifestarse como alteraciones de piel (marcas, heridas, cracking),
+      desórdenes de textura (pitting, ablandamiento), contaminación (suciedad), daños mecánicos o signos de descomposición.
+    </p>
+
+    <p class="section-sub">
+      El propósito de esta sección es construir un <strong>catálogo estandarizado</strong> que permita:
+      (1) identificar rápidamente cada defecto por su <strong>nombre</strong> y su manifestación típica,
+      (2) comprender cómo se expresa en imágenes <strong>MultiView™ (Color + NIR)</strong>, y
+      (3) servir como guía práctica para <strong>configurar defectos dentro de gpVision™</strong>, asegurando que el
+      criterio técnico utilizado en planta coincida con la lógica de clasificación definida en la plataforma.
+    </p>
+
+    <p class="section-sub">
+      En gpVision™, los defectos no son solo etiquetas descriptivas: representan <strong>reglas y criterios</strong>
+      que el sistema utiliza para asignar una condición al fruto y decidir su destino (clase/salida). Por ello,
+      conocer el defecto por nombre y reconocerlo visualmente es fundamental para realizar configuraciones correctas,
+      validar resultados y evitar interpretaciones inconsistentes entre operadores, turnos o temporadas.
+    </p>
+
+    <p class="section-sub" style="margin-top:-6px;">
+      <strong>Cómo usar este catálogo:</strong> cada defecto se presentará con una definición breve, señales típicas
+      en Color/NIR (si aplica), confusiones comunes y una orientación práctica de configuración en gpVision™
+      (por ejemplo: qué buscar al ajustar umbrales, cuándo validar con imágenes recientes y cómo evitar falsos positivos).
+    </p>
+  </section>
+
+  <p class="section-sub">
+    A continuación se listan los defectos documentados, organizados para facilitar tanto el aprendizaje visual
+    como la configuración técnica dentro de la plataforma gpVision™.
+  </p>
+
+  <!-- 2. SELECCIÓN DE TIPO DE DEFECTO -->
+  <section class="section" id="selector-defectos">
+    <div class="section-title">
+      <div class="bar"></div>
+      <h2>2. Tipo de detección del defecto</h2>
+    </div>
+
+    <p class="section-sub">
+      En gpVision™, los defectos se clasifican según el tipo de información visual utilizada
+      para su detección. Algunos defectos se identifican principalmente a partir de
+      <strong>características visibles en color</strong>, mientras que otros requieren el uso
+      de <strong>información infrarroja (NIR)</strong> para revelar daños no evidentes a simple vista.
+    </p>
+
+    <div class="defect-selector">
+      <button class="defect-btn color" data-target="defectos-color">
+        Defectos detectados por Color
+        <span>Basados en apariencia visual: color, textura, forma y marcas externas</span>
+      </button>
+
+      <button class="defect-btn nir" data-target="defectos-nir">
+        Defectos detectados por Infrarrojo (NIR)
+        <span>Basados en respuesta espectral: daño interno, descomposición, humedad</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 3. DEFECTOS DETECTADOS POR COLOR -->
+  <section class="section" id="defectos-color">
+    <div class="section-title">
+      <div class="bar"></div>
+      <h2>Defectos detectados por color</h2>
+    </div>
+
+    <p class="section-sub">
+      Los defectos detectados por color se identifican a partir de información visible
+      capturada por las cámaras RGB del sistema MultiView™. Estos defectos suelen manifestarse
+      como alteraciones en el color superficial, textura, forma o integridad externa del fruto.
+    </p>
+
+    <p class="section-sub">
+      En la configuración de gpVision™, este tipo de defectos se ajusta principalmente mediante
+      parámetros relacionados con umbrales de color, segmentación, contraste y análisis de
+      superficie. La validación visual en imágenes recientes es clave para evitar falsos positivos.
+    </p>
+
+    <div class="defects-grid">
+
+      <article class="defect-card"
+        data-type="color"
+        data-es="Partidura"
+        data-en="Cracking"
+        data-img="Imagenes/Screenshot 2025-12-31 013121.png"
+        data-desc="La partidura corresponde a una ruptura de la piel del fruto, generalmente causada por absorción excesiva de agua durante la etapa de precosecha o lluvia cercana a cosecha."
+        data-signals="Grietas visibles en la piel, bordes irregulares, alto contraste en imagen RGB"
+        data-confusions="Marcas superficiales, cicatrices naturales, daño mecánico leve"
+        data-impact="Disminución severa de la calidad comercial y reducción de vida útil"
+        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
+        data-step2="Seleccionar o crear el defecto (spectro) 'Partidura / Cracking'."
+        data-step3="Ajustar parámetros de segmentación y umbrales de color."
+        data-step4="Validar el defecto usando imágenes recientes del sistema MultiView™."
+        data-step5="Guardar la configuración y monitorear falsos positivos."
+        data-notes="Recomendación: validar por ángulos y revisar falsos positivos en cicatrices superficiales."
+      >
+        <div class="defect-thumb">
+          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Partidura (Cracking)">
+        </div>
+        <div class="defect-names">
+          <div class="es">Partidura</div>
+          <div class="en">Cracking</div>
+        </div>
+      </article>
+
+      <article class="defect-card"
+        data-type="color"
+        data-es="Picadura de pájaro"
+        data-en="Bird Peck"
+        data-img="Imagenes/DEFECTO_BIRD_PECK_COLOR.jpeg"
+        data-desc="La picadura de pájaro corresponde a un daño mecánico localizado causado por aves durante la etapa de precosecha. Se manifiesta como perforaciones o áreas irregulares en la piel del fruto, frecuentemente con pérdida de tejido, bordes rasgados y exposición de pulpa."
+        data-signals="Perforaciones visibles, zonas oscuras o irregulares, bordes no uniformes, alto contraste local en imagen RGB"
+        data-confusions="Daño mecánico por impacto, partidura incipiente, pudrición localizada, marcas por insectos"
+        data-impact="Disminuye severamente la calidad comercial y aumenta el riesgo de pudrición secundaria durante almacenamiento"
+        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
+        data-step2="Crear o seleccionar el defecto 'Picadura de pájaro / Bird Peck' bajo detección por Color (RGB)."
+        data-step3="Ajustar parámetros de segmentación y contraste para detectar perforaciones y pérdida de piel."
+        data-step4="Validar con imágenes recientes que incluyan diferentes tamaños y severidades de picadura."
+        data-step5="Guardar la configuración y monitorear falsos positivos con daño mecánico similar."
+        data-notes="Recomendación: validar desde múltiples ángulos. Ajustar sensibilidad para no confundir con marcas superficiales o cicatrices naturales."
+      >
+        <div class="defect-thumb">
+          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Picadura de pájaro (Bird Peck)">
+        </div>
+        <div class="defect-names">
+          <div class="es">Picadura de pájaro</div>
+          <div class="en">Bird Peck</div>
+        </div>
+      </article>
+
+      <article class="defect-card"
+        data-type="color"
+        data-es="Russet"
+        data-en="Russeting"
+        data-img="Imagenes/Screenshot 2025-12-31 013121.png"
+        data-desc="El russet corresponde a un daño superficial en la piel del fruto que se manifiesta como áreas ásperas, corchosas o decoloradas. En cerezas suele asociarse a microlesiones tempranas, fricción entre frutos, condiciones ambientales (humedad/rocío/lluvia) o sensibilidad varietal, afectando principalmente la apariencia."
+        data-signals="Zonas opacas o mate, textura rugosa tipo corcho, parches decolorados café claro/amarillentos, patrón superficial irregular en imagen RGB"
+        data-confusions="Cicatrices naturales, scarring por roce, marcas cosméticas, residuos superficiales (polvo/suciedad), variaciones normales de brillo o color"
+        data-impact="Disminuye la calidad visual y el valor comercial, generando rechazos en mercados con altos estándares cosméticos"
+        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
+        data-step2="Crear o seleccionar el defecto 'Russet / Russeting' bajo detección por Color (RGB)."
+        data-step3="Ajustar parámetros de segmentación para identificar zonas opacas y de textura rugosa."
+        data-step4="Calibrar umbrales de contraste/superficie para diferenciar russet de cicatrices, sombras o reflejos."
+        data-step5="Validar con imágenes recientes considerando distintos calibres, variedades y niveles de severidad."
+        data-notes="Recomendación: validar desde múltiples ángulos y condiciones de iluminación. Evitar confundir russet leve con brillo irregular por humedad superficial."
+      >
+        <div class="defect-thumb">
+          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Russet (Russeting)">
+        </div>
+        <div class="defect-names">
+          <div class="es">Russet</div>
+          <div class="en">Russeting</div>
+        </div>
+      </article>
+
+      <article class="defect-card"
+        data-type="color"
+        data-es="Pitting"
+        data-en="Pitting"
+        data-img="Imagenes/DEFECTO_PITTING_COLOR.jpeg"
+        data-desc="El pitting corresponde a un daño superficial caracterizado por pequeñas depresiones o hundimientos en la piel del fruto, generalmente causados por impacto, presión o manipulación durante cosecha, proceso o transporte."
+        data-signals="Depresiones visibles, zonas hundidas con sombra local, cambios leves de color alrededor del impacto"
+        data-confusions="Daño mecánico leve, marcas de presión temporal, cicatrices superficiales"
+        data-impact="Reduce la calidad visual y puede acelerar deterioro y pudrición secundaria"
+        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
+        data-step2="Crear o seleccionar el defecto 'Pitting' bajo detección por Color (RGB)."
+        data-step3="Ajustar segmentación para detectar depresiones y cambios locales de contraste."
+        data-step4="Calibrar sensibilidad para distinguir pitting real de sombras naturales."
+        data-step5="Validar con imágenes recientes considerando distintos calibres y condiciones de iluminación."
+        data-notes="Recomendación: validar desde múltiples ángulos y evitar confundir con sombreado natural."
+      >
+        <div class="defect-thumb">
+          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Pitting">
+        </div>
+        <div class="defect-names">
+          <div class="es">Pitting</div>
+          <div class="en">Pitting</div>
+        </div>
+      </article>
+
+      <article class="defect-card"
+        data-type="color"
+        data-es="Hijuelo"
+        data-en="Twin Fruit"
+        data-img="Imagenes/DEFECTO_HIJUELO_COLOR.jpeg"
+        data-desc="El hijuelo corresponde a un defecto de forma en el que dos frutos se desarrollan parcial o totalmente unidos."
+        data-signals="Forma irregular/asimétrica, volumen superior, hendidura o línea de unión"
+        data-confusions="Fruta grande normal, deformaciones leves"
+        data-impact="Afecta uniformidad y reduce aceptación comercial"
+        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
+        data-step2="Crear o seleccionar el defecto 'Hijuelo / Twin Fruit' bajo detección por Color (RGB)."
+        data-step3="Ajustar análisis de forma para detectar fusiones."
+        data-step4="Calibrar umbrales de tamaño/contorno para no confundir con fruta grande."
+        data-step5="Validar con imágenes recientes considerando grados de fusión."
+        data-notes="Recomendación: incluir fruta grande normal en sets para bajar falsos positivos."
+      >
+        <div class="defect-thumb">
+          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Hijuelo (Twin Fruit)">
+        </div>
+        <div class="defect-names">
+          <div class="es">Hijuelo</div>
+          <div class="en">Twin Fruit</div>
+        </div>
+      </article>
+
+      <article class="defect-card"
+        data-type="color"
+        data-es="Pudrición negra"
+        data-en="Black Rot"
+        data-img="Imagenes/DEFECTO_PUDRICION_NEGRA_COLOR.jpeg"
+        data-desc="La pudrición negra corresponde a un defecto severo por descomposición, asociado a infecciones fúngicas o bacterianas."
+        data-signals="Zonas negras, piel colapsada/arrugada, aspecto húmedo, pérdida de forma"
+        data-confusions="Manchas superficiales, fruta sobremadura, sombras"
+        data-impact="Rechazo total y riesgo de contaminación cruzada"
+        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
+        data-step2="Crear o seleccionar 'Pudrición negra / Black Rot' por Color (RGB)."
+        data-step3="Ajustar umbrales de color/brillo para zonas oscuras."
+        data-step4="Calibrar segmentación para diferenciar de sombras/manchas."
+        data-step5="Validar con imágenes recientes con distintos niveles de severidad."
+        data-notes="Recomendación: validar con iluminación estable y excluir sobremadurez en calibración."
+      >
+        <div class="defect-thumb">
+          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Pudrición negra (Black Rot)">
+        </div>
+        <div class="defect-names">
+          <div class="es">Pudrición negra</div>
+          <div class="en">Black Rot</div>
+        </div>
+      </article>
+
+      <article class="defect-card"
+        data-type="color"
+        data-es="Virosis"
+        data-en="Virus Damage"
+        data-img="Imagenes/DEFECTO_VIROSIS_COLOR.jpeg"
+        data-desc="La virosis corresponde a un daño fisiológico causado por infecciones virales que afectan el desarrollo normal del fruto."
+        data-signals="Coloración irregular/moteada, zonas pálidas, deformación leve a moderada"
+        data-confusions="Variaciones naturales de color, estrés hídrico, daño por frío"
+        data-impact="Reduce uniformidad y genera rechazos comerciales"
+        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
+        data-step2="Crear o seleccionar 'Virosis / Virus Damage' por Color (RGB)."
+        data-step3="Ajustar homogeneidad y parámetros de moteado."
+        data-step4="Calibrar para diferenciar de variación varietal."
+        data-step5="Validar con imágenes recientes y distintos grados del daño."
+        data-notes="Recomendación: usar fruta confirmada con síntomas para calibración."
+      >
+        <div class="defect-thumb">
+          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Virosis (Virus Damage)">
+        </div>
+        <div class="defect-names">
+          <div class="es">Virosis</div>
+          <div class="en">Virus Damage</div>
+        </div>
+      </article>
+
+      <article class="defect-card"
+        data-type="color"
+        data-es="Pudrición"
+        data-en="Rot / Decay"
+        data-img="Imagenes/DEFECTO_PUDRICION_COLOR.jpeg"
+        data-desc="La pudrición corresponde a un proceso de descomposición del fruto causado principalmente por hongos o bacterias."
+        data-signals="Zonas oscuras, áreas blandas/colapsadas, pérdida de brillo, textura irregular"
+        data-confusions="Golpes severos, sobremadurez, daño por frío avanzado"
+        data-impact="Pérdida total de calidad comercial y rechazo en destino"
+        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
+        data-step2="Crear o seleccionar 'Pudrición / Rot' por Color (RGB)."
+        data-step3="Ajustar umbrales de color/textura para zonas colapsadas."
+        data-step4="Calibrar para diferenciar de golpes/sobremadurez."
+        data-step5="Validar con imágenes recientes con distintos grados."
+        data-notes="Recomendación: validar con fruta en distintos estados de avance; cuidado con golpes recientes."
+      >
+        <div class="defect-thumb">
+          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Pudrición (Rot / Decay)">
+        </div>
+        <div class="defect-names">
+          <div class="es">Pudrición</div>
+          <div class="en">Rot / Decay</div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- 4. DEFECTOS DETECTADOS POR INFRARROJO -->
+  <section class="section" id="defectos-nir">
+    <div class="section-title">
+      <div class="bar"></div>
+      <h2>Defectos detectados por infrarrojo (NIR)</h2>
+    </div>
+
+    <p class="section-sub">
+      Los defectos detectados mediante infrarrojo cercano (NIR) corresponden a condiciones
+      que no siempre son visibles externamente, pero que alteran la respuesta espectral del fruto.
+      Estos defectos están asociados a desórdenes internos, daño por humedad, descomposición
+      incipiente o cambios estructurales del tejido.
+    </p>
+
+    <p class="section-sub">
+      En gpVision™, la detección por NIR requiere una correcta calibración óptica y un análisis
+      cuidadoso de la señal infrarroja, ya que estos defectos suelen ser sensibles a variaciones
+      de temperatura, contenido de agua y estado fisiológico del fruto.
+    </p>
+
+    <div class="defects-grid">
+
+      <article class="defect-card"
+        data-type="nir"
+        data-es="Blando mínimo"
+        data-en="Soft – Minimum"
+        data-img="Imagenes/Screenshot 2025-12-31 013802.png"
+        data-desc="El defecto Blando mínimo corresponde a fruta con pérdida leve de firmeza..."
+        data-signals="Respuesta NIR más opaca o con menor contraste respecto a fruta firme..."
+        data-confusions="Fruta madura normal, variaciones por variedad, temperatura..."
+        data-impact="Reduce la vida útil del fruto y aumenta el riesgo de reclamos..."
+        data-step1="Abrir el módulo de configuración de defectos en gpVision™ y seleccionar NIR."
+        data-step2="Crear/seleccionar 'Blando mínimo / Soft – Minimum'."
+        data-step3="Ajustar sensibilidad y umbrales NIR."
+        data-step4="Validar con fruta firme vs levemente blanda (ideal con referencia)."
+        data-step5="Guardar y monitorear falsos positivos/negativos."
+        data-notes="Recomendación: calibrar a temperatura estable y revisar por variedad."
+      >
+        <div class="defect-thumb">
+          <img src="Imagenes/Screenshot 2025-12-31 013802.png" alt="Blando mínimo (Soft – Minimum)">
+        </div>
+        <div class="defect-names">
+          <div class="es">Blando mínimo</div>
+          <div class="en">Soft – Minimum</div>
+        </div>
+      </article>
+
+      <article class="defect-card"
+        data-type="nir"
+        data-es="Blando promedio"
+        data-en="Soft – Medium"
+        data-img="Imagenes/Screenshot 2025-12-31 013802.png"
+        data-desc="El defecto Blando promedio corresponde a fruta con pérdida moderada de firmeza..."
+        data-signals="Respuesta NIR más opaca y homogénea, menor contraste..."
+        data-confusions="Fruta madura avanzada, variaciones por variedad..."
+        data-impact="Reduce significativamente la vida útil y aumenta reclamos..."
+        data-step1="Abrir gpVision™ y seleccionar detección NIR."
+        data-step2="Crear/seleccionar 'Blando promedio / Soft – Medium'."
+        data-step3="Ajustar umbrales NIR diferenciándolo de madurez normal."
+        data-step4="Validar con sets (firme, blando mínimo y promedio)."
+        data-step5="Guardar y monitorear solapamientos con blando severo."
+        data-notes="Recomendación: definir límite claro entre blando mínimo y promedio."
+      >
+        <div class="defect-thumb">
+          <img src="Imagenes/Screenshot 2025-12-31 013802.png" alt="Blando promedio (Soft – Medium)">
+        </div>
+        <div class="defect-names">
+          <div class="es">Blando promedio</div>
+          <div class="en">Soft – Medium</div>
+        </div>
+      </article>
+
+      <article class="defect-card"
+        data-type="nir"
+        data-es="Guata blanca"
+        data-en="White Pith"
+        data-img="Imagenes/DEFECTO_GUATA_BLANCA_NIR.png"
+        data-desc="El defecto Guata blanca corresponde a una alteración interna del fruto..."
+        data-signals="Respuesta NIR irregular, zonas de menor absorción, patrones difusos..."
+        data-confusions="Sobremadurez, variaciones varietales, temperatura..."
+        data-impact="Rechazo severo en destino por mala condición interna..."
+        data-step1="Abrir gpVision™ y seleccionar detección NIR."
+        data-step2="Crear/seleccionar 'Guata blanca / White Pith'."
+        data-step3="Ajustar umbrales NIR sin confundir con madurez avanzada."
+        data-step4="Validar con fruta confirmada mediante corte."
+        data-step5="Guardar y monitorear falsos positivos."
+        data-notes="Recomendación: validar periódicamente con inspección destructiva."
+      >
+        <div class="defect-thumb">
+          <img src="Imagenes/Screenshot 2025-12-31 013802.png" alt="Guata blanca (White Pith)">
+        </div>
+        <div class="defect-names">
+          <div class="es">Guata blanca</div>
+          <div class="en">White Pith</div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== MODAL DEFECTOS ===== -->
+  <div class="modalOverlay" id="defectModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-label="Detalle de defecto">
+      <div class="modalHandle" aria-hidden="true"></div>
+
+      <!-- Lightbox imagen -->
+      <div id="imgLightbox" class="img-lightbox" aria-hidden="true">
+        <img id="imgLightboxImg" alt="">
+      </div>
+
+      <div class="modalHead">
+        <div>
+          <h3 class="modalTitle" id="modalTitle">Defecto</h3>
+          <div class="modalSub" id="modalSub">Detalle técnico y configuración en gpVision™</div>
+
+          <div class="badgeType" id="modalType">
+            <span class="badgeDot"></span>
+            <span id="modalTypeText">Detección</span>
+          </div>
+        </div>
+        <button class="modalClose" id="modalCloseBtn" type="button">✕</button>
+      </div>
+
+      <div class="modalBody">
+        <div class="modalFigure">
+          <div class="img">
+            <img id="modalImg" src="" alt="Imagen defecto">
+          </div>
+          <div class="cap" id="modalCaption">Caption</div>
+        </div>
+
+        <div class="modalPanel pasos">
+          <button class="accBtn" id="stepsToggleBtn" type="button" aria-expanded="false" aria-controls="stepsPanel">
+            <span>Ver paso a paso (gpVision™)</span>
+            <span class="accIcon" aria-hidden="true">▾</span>
+          </button>
+
+          <div class="accPanel" id="stepsPanel" hidden>
+            <div class="steps">
+              <div class="step"><div class="n">Paso 1</div><div class="t" id="modalStep1"></div></div>
+              <div class="step"><div class="n">Paso 2</div><div class="t" id="modalStep2"></div></div>
+              <div class="step"><div class="n">Paso 3</div><div class="t" id="modalStep3"></div></div>
+              <div class="step"><div class="n">Paso 4</div><div class="t" id="modalStep4"></div></div>
+              <div class="step"><div class="n">Paso 5</div><div class="t" id="modalStep5"></div></div>
+            </div>
+
+            <p class="accNotes">
+              <strong>Notas:</strong> <span id="modalNotes"></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="modalPanel info">
+          <h4>Información del defecto</h4>
+          <p id="modalDesc"></p>
+
+          <ul>
+            <li><strong>Señales principales:</strong> <span id="modalSignals"></span></li>
+            <li><strong>Confusiones comunes:</strong> <span id="modalConfusions"></span></li>
+            <li><strong>Impacto:</strong> <span id="modalImpact"></span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Defectos · GP Graders · Documentación técnica interna
+</footer>
+
+<script>
+  // ====== REVEAL (buscador + selector + cards) ======
+  (function(){
+    const targets = document.querySelectorAll(".search-wrap, .defect-selector, .defect-card");
+    if(!targets.length) return;
+
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add("reveal");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.14 });
+
+    targets.forEach((el, i)=>{
+      if(el.classList.contains("defect-card")){
+        el.style.transitionDelay = `${Math.min(i * 45, 420)}ms`;
+      }
+      io.observe(el);
+    });
+  })();
+
+  // ====== BUSCADOR + AUTOCOMPLETE ======
+  const searchInput = document.getElementById("searchInput");
+  const suggestList = document.getElementById("suggestList");
+  const searchBtn = document.getElementById("searchBtn");
+  const clearBtn = document.getElementById("clearSearchBtn");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const meta = document.getElementById("searchMeta");
+
+  let hits = [];
+  let activeIndex = -1;
+
+  let indexItems = [];
+  let suggestActive = -1;
+  const MAX_SUGGEST = 8;
+
+  const SKIP_TAGS = new Set(["SCRIPT","STYLE","INPUT","TEXTAREA","BUTTON","IFRAME","MARK"]);
+
+  function escapeRegExp(str){
+    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function clearMarks(){
+    document.querySelectorAll("mark.gp-hit").forEach(m => {
+      const t = document.createTextNode(m.textContent);
+      m.replaceWith(t);
+    });
+    hits = [];
+    activeIndex = -1;
+  }
+
+  function setActive(idx){
+    if(!hits.length) return;
+    hits.forEach(h => h.classList.remove("active"));
+    activeIndex = (idx + hits.length) % hits.length;
+    hits[activeIndex].classList.add("active");
+    hits[activeIndex].scrollIntoView({ behavior:"smooth", block:"center" });
+    meta.textContent = `Coincidencias: ${hits.length} · Mostrando ${activeIndex + 1}/${hits.length}`;
+  }
+
+  function highlight(term){
+    clearMarks();
+    if(!term) {
+      meta.textContent = "Sin búsqueda activa.";
+      return;
+    }
+
+    const root = document.querySelector("main");
+    const rx = new RegExp(escapeRegExp(term), "gi");
+
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node){
+        if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        const p = node.parentElement;
+        if(!p) return NodeFilter.FILTER_REJECT;
+        if(SKIP_TAGS.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    const nodes = [];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+
+    nodes.forEach(node => {
+      const txt = node.nodeValue;
+      if(!rx.test(txt)) return;
+
+      rx.lastIndex = 0;
+      const frag = document.createDocumentFragment();
+      let last = 0;
+      let m;
+
+      while((m = rx.exec(txt)) !== null){
+        const start = m.index;
+        const end = start + m[0].length;
+
+        if(start > last) frag.appendChild(document.createTextNode(txt.slice(last, start)));
+
+        const mark = document.createElement("mark");
+        mark.className = "gp-hit";
+        mark.textContent = txt.slice(start, end);
+        frag.appendChild(mark);
+
+        last = end;
+      }
+
+      if(last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+
+    hits = Array.from(document.querySelectorAll("mark.gp-hit"));
+    if(hits.length){
+      setActive(0);
+    }else{
+      meta.textContent = "No se encontraron coincidencias.";
+    }
+  }
+
+  function buildIndex(){
+    const root = document.querySelector("main");
+    indexItems = [];
+
+    // Headers + textos clave
+    root.querySelectorAll("h1,h2,h3,h4").forEach((el, i) => {
+      const t = (el.innerText || "").trim();
+      if(t.length >= 3) indexItems.push({ id: `h-${i}`, text: t, el });
+    });
+
+    root.querySelectorAll("li").forEach((el, i) => {
+      const t = (el.innerText || "").trim();
+      if(t.length >= 12) indexItems.push({ id: `li-${i}`, text: t.slice(0, 220), el });
+    });
+
+    root.querySelectorAll(".section-sub").forEach((el, i) => {
+      const t = (el.innerText || "").trim();
+      if(t.length >= 18) indexItems.push({ id: `p-${i}`, text: t.slice(0, 220), el });
+    });
+
+    // ✅ También indexa cards de defectos (mejor para el catálogo)
+    document.querySelectorAll(".defect-card").forEach((card, i) => {
+      const es = (card.dataset.es || "").trim();
+      const en = (card.dataset.en || "").trim();
+      const desc = (card.dataset.desc || "").trim();
+      const signals = (card.dataset.signals || "").trim();
+      const conf = (card.dataset.confusions || "").trim();
+      const line = [es, en, desc, signals, conf].join(" · ").slice(0, 260);
+      if(line.length >= 6) indexItems.push({ id: `c-${i}`, text: line, el: card });
+    });
+  }
+
+  function norm(s){
+    return (s || "")
+      .toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  }
+
+  function scoreMatch(query, text){
+    const q = norm(query);
+    const t = norm(text);
+    if(!q) return -1;
+    const idx = t.indexOf(q);
+    if(idx === -1) return -1;
+
+    let score = 0;
+    if(idx === 0) score += 6;
+    score += Math.max(0, 5 - Math.min(idx, 5));
+    score += Math.min(q.length / 4, 4);
+    return score;
+  }
+
+  function hiText(text, query){
+    const q = query.trim();
+    if(!q) return text;
+    const rx = new RegExp(escapeRegExp(q), "ig");
+    return text.replace(rx, (m)=>`<span class="suggest-hi">${m}</span>`);
+  }
+
+  function hideSuggest(){
+    suggestList.style.display = "none";
+    suggestList.innerHTML = "";
+    suggestActive = -1;
+  }
+
+  function showSuggest(items, query){
+    if(!items.length){
+      hideSuggest();
+      return;
+    }
+    suggestList.innerHTML = items.map((it, idx) => {
+      const line = it.text.length > 120 ? it.text.slice(0, 120) + "…" : it.text;
+      return `
+        <div class="suggest-item" data-idx="${idx}">
+          <div class="suggest-title">${hiText(line, query)}</div>
+        </div>
+      `;
+    }).join("");
+    suggestList.style.display = "block";
+  }
+
+  function getSuggestions(query){
+    const q = query.trim();
+    if(q.length < 1) return [];
+    return indexItems
+      .map(it => ({ it, s: scoreMatch(q, it.text) }))
+      .filter(x => x.s >= 0)
+      .sort((a,b) => b.s - a.s)
+      .slice(0, MAX_SUGGEST)
+      .map(x => x.it);
+  }
+
+  function jumpToElement(el, query){
+    if(!el) return;
+
+    // Si es una card, centrar un poquito mejor
+    if(el.classList && el.classList.contains("defect-card")){
+      el.scrollIntoView({ behavior:"smooth", block:"center" });
+    }else{
+      el.scrollIntoView({ behavior:"smooth", block:"center" });
+    }
+
+    highlight(query);
+    if(hits.length) setActive(0);
+    hideSuggest();
+  }
+
+  buildIndex();
+
+  searchInput?.addEventListener("input", () => {
+    const q = searchInput.value;
+    const suggestions = getSuggestions(q);
+    showSuggest(suggestions, q);
+  });
+
+  suggestList?.addEventListener("click", (e) => {
+    const item = e.target.closest(".suggest-item");
+    if(!item) return;
+    const q = searchInput.value.trim();
+    const suggestions = getSuggestions(q);
+    const idx = Number(item.dataset.idx);
+    const it = suggestions[idx];
+    if(it) jumpToElement(it.el, q);
+  });
+
+  searchInput?.addEventListener("keydown", (e)=>{
+    const q = searchInput.value.trim();
+    const suggestions = getSuggestions(q);
+    if(!suggestions.length) return;
+
+    const items = Array.from(suggestList.querySelectorAll(".suggest-item"));
+
+    if(e.key === "ArrowDown"){
+      e.preventDefault();
+      suggestActive = (suggestActive + 1) % items.length;
+      items.forEach(x => x.classList.remove("active"));
+      items[suggestActive].classList.add("active");
+      items[suggestActive].scrollIntoView({ block:"nearest" });
+    }
+    if(e.key === "ArrowUp"){
+      e.preventDefault();
+      suggestActive = (suggestActive - 1 + items.length) % items.length;
+      items.forEach(x => x.classList.remove("active"));
+      items[suggestActive].classList.add("active");
+      items[suggestActive].scrollIntoView({ block:"nearest" });
+    }
+    if(e.key === "Enter"){
+      if(suggestActive >= 0 && suggestions[suggestActive]){
+        e.preventDefault();
+        jumpToElement(suggestions[suggestActive].el, q);
+      }else{
+        highlight(q);
+        hideSuggest();
+      }
+    }
+    if(e.key === "Escape"){
+      hideSuggest();
+    }
+  });
+
+  document.addEventListener("click", (e)=>{
+    const wrap = e.target.closest(".search-wrap");
+    if(!wrap) hideSuggest();
+  });
+
+  searchBtn?.addEventListener("click", () => {
+    const q = searchInput.value.trim();
+    highlight(q);
+    hideSuggest();
+  });
+
+  nextBtn?.addEventListener("click", ()=> setActive(activeIndex + 1));
+  prevBtn?.addEventListener("click", ()=> setActive(activeIndex - 1));
+
+  clearBtn?.addEventListener("click", ()=>{
+    searchInput.value = "";
+    clearMarks();
+    meta.textContent = "Sin búsqueda activa.";
+    hideSuggest();
+  });
+
+  document.querySelectorAll(".defect-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.dataset.target;
+      const target = document.getElementById(targetId);
+      if(target){
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  });
+
+  // =========================
+  // MODAL DEFECTOS + ACORDEÓN + LIGHTBOX
+  // =========================
+  (function(){
+    const overlay = document.getElementById("defectModal");
+    if(!overlay) return;
+
+    const closeBtn = document.getElementById("modalCloseBtn");
+    const handle = overlay.querySelector(".modalHandle");
+
+    const title = document.getElementById("modalTitle");
+    const sub = document.getElementById("modalSub");
+    const img = document.getElementById("modalImg");
+    const caption = document.getElementById("modalCaption");
+
+    const typeBadge = document.getElementById("modalType");
+    const typeText = document.getElementById("modalTypeText");
+
+    // Lightbox
+    const lightbox = document.getElementById("imgLightbox");
+    const lightboxImg = document.getElementById("imgLightboxImg");
+
+    const stepsToggleBtn = document.getElementById("stepsToggleBtn");
+    const stepsPanel = document.getElementById("stepsPanel");
+    const accIcon = stepsToggleBtn?.querySelector(".accIcon");
+    const accLabel = stepsToggleBtn?.querySelector("span");
+
+    const $ = (id) => document.getElementById(id);
+
+    function setAccordion(open){
+      if(!stepsToggleBtn || !stepsPanel) return;
+      stepsToggleBtn.setAttribute("aria-expanded", open ? "true" : "false");
+      stepsPanel.hidden = !open;
+
+      if(accLabel){
+        accLabel.textContent = open ? "Ocultar paso a paso (gpVision™)" : "Ver paso a paso (gpVision™)";
+      }
+      if(accIcon){
+        accIcon.textContent = open ? "▴" : "▾";
+      }
+    }
+
+    stepsToggleBtn?.addEventListener("click", ()=>{
+      const isOpen = stepsToggleBtn.getAttribute("aria-expanded") === "true";
+      setAccordion(!isOpen);
+    });
+
+    // Lightbox open
+    img?.addEventListener("click", () => {
+      if(!img.src) return;
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt || "";
+      lightbox.classList.add("open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    });
+
+    function closeLightbox(){
+      lightbox.classList.remove("open");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    lightbox?.addEventListener("click", closeLightbox);
+
+function openModal(card){
+  const es = card.dataset.es || "Defecto";
+  const en = card.dataset.en || "";
+  const type = (card.dataset.type || "").toLowerCase();
+
+  title.textContent = `${es} (${en})`;
+  sub.textContent = "Detalle técnico y configuración en gpVision™";
+
+  img.src = card.dataset.img || "";
+  img.alt = `${es} (${en})`;
+  caption.textContent = card.dataset.caption || "";
+
+  $("modalDesc").textContent       = card.dataset.desc || "";
+  $("modalSignals").textContent    = card.dataset.signals || "";
+  $("modalConfusions").textContent = card.dataset.confusions || "";
+  $("modalImpact").textContent     = card.dataset.impact || "";
+
+  $("modalStep1").textContent = card.dataset.step1 || "";
+  $("modalStep2").textContent = card.dataset.step2 || "";
+  $("modalStep3").textContent = card.dataset.step3 || "";
+  $("modalStep4").textContent = card.dataset.step4 || "";
+  $("modalStep5").textContent = card.dataset.step5 || "";
+  $("modalNotes").textContent = card.dataset.notes || "";
+
+  typeBadge.classList.remove("nir");
+  if(type === "nir"){
+    typeBadge.classList.add("nir");
+    typeText.textContent = "Detección: Infrarrojo (NIR)";
+  }else{
+    typeText.textContent = "Detección: Color (RGB)";
+  }
+
+  setAccordion(false);
+
+  // ✅ ABRIR: ocultar barra superior
+  document.body.classList.add("modal-open");
+
+  overlay.classList.add("open");
+  overlay.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+  closeBtn?.focus?.({ preventScroll:true });
+}
+
+function closeModal(){
+  overlay.classList.remove("open");
+  overlay.setAttribute("aria-hidden", "true");
+
+  // ✅ CERRAR: mostrar barra superior de nuevo
+  document.body.classList.remove("modal-open");
+
+  document.body.style.overflow = "";
+
+  // si el lightbox está abierto, también cerrarlo
+  if(lightbox?.classList.contains("open")) closeLightbox();
+}
+
+
+    document.querySelectorAll(".defect-card").forEach(card=>{
+      card.addEventListener("click", ()=> openModal(card));
+    });
+
+    closeBtn?.addEventListener("click", closeModal);
+    handle?.addEventListener("click", closeModal);
+
+    overlay.addEventListener("click", (e)=>{
+      if(e.target === overlay) closeModal();
+    });
+
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape"){
+        if(lightbox?.classList.contains("open")) closeLightbox();
+        else if(overlay.classList.contains("open")) closeModal();
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>

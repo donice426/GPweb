@@ -1,0 +1,2427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Software General | GP Graders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root{
+      --bg0:#070e18;
+      --bg2:#0f1e33;
+      --panel: rgba(255,255,255,.04);
+      --stroke: rgba(255,255,255,.10);
+      --text:#eaf1ff;
+      --muted:#b9c6e3;
+      --brand:#4da3ff;
+      --brand2:#38d4ff;
+      --shadow: 0 16px 50px rgba(0,0,0,.45);
+      --r20:20px;
+      --card: rgba(255,255,255,.04); 
+      --r: 16px;                    
+    }
+
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family:"Segoe UI", Tahoma, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(77,163,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 80% 90%, rgba(77,163,255,.10), transparent 55%),
+        linear-gradient(135deg, var(--bg0), var(--bg2));
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(8,14,24,.9);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      z-index:10;
+    }
+
+    header .wrap{
+      max-width:1100px;
+      margin:auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    header h1{
+      margin:0;
+      font-size:16px;
+    }
+
+    header span{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .btn{
+      padding:9px 14px;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:700;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+    }
+
+    .btn.primary{
+  border-color: rgba(77,163,255,.55);
+  background: linear-gradient(180deg, rgba(77,163,255,.18), rgba(56,212,255,.12));
+}
+.btn.primary:hover{
+  border-color: rgba(77,163,255,.85);
+}
+
+    main{
+      max-width:1100px;
+      margin:auto;
+      padding:26px 18px 50px;
+    }
+
+    .section{
+      margin-top:40px;
+    }
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:8px;
+    }
+
+    .bar{
+      width:10px;
+      height:22px;
+      border-radius:8px;
+      background:linear-gradient(180deg,var(--brand),var(--brand2));
+    }
+
+    .section-title h2{
+      margin:0;
+      font-size:18px;
+    }
+
+    .section-sub{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:18px;
+      max-width:850px;
+    }
+
+    .figure{
+      background:var(--panel);
+      border:1px solid var(--stroke);
+      border-radius:var(--r20);
+      box-shadow:var(--shadow);
+      margin-bottom:20px;
+    }
+
+    .figure-h{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .figure-h h3{
+      margin:0;
+      font-size:14px;
+    }
+
+    .figure-h .hint{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+
+    .ph{
+      height:220px;
+      margin:14px 16px;
+      border-radius:16px;
+      border:2px dashed rgba(255,255,255,.25);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      font-size:12px;
+      color:rgba(255,255,255,.6);
+    }
+
+    .figure-b{
+      padding:0 16px 16px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.55;
+    }
+
+    footer{
+      text-align:center;
+      font-size:12px;
+      color:rgba(255,255,255,.4);
+      padding:20px;
+    }
+
+    /* ===== BUSCADOR ===== */
+.search-wrap{
+  margin-top: 14px;
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.search-head{
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+}
+.search-head h3{
+  margin:0;
+  font-size: 14px;
+}
+.search-head .hint{
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.search-body{
+  padding: 14px 16px 16px;
+}
+.search-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap: wrap;
+}
+.search-input{
+  flex: 1;
+  min-width: 220px;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.22);
+  color: var(--text);
+  outline: none;
+}
+.search-input:focus{
+  border-color: rgba(77,163,255,.55);
+}
+.search-meta{
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(230,237,245,.60);
+}
+
+/* resaltado */
+mark.gp-hit{
+  background: rgba(77,163,255,.25);
+  border: 1px solid rgba(77,163,255,.35);
+  color: var(--text);
+  padding: 0 2px;
+  border-radius: 6px;
+}
+mark.gp-hit.active{
+  background: rgba(77,163,255,.45);
+  border-color: rgba(77,163,255,.75);
+  box-shadow: 0 0 0 6px rgba(77,163,255,.14);
+}
+
+/* ===== AUTOCOMPLETE LIST ===== */
+.search-suggest{
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+.search-suggest .search-input{
+  width: 100%;
+}
+
+.suggest-list{
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: rgba(10,20,34,.98);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 14px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+  overflow: hidden;
+  z-index: 999;
+  max-height: 280px;
+  overflow-y: auto;
+  display: none;
+}
+
+.suggest-item{
+  padding: 10px 12px;
+  cursor: pointer;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.suggest-item:first-child{ border-top: none; }
+.suggest-item:hover,
+.suggest-item.active{
+  background: rgba(77,163,255,.12);
+}
+.suggest-title{
+  font-size: 13px;
+  color: rgba(230,237,245,.92);
+  line-height: 1.35;
+}
+
+.suggest-hi{
+  background: rgba(77,163,255,.22);
+  border: 1px solid rgba(77,163,255,.35);
+  padding: 0 2px;
+  border-radius: 6px;
+}
+
+.img-figure{
+  width: 80%;              /* ⬅ un poco más pequeña */
+  max-width: 900px;        /* ⬅ evita que se vean gigantes en pantallas grandes */
+  margin:14px auto;        /* ⬅ centra la imagen */
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  display:block;
+}
+
+.img-figure{
+  margin:14px auto;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  display:block;
+}
+
+/* =========================
+   ANIMACIONES / INTERACCIONES
+   ========================= */
+
+/* scroll suave al hacer click en anchors */
+html{ scroll-behavior:smooth; }
+
+/* transiciones globales suaves */
+.btn, .figure, .search-wrap, .suggest-item, .img-figure{
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .18s ease, filter .18s ease;
+}
+
+/* Botones más “vivos” */
+.btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(0,0,0,.28);
+}
+.btn:active{
+  transform: translateY(0px) scale(.98);
+}
+
+/* Tarjetas/figuras: hover con brillo y elevación */
+.figure{
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+}
+.figure:hover{
+  transform: translateY(-3px);
+  border-color: rgba(77,163,255,.40);
+  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+}
+
+/* Shine sutil al pasar el mouse */
+.figure::after{
+  content:"";
+  position:absolute;
+  inset:-40% -60%;
+  background: linear-gradient(120deg,
+    transparent 0%,
+    rgba(77,163,255,.08) 35%,
+    rgba(56,212,255,.10) 50%,
+    rgba(77,163,255,.08) 65%,
+    transparent 100%
+  );
+  transform: translateX(-35%) rotate(8deg);
+  opacity: 0;
+  pointer-events:none;
+  transition: opacity .18s ease;
+}
+.figure:hover::after{
+  opacity: 1;
+  animation: gpShine 1.2s ease forwards;
+}
+
+@keyframes gpShine{
+  0%{ transform: translateX(-35%) rotate(8deg); }
+  100%{ transform: translateX(35%) rotate(8deg); }
+}
+
+/* Imágenes: hover zoom sutil + foco accesible */
+.img-figure:hover{
+  transform: scale(1.02);
+  filter: saturate(1.03);
+}
+.img-figure:active{
+  transform: scale(1.00);
+}
+
+/* Títulos: animación ligera al hover */
+.figure-h h3{
+  transition: transform .18s ease, letter-spacing .18s ease;
+}
+.figure:hover .figure-h h3{
+  transform: translateX(2px);
+  letter-spacing: .2px;
+}
+
+/* Autocomplete: interacción más notoria */
+.suggest-item{
+  transform: translateY(0);
+}
+.suggest-item:hover{
+  transform: translateY(-1px);
+  border-color: rgba(77,163,255,.25);
+}
+
+/* Respeta gente con reduce motion */
+@media (prefers-reduced-motion: reduce){
+  *{ animation: none !important; transition: none !important; }
+  html{ scroll-behavior:auto; }
+}
+
+/* Reveal */
+.gp-reveal{
+  opacity: 0;
+  transform: translateY(10px);
+}
+.gp-reveal.is-in{
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .45s ease, transform .45s ease;
+}
+
+.btn:focus-visible,
+.search-input:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 6px rgba(77,163,255,.18);
+  border-color: rgba(77,163,255,.65);
+}
+
+.img-figure.xs{ width:25%; }
+.img-figure.s{ width:35%; }
+.img-figure.ss{ width:50%; }
+.img-figure.sm{ width:75%; }
+.img-figure.md{ width:85%; }
+.img-figure.lg{ width:95%; }
+
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <div>
+      <h1>Software General – GP Graders</h1>
+      <span>Base común del sistema gpVision™ y Simple GUI</span>
+    </div>
+    <a href="menu.html" class="btn">⬅ Volver al menú</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="search-wrap" id="buscador">
+  <div class="search-head">
+    <div>
+      <h3>Búsqueda rápida en el manual</h3>
+      <div class="hint">Busca por palabra o frase y salta entre coincidencias</div>
+    </div>
+    <button class="btn" id="clearSearchBtn" type="button">Limpiar</button>
+  </div>
+
+  <div class="search-body">
+    <div class="search-row">
+      
+      <div class="search-suggest">
+  <input class="search-input" id="searchInput" type="text" autocomplete="off"
+    placeholder="Ej: RTUnit, calibración, carril, licencia...">
+  <div class="suggest-list" id="suggestList"></div>
+</div>
+
+
+      <button class="btn primary" id="searchBtn" type="button">Buscar</button>
+      <button class="btn" id="prevBtn" type="button">◀</button>
+      <button class="btn" id="nextBtn" type="button">▶</button>
+    </div>
+    <div class="search-meta" id="searchMeta">Sin búsqueda activa.</div>
+  </div>
+</section>
+
+  <!-- ================================================= -->
+  <!-- 1. INTRODUCCIÓN -->
+  <!-- ================================================= -->
+<section class="section" id="introduccion-software-general">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>1. Introducción al software general</h2>
+  </div>
+
+  <p class="section-sub">
+    El software del sistema gpVision™ constituye el núcleo inteligente de las líneas de clasificación de GP Graders,
+    diseñada para transformar las operaciones de empaque de productos frescos como cerezas, arándanos y frutas de hueso.
+    Esta plataforma opera bajo una arquitectura cliente-servidor, donde la estación del operador (GUI) actúa como el
+    cliente que controla los dispositivos y las Vision Units funcionan como nodos de procesamiento dedicados por carril.
+  </p>
+
+  <p class="section-sub">
+    Los pilares fundamentales de este ecosistema de software son los siguientes:
+  </p>
+
+  <ul class="section-sub" style="margin-top:-8px; line-height:1.65;">
+    <li>
+      <strong>Interfaces de Usuario Especializadas:</strong> El sistema ofrece la Simple GUI para una operación diaria
+      intuitiva basada en indicadores en tiempo real (producción, velocidad y carga), y la Operator Station para
+      configuraciones técnicas profundas y ajustes de programas de calificación.
+    </li>
+    <li>
+      <strong>Análisis Óptico MultiView™:</strong> El software gestiona el escaneo del 100% de la superficie del producto,
+      procesando imágenes en color y NIR (infrarrojo cercano) para eliminar la necesidad de clasificación manual.
+    </li>
+    <li>
+      <strong>Gestión Lógica y de Datos:</strong> A través de un motor basado en Microsoft SQL Server, el sistema registra
+      estadísticas de producción cada minuto y permite la configuración de Defectos Modificables y mapeo de características
+      especiales.
+    </li>
+    <li>
+      <strong>Control de Salidas (Exit Manager):</strong> El módulo GP Exit Manager se encarga de la logística física,
+      supervisando los formatos de empaque, el peso acumulado y la distribución precisa del fruto hacia las salidas asignadas.
+    </li>
+    <li>
+      <strong>Innovación en Inteligencia Artificial:</strong> La plataforma está evolucionando hacia la integración de
+      radiai™, una nueva generación de clasificación basada en algoritmos de aprendizaje profundo e IA.
+    </li>
+  </ul>
+
+  <p class="section-sub" style="margin-top:14px;">
+    <strong>Analogía para su comprensión:</strong> Si el hardware de la máquina es el cuerpo, el software gpVision™ es el
+    sistema nervioso central. Mientras que las cámaras envían señales visuales (los ojos), el software procesa esa
+    información en milisegundos para decidir el destino de cada fruto, actuando como el cerebro que coordina tanto el juicio
+    de calidad como las órdenes motoras enviadas a los actuadores físicos.
+  </p>
+</section>
+
+    <p class="section-sub">
+      Visión global del software base que soporta el funcionamiento de gpVision™
+      y Simple GUI.
+    </p>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · OPERATOR STATION -->
+<!-- ================================================= -->
+<section class="section" id="operator-station">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>1. Estación de Operador gpVision™ (Operator Station)</h2>
+  </div>
+
+  <p class="section-sub">
+    Interfaz principal de supervisión avanzada utilizada para el análisis visual,
+    validación de defectos y ajuste fino de los programas de calificación.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Interfaz de la estación de operador gpVision™</h3>
+      <div class="hint">
+        Visualización MultiView™ en color y NIR para análisis detallado del producto
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/F83B7E28-EEF9-40B6-A4D2-CB4719C7CD68.jpeg" alt="Pruebas de salida del sistema" class="img-figure ss">
+
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Interfaz de la estación de operador gpVision™ (Operator Station) mostrando el
+        módulo de resultados recientes, donde se visualizan imágenes MultiView™ en
+        color y NIR de cerezas clasificadas. La pantalla permite analizar en detalle
+        las características detectadas, la asignación de clases y la validación visual
+        de defectos, apoyando el ajuste fino de los programas de calificación y la
+        supervisión de la precisión del sistema.
+      </p>
+
+      <p>
+        Esta estación actúa como el entorno de trabajo técnico principal, permitiendo
+        al operador especializado inspeccionar cada fruta desde múltiples ángulos,
+        comparar resultados entre cámaras visibles e infrarrojas, y confirmar que las
+        decisiones del sistema de clasificación coinciden con los criterios de calidad
+        definidos. Gracias a esta capacidad de revisión visual exhaustiva, se garantiza
+        un control continuo del rendimiento del sistema y una rápida detección de
+        desviaciones en la clasificación.
+      </p>
+
+      <p>
+        La Operator Station es especialmente utilizada durante procesos de puesta en
+        marcha, calibración, auditoría de calidad y optimización de programas de
+        calificación, complementando la operación diaria realizada desde la Simple GUI.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="simple-gui-gpvision">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>2. Interfaz Simple GUI gpVision™</h2>
+  </div>
+
+  <p class="section-sub">
+    Vista orientada a operación diaria, diseñada para monitoreo rápido del proceso
+    de clasificación mediante indicadores en tiempo real y visualización de inspección.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Vista de la interfaz Simple GUI de gpVision™</h3>
+      <div class="hint">
+        Indicadores de producción, velocidad, carga, resultados e inspección en color/NIR
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/bb83a172-e1eb-4184-a45a-9f2df4572a86.jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Vista de la interfaz Simple GUI de gpVision™, utilizada para la operación diaria de
+        la línea de clasificación. La pantalla muestra indicadores clave en tiempo real –
+        producción, velocidad y nivel de carga– junto con imágenes de inspección en color y NIR,
+        y estadísticas de distribución por clase, permitiendo al operador supervisar el rendimiento
+        general y la calidad del proceso de clasificación.
+      </p>
+
+      <p>
+        Esta interfaz está pensada para el operador de línea: prioriza información clara y accionable,
+        facilitando la detección rápida de cambios en el comportamiento de la máquina (por ejemplo,
+        variaciones de velocidad, disminución de producción o alteraciones en la carga). Al integrar
+        en una misma vista los indicadores de desempeño y la inspección visual, el operador puede
+        correlacionar lo que ocurre en la clasificación con evidencia directa del producto procesado.
+      </p>
+
+      <p>
+        Además, la distribución por clases permite confirmar si el flujo de fruta se está enviando a las
+        categorías esperadas (por ejemplo, Premium, Segunda o Desperdicio), ayudando a identificar
+        desviaciones causadas por cambios de lote, condiciones del producto o ajustes de programa.
+        En conjunto, Simple GUI funciona como el “tablero de control” operativo para el seguimiento
+        continuo de la línea.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+    <!-- ================================================= -->
+<!-- SOFTWARE GENERAL · ACCESO REMOTO A VISION UNIT -->
+<!-- ================================================= -->
+<section class="section" id="acceso-remoto-vision-unit">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>3. Acceso remoto a Vision Unit (Consola SSH / PuTTY)</h2>
+  </div>
+
+  <p class="section-sub">
+    Herramientas de acceso remoto utilizadas para la comunicación directa con las
+    Vision Units del sistema gpVision™, orientadas a diagnóstico, mantenimiento
+    y verificación del estado operativo.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Ventana de configuración de conexión remota (PuTTY)</h3>
+      <div class="hint">
+        Acceso seguro vía SSH a las Vision Units
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.07_8645182e.jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Ventana de configuración de conexión remota (PuTTY) utilizada para el acceso
+        directo a las Vision Units del sistema gpVision™. Esta herramienta permite la
+        comunicación segura vía SSH para tareas de diagnóstico, mantenimiento y
+        verificación del estado operativo de las unidades de procesamiento por carril.
+      </p>
+
+      <p>
+        Cada Vision Unit funciona como un nodo de procesamiento independiente encargado
+        del análisis de imágenes MultiView™ en su respectivo carril. A través de una
+        conexión SSH, los técnicos pueden acceder al sistema operativo interno de la
+        unidad para revisar servicios activos, estados de red, consumo de recursos y
+        registros de funcionamiento (logs).
+      </p>
+
+      <p>
+        El acceso remoto es una herramienta clave durante procesos de puesta en marcha,
+        soporte técnico y resolución de fallas, ya que permite intervenir las Vision Units
+        sin necesidad de acceso físico directo al hardware. Esto reduce tiempos de
+        inactividad y facilita el soporte remoto por parte de GP Graders o personal técnico
+        especializado.
+      </p>
+
+      <p>
+        Normalmente, este tipo de acceso está restringido a usuarios autorizados y se
+        utiliza exclusivamente para tareas técnicas avanzadas, garantizando la seguridad
+        y estabilidad del sistema de clasificación durante la operación productiva.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · MÓDULO DE ESTADÍSTICAS -->
+<!-- ================================================= -->
+<section class="section" id="modulo-estadisticas">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>4. Módulo de estadísticas gpVision™</h2>
+  </div>
+
+  <p class="section-sub">
+    Análisis histórico de producción y desempeño del sistema de clasificación
+    basado en datos registrados por lote.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Interfaz del módulo de estadísticas</h3>
+      <div class="hint">
+        Evaluación de producción, distribución y trazabilidad
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.07_84ed761b.jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Módulo de estadísticas de gpVision™ mostrando el análisis histórico de producción
+        por lote. La interfaz presenta la distribución por clases y grupos, cantidades
+        procesadas y peso estimado, permitiendo evaluar el desempeño del proceso de
+        clasificación, la proporción fruta/desecho y generar reportes para la gestión y
+        trazabilidad de la producción.
+      </p>
+
+      <p>
+        Este módulo se alimenta directamente de la base de datos del sistema, donde se
+        registran métricas de producción de forma continua durante la operación. Los datos
+        se organizan por lote, programa de calificación, clases y salidas, lo que facilita
+        el análisis comparativo entre diferentes períodos productivos.
+      </p>
+
+      <p>
+        Las visualizaciones gráficas —como gráficos de barras y diagramas circulares—
+        permiten identificar rápidamente tendencias, desviaciones en la calidad,
+        distribución desigual entre clases o incrementos anómalos de desperdicio. Esto
+        proporciona al operador y al personal de supervisión una herramienta clave para la
+        toma de decisiones operativas.
+      </p>
+
+      <p>
+        Además, el módulo de estadísticas es fundamental para la trazabilidad, ya que los
+        datos pueden utilizarse para auditorías de calidad, análisis de rendimiento por
+        variedad o proveedor, y generación de informes históricos que respalden procesos
+        de mejora continua en la línea de clasificación.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+  <!-- ================================================= -->
+<!-- SOFTWARE GENERAL · CONFIGURACIÓN DE CLASES Y DEFECTOS -->
+<!-- ================================================= -->
+<section class="section" id="configuracion-clases-defectos">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>5. Configuración de clases y defectos gpVision™</h2>
+  </div>
+
+  <p class="section-sub">
+    Configuración del núcleo lógico del programa de calificación: definición de clases,
+    umbrales y parámetros clave de clasificación.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Pantalla de configuración en Simple GUI</h3>
+      <div class="hint">
+        Ajuste de clases de calidad, defectos detectables y parámetros operativos
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.07_e4f9e04b.jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Pantalla de configuración de clases y defectos en la Simple GUI de gpVision™, donde se definen
+        las categorías de calidad (Clase Superior, Comercial y Desechos) y los umbrales de defectos detectables.
+        La interfaz permite ajustar parámetros como puntos blandos, tamaño, color y defectos combinados,
+        constituyendo el núcleo lógico del programa de calificación y asegurando una clasificación consistente
+        según los estándares definidos.
+      </p>
+
+      <p>
+        Esta pantalla cumple un rol central en la estandarización de la calidad, ya que traduce los criterios
+        del proceso (por ejemplo, tolerancia a defectos o límites de tamaño) en reglas configurables para el sistema.
+        Al estructurar la fruta en clases bien definidas, se logra una separación coherente que puede mantenerse
+        estable durante toda la temporada o ajustarse por lote, variedad o condición de producto.
+      </p>
+
+      <p>
+        A nivel operativo, el ajuste fino de umbrales permite mejorar la consistencia del resultado: un valor demasiado
+        estricto puede aumentar el rechazo (desechos), mientras que uno demasiado flexible puede degradar la calidad de
+        la clase superior. Por eso, este módulo se usa frecuentemente junto con resultados recientes y validación visual
+        para confirmar que el comportamiento del sistema coincide con los estándares del cliente.
+      </p>
+
+      <p>
+        La configuración también facilita la implementación de defectos combinados, lo cual permite agrupar condiciones
+        que en la práctica se tratan como una sola regla de decisión. Esto ayuda a simplificar el control del programa,
+        reducir ambigüedades y mantener una lógica de clasificación clara, especialmente cuando se requiere distinguir
+        entre fruta premium, comercial y descarte.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · GP EXIT MANAGER -->
+<!-- ================================================= -->
+<section class="section" id="gp-exit-manager">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>6. GP Exit Manager – Gestión de salidas</h2>
+  </div>
+
+  <p class="section-sub">
+    Módulo encargado del control operativo y logístico de las salidas físicas del sistema
+    de clasificación gpVision™.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Interfaz del módulo GP Exit Manager</h3>
+      <div class="hint">
+        Monitoreo en tiempo real de salidas, formatos y distribución de producto
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.07_e3e897da.jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Interfaz del módulo GP Exit Manager de gpVision™, utilizada para la gestión y monitoreo
+        de las salidas físicas de la línea de clasificación. La pantalla muestra el estado
+        operativo de cada salida, los formatos de empaque, las categorías asignadas y el peso
+        acumulado en tiempo real, permitiendo controlar la distribución del producto y asegurar
+        la correcta ejecución de los pedidos y la trazabilidad de la producción.
+      </p>
+
+      <p>
+        Este módulo actúa como el enlace directo entre la lógica de clasificación definida en el
+        programa de calificación y la ejecución física del proceso en planta. Cada salida
+        representa un destino real del producto, como cajas, bins o líneas de empaque específicas,
+        y su estado puede supervisarse de forma centralizada desde esta interfaz.
+      </p>
+
+      <p>
+        GP Exit Manager permite verificar que cada salida esté activa, correctamente asignada a
+        una clase de calificación y configurada con el formato de empaque esperado. El control de
+        peso acumulado y rendimiento por salida facilita la validación del cumplimiento de los
+        objetivos de producción y ayuda a detectar desviaciones en tiempo real.
+      </p>
+
+      <p>
+        Además, el módulo soporta la trazabilidad completa del producto, ya que asocia cada salida
+        con información de lote, clase y volumen procesado. Esto resulta clave para auditorías,
+        reportes operativos y la correcta ejecución de pedidos comerciales, garantizando que el
+        producto clasificado llegue al destino adecuado según lo planificado.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · CONSOLA DE MONITOREO DEL SISTEMA -->
+<!-- ================================================= -->
+<section class="section" id="consola-monitoreo">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>7. Consola de monitoreo del sistema</h2>
+  </div>
+
+  <p class="section-sub">
+    Herramienta técnica utilizada para la supervisión de procesos internos,
+    comunicaciones y estabilidad operativa del ecosistema gpVision™.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Consola de monitoreo y diagnóstico del sistema</h3>
+      <div class="hint">
+        Verificación de comunicaciones TCP y procesos internos
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.07_0ae6f1ea.jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Consola de monitoreo del sistema utilizada para la verificación de
+        comunicaciones y procesos internos de la plataforma gpVision™. La
+        visualización de conexiones TCP activas permite al equipo técnico
+        diagnosticar el estado de la red y la estabilidad de la arquitectura
+        cliente-servidor que enlaza la estación de operador con las Vision Units
+        y demás componentes del sistema.
+      </p>
+
+      <p>
+        Esta consola es empleada principalmente por personal técnico y de soporte
+        para validar que los distintos servicios del sistema se encuentren
+        operativos y comunicándose correctamente. Cada entrada representa una
+        conexión activa, identificando direcciones IP, puertos y estados de
+        comunicación entre los módulos de software y hardware.
+      </p>
+
+      <p>
+        El monitoreo continuo de estas conexiones resulta fundamental para
+        detectar problemas de latencia, interrupciones de red o fallos en la
+        comunicación con las Vision Units por carril. Cualquier anomalía puede
+        ser identificada rápidamente antes de que impacte en la operación de
+        clasificación o en la calidad de los resultados.
+      </p>
+
+      <p>
+        En conjunto con otras herramientas de diagnóstico, esta consola permite
+        asegurar la estabilidad del sistema gpVision™, facilitando tareas de
+        mantenimiento preventivo, soporte remoto y validación de la correcta
+        integración entre la estación de operador, el servidor central y los
+        nodos de procesamiento distribuidos en la línea.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · CONFIGURACIÓN DE DISPOSITIVOS -->
+<!-- ================================================= -->
+<section class="section" id="configuracion-dispositivos-exit">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>8. Configuración de dispositivos – Exit Manager</h2>
+  </div>
+
+  <p class="section-sub">
+    Pantalla de configuración local utilizada para la integración y gestión
+    de dispositivos físicos asociados a las salidas de la línea de clasificación.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Configuración local de dispositivos en GP Exit Manager</h3>
+      <div class="hint">
+        Gestión de impresoras, direcciones IP y puertos de comunicación
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.08_e4cbed97.jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Pantalla de configuración local de dispositivos en el módulo GP Exit
+        Manager de gpVision™, donde se gestionan las impresoras asociadas a las
+        salidas de la línea. La interfaz permite definir direcciones IP y puertos
+        de comunicación, asegurando la correcta integración de los sistemas de
+        etiquetado y empaque dentro de la arquitectura cliente-servidor del
+        proceso de clasificación.
+      </p>
+
+      <p>
+        Cada dispositivo configurado en esta pantalla corresponde a un elemento
+        físico del sistema, como impresoras de etiquetas o equipos auxiliares
+        conectados a las salidas. La asignación precisa de parámetros de red
+        garantiza que la información de producción, peso y categoría de producto
+        sea transmitida de forma confiable y en tiempo real.
+      </p>
+
+      <p>
+        Esta configuración es clave para mantener la trazabilidad del producto,
+        ya que permite que cada salida genere etiquetas consistentes con los
+        datos registrados por gpVision™, incluyendo clase de calificación,
+        formato de empaque y lote asociado.
+      </p>
+
+      <p>
+        El módulo GP Exit Manager centraliza la gestión de estos dispositivos,
+        facilitando el mantenimiento, la validación de comunicaciones y la
+        detección temprana de errores de conexión que podrían afectar la
+        continuidad del proceso operativo.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · RESULTADOS DETALLADOS MULTIVIEW -->
+<!-- ================================================= -->
+<section class="section" id="resultados-multiview">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>9. Resultados detallados MultiView™ (Color + NIR)</h2>
+  </div>
+
+  <p class="section-sub">
+    Análisis visual detallado de los resultados de clasificación mediante
+    imágenes MultiView™ en color y NIR.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Módulo de resultados detallados gpVision™</h3>
+      <div class="hint">
+        Validación visual de defectos y parámetros de clasificación
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.08_cd1c2faf.jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Vista del módulo de resultados de gpVision™ donde se analizan en detalle
+        las imágenes MultiView™ de una fruta clasificada como desecho. La
+        interfaz muestra los defectos detectados —como pudrición, machucón,
+        partiduras y puntos blandos— junto con sus umbrales configurados,
+        permitiendo validar visualmente la lógica de clasificación y ajustar
+        con precisión los parámetros del programa de calificación.
+      </p>
+
+      <p>
+        El sistema presenta imágenes capturadas desde múltiples ángulos,
+        combinando información en color visible y NIR (infrarrojo cercano),
+        lo que permite identificar defectos externos e internos con alta
+        confiabilidad. Cada defecto detectado puede seleccionarse para
+        visualizar su localización exacta sobre la superficie del fruto.
+      </p>
+
+      <p>
+        Este módulo es una herramienta clave para la supervisión de calidad,
+        ya que permite a operadores y técnicos correlacionar los resultados
+        de clasificación con los valores configurados en las clases y defectos,
+        facilitando la calibración fina del sistema y la optimización del
+        rendimiento del proceso.
+      </p>
+
+      <p>
+        Además, la visualización detallada de los resultados contribuye a la
+        validación continua del modelo de clasificación, asegurando que las
+        decisiones automáticas del sistema gpVision™ se mantengan alineadas
+        con los estándares de calidad definidos para cada producto y mercado.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · ERROR DE SEGMENTACIÓN -->
+<!-- ================================================= -->
+<section class="section" id="error-segmentacion">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>10. Error de segmentación de fruta (Contorno azul incorrecto)</h2>
+  </div>
+
+  <p class="section-sub">
+    Ejemplo de detección incorrecta del contorno del fruto durante el proceso
+    de segmentación en gpVision™.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Error de segmentación en imágenes MultiView™</h3>
+      <div class="hint">
+        Contorno detectado no coincide con la geometría real del producto
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.08_54b199ed.jpg" alt="Pruebas de salida del sistema" class="img-figure s">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Ejemplo de error de segmentación en gpVision™, donde el contorno azul no
+        coincide correctamente con la fruta real. Este desajuste se produce por
+        una detección incorrecta del borde, generalmente asociada a
+        descalibración del cutter, desfases de sincronización o condiciones de
+        iluminación que afectan la separación entre fruta y fondo, impactando
+        la precisión de las mediciones y la clasificación.
+      </p>
+
+      <p>
+        La segmentación correcta es un paso crítico del proceso de análisis,
+        ya que define el área exacta del fruto sobre la cual se calculan
+        métricas como tamaño, forma, volumen estimado y localización de
+        defectos. Cuando el contorno detectado es incorrecto, estas mediciones
+        pueden verse alteradas, provocando errores en la asignación de clases
+        o en la evaluación de defectos.
+      </p>
+
+      <p>
+        Este tipo de error puede originarse por variaciones en la iluminación,
+        acumulación de suciedad en componentes ópticos, cambios mecánicos en el
+        sistema de corte (cutter), o desajustes temporales entre la captura de
+        imágenes y el posicionamiento del fruto. Por ello, la revisión de estos
+        resultados es fundamental durante tareas de diagnóstico y mantenimiento.
+      </p>
+
+      <p>
+        El módulo de resultados detallados permite identificar visualmente estos
+        problemas, facilitando la toma de acciones correctivas como recalibración,
+        ajuste de parámetros de segmentación o intervención técnica, con el fin
+        de restablecer la precisión del sistema gpVision™ y asegurar una
+        clasificación confiable y consistente.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · PANEL DE ESTADO DEL SISTEMA -->
+<!-- ================================================= -->
+<section class="section" id="panel-estado-sistema">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>11. Panel de estado del sistema (Error de carriles / cámaras)</h2>
+  </div>
+
+  <p class="section-sub">
+    Visualización centralizada del estado operativo de los carriles, cámaras
+    y servicios del sistema gpVision™.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Estado del sistema y diagnóstico de errores</h3>
+      <div class="hint">
+        Monitoreo de conectividad entre Vision Units, cámaras y servidor
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.08_aaf33181.jpg" alt="Pruebas de salida del sistema" class="img-figure s">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Panel de estado del sistema gpVision™ mostrando una condición de error,
+        donde algunos carriles aparecen desconectados y con pérdida de
+        comunicación con sus cámaras asociadas. Este estado indica una
+        interrupción en la conexión entre las Vision Units y el servidor, lo
+        que impide la clasificación en los carriles afectados y requiere
+        diagnóstico de red, hardware o sincronización.
+      </p>
+
+      <p>
+        El panel presenta una vista jerárquica del estado de los servicios del
+        sistema, incluyendo el servicio API, los carriles activos y el estado
+        individual de cada cámara conectada. Los indicadores visuales permiten
+        identificar rápidamente condiciones normales, advertencias y errores
+        críticos mediante iconografía y códigos de color.
+      </p>
+
+      <p>
+        Cuando un carril o una cámara aparece como desconectado, el sistema
+        bloquea automáticamente la clasificación en ese carril para evitar
+        decisiones incorrectas basadas en información incompleta o inválida.
+        Esto protege la integridad del proceso de clasificación y la calidad
+        de los datos registrados.
+      </p>
+
+      <p>
+        Este módulo es una herramienta clave para el equipo técnico y de
+        mantenimiento, ya que facilita la detección temprana de fallas de
+        comunicación, problemas de red, errores de sincronización o fallos
+        físicos en cámaras y Vision Units. Su correcta interpretación permite
+        reducir tiempos de inactividad y restablecer rápidamente la operación
+        normal del sistema gpVision™.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · CONSOLA DE RED (VISION UNIT) -->
+<!-- ================================================= -->
+<section class="section" id="consola-red-vision-unit">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>12. Consola de red de Vision Unit</h2>
+  </div>
+
+  <p class="section-sub">
+    Herramienta de diagnóstico para verificar conectividad, estado de interfaces
+    y tráfico de comunicación en las Vision Units del sistema gpVision™.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Conectividad Ethernet y tráfico de datos</h3>
+      <div class="hint">
+        Validación de subredes, enlaces activos y estabilidad de comunicación
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.08_63239d5e.jpg" alt="Pruebas de salida del sistema" class="img-figure s">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Consola de red de una Vision Unit del sistema gpVision™, mostrando el
+        estado de las interfaces Ethernet y el tráfico de datos en múltiples
+        subredes. Esta vista se utiliza para verificar conectividad, carga de
+        comunicación y correcto funcionamiento de la infraestructura de red que
+        enlaza cámaras, Vision Units y el servidor central.
+      </p>
+
+      <p>
+        En esta consola se observan parámetros críticos como direcciones IP,
+        estado del enlace (UP/DOWN), configuración de broadcast/multicast,
+        conteo de paquetes transmitidos/recibidos y métricas de errores. Estos
+        indicadores permiten detectar rápidamente pérdidas de paquetes,
+        colisiones, caídas de enlace o saturación de tráfico.
+      </p>
+
+      <p>
+        Esta información es especialmente importante en arquitecturas donde una
+        Vision Unit procesa imágenes por carril y debe enviar resultados en
+        tiempo real hacia el servidor/estación del operador. Una degradación en
+        la comunicación puede provocar retrasos, desconexiones, fallas de
+        sincronización o carriles detenidos por seguridad operativa.
+      </p>
+
+      <p>
+        En procedimientos de soporte, esta vista se utiliza para confirmar que
+        cada interfaz esté en la subred correcta, que exista ruta válida hacia
+        el servidor y que el volumen de datos sea consistente con la carga de
+        producción. También ayuda a diferenciar fallas de hardware (NIC, cable,
+        switch) de problemas de configuración (IP, máscara, gateway, VLAN).
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · CONFIGURACIÓN DE ESPECTRO DE COLOR -->
+<!-- ================================================= -->
+<section class="section" id="espectro-color">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>13. Configuración de espectro de color (Spectrum)</h2>
+  </div>
+
+  <p class="section-sub">
+    Definición y ajuste de rangos cromáticos utilizados por gpVision™
+    para la clasificación visual del producto.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Definición de rangos cromáticos</h3>
+      <div class="hint">
+        Ajuste de umbrales de color y combinación con otros criterios
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.08_956c46c5.jpg" alt="Pruebas de salida del sistema" class="img-figure s">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Pantalla de configuración de espectro de color en gpVision™, donde se
+        definen los rangos cromáticos (Spectrum) utilizados para la clasificación
+        de cerezas. El sistema permite establecer umbrales porcentuales precisos
+        que representan la proporción mínima y máxima de un color específico
+        presente en la superficie del fruto.
+      </p>
+
+      <p>
+        Estos rangos de color se basan en el análisis de imágenes en color capturadas
+        por el sistema MultiView™, permitiendo discriminar tonalidades específicas
+        como rojos intensos, colores inmaduros o variaciones intermedias que pueden
+        ser relevantes para la clasificación comercial.
+      </p>
+
+      <p>
+        La interfaz muestra controles deslizantes que permiten ajustar con precisión
+        los límites del espectro, así como la opción de combinar estos parámetros con
+        otros criterios de clasificación, como defectos, tamaño o textura superficial.
+        Esto permite crear reglas de clasificación más robustas y adaptadas a las
+        condiciones reales del producto.
+      </p>
+
+      <p>
+        El uso correcto del espectro de color influye directamente en la asignación
+        de clases dentro del programa de calificación, asegurando consistencia en los
+        resultados y reduciendo la variabilidad entre lotes. Ajustes finos en esta
+        sección son especialmente importantes cuando se trabaja con variedades de
+        fruta sensibles a diferencias cromáticas sutiles.
+      </p>
+
+      <p>
+        Además, la configuración de espectros puede reutilizarse en múltiples salidas
+        y programas de calificación, facilitando la estandarización de criterios de
+        calidad y simplificando el mantenimiento de configuraciones complejas en
+        operaciones de alta capacidad.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · EDITOR AVANZADO DE ESPECTROS COLOR / NIR -->
+<!-- ================================================= -->
+<section class="section" id="editor-espectros-avanzado">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>14. Editor avanzado de espectros Color / NIR</h2>
+  </div>
+
+  <p class="section-sub">
+    Herramienta avanzada para ajustar rangos espectrales de color y NIR utilizados
+    en la detección de defectos y validación de zonas analizadas sobre el fruto.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Editor de espectros (Color + NIR)</h3>
+      <div class="hint">
+        Comparación visual y ajuste fino para optimizar la detección
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.08_0f170908.jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Editor de espectros de gpVision™ mostrando la configuración avanzada de rangos
+        de color y NIR para la detección de defectos. La visualización comparativa en
+        color y NIR permite ajustar con precisión las áreas analizadas sobre la fruta,
+        optimizando la identificación de zonas internas o superficiales relevantes
+        para la clasificación.
+      </p>
+
+      <p>
+        Este módulo se utiliza cuando se requiere un nivel de ajuste más técnico que
+        el disponible en configuraciones básicas, ya que permite observar cómo responden
+        diferentes espectros ante variaciones de iluminación, brillo, saturación y textura
+        superficial del producto. El análisis simultáneo ayuda a diferenciar defectos que
+        pueden ser ambiguos en color pero evidentes en NIR (o viceversa).
+      </p>
+
+      <p>
+        El canal NIR (infrarrojo cercano) es especialmente útil para detectar cambios
+        internos en la materia del fruto, como zonas blandas, deshidratación, pudrición
+        incipiente o daño estructural, incluso cuando externamente la fruta aparenta estar
+        en buen estado. Esto fortalece la consistencia de la clasificación y reduce errores
+        por inspección visual limitada.
+      </p>
+
+      <p>
+        La posibilidad de ajustar el espectro y validar inmediatamente el resultado sobre
+        imágenes MultiView™ permite mejorar la precisión del programa de calificación y
+        disminuir falsos positivos (defectos marcados donde no existen) y falsos negativos
+        (defectos omitidos). Estos ajustes suelen ser clave al cambiar de variedad, lote,
+        temporada o condición de cosecha.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · RESUMEN DE DISTRIBUCIÓN POR CLASE Y DEFECTO -->
+<!-- ================================================= -->
+<section class="section" id="resumen-distribucion-clase-defecto">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>15. Resumen de distribución por clase y defecto</h2>
+  </div>
+
+  <p class="section-sub">
+    Vista consolidada del resultado de clasificación que permite analizar la
+    proporción de producto por clase y tipo de defecto detectado.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Distribución de resultados por clase y defecto</h3>
+      <div class="hint">
+        Análisis porcentual y peso acumulado por categoría
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.08_34b8f6c4.jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Resumen de distribución de resultados en gpVision™, donde se visualiza el
+        porcentaje y el peso acumulado por clase de calificación y tipo de defecto.
+        Esta pantalla presenta una lista detallada de categorías, como fruta exportable
+        y distintos defectos específicos (machucón, partidura, blandos, russet, entre otros),
+        junto con su contribución individual al total procesado.
+      </p>
+
+      <p>
+        La información se expresa tanto en porcentaje como en kilogramos, lo que permite
+        al operador y al equipo de supervisión evaluar con precisión la proporción de fruta
+        de alta calidad frente a los rechazos, así como identificar qué defectos tienen
+        mayor impacto en la pérdida de producto.
+      </p>
+
+      <p>
+        Este resumen es especialmente útil para el análisis de desempeño del programa
+        de clasificación, ya que facilita la detección de desviaciones en la calidad,
+        problemas recurrentes asociados a ciertos defectos o variaciones entre lotes,
+        variedades o turnos de operación.
+      </p>
+
+      <p>
+        Además, la vista sirve como herramienta de apoyo para la toma de decisiones
+        operativas y comerciales, permitiendo ajustar parámetros de clasificación,
+        redefinir umbrales de defectos o implementar acciones correctivas en el proceso
+        productivo con el objetivo de maximizar el porcentaje de fruta exportable.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · REGISTRO DE EVENTOS (LOGS) -->
+<!-- ================================================= -->
+<section class="section" id="registro-eventos-logs">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>16. Registro de eventos (Logs)</h2>
+  </div>
+
+  <p class="section-sub">
+    Panel de diagnóstico operativo utilizado para revisar advertencias, errores y eventos del sistema
+    en tiempo real, facilitando la detección de fallas de comunicación, sincronización o adquisición de imágenes.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Logs de gpVision™</h3>
+      <div class="hint">
+        Historial de advertencias y eventos por carril / categoría (cámaras, red, procesos)
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.08_63058305.jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Registro de eventos (Logs) de gpVision™ mostrando advertencias de pérdida de sincronización
+        de cámara en un carril específico. Estos mensajes indican fallos temporales en la adquisición
+        de imágenes o en el buffer de la cámara, lo que puede afectar la continuidad del análisis y
+        requiere revisión de sincronización, red o hardware del sistema óptico.
+      </p>
+
+      <p>
+        Este módulo actúa como una “bitácora técnica” del sistema, registrando de forma cronológica
+        eventos críticos, advertencias repetitivas y estados anómalos asociados a componentes clave.
+        Al concentrar el detalle por carril, timestamp y categoría (por ejemplo: cámaras), permite
+        identificar rápidamente si el problema se limita a una Vision Unit, a un subconjunto de cámaras
+        o a una condición general de la línea.
+      </p>
+
+      <p>
+        En escenarios de producción, estas advertencias pueden correlacionarse con síntomas como
+        disminución de velocidad, pérdida de imágenes, retrasos en procesamiento o desconexiones
+        intermitentes. Por eso, la revisión de Logs es un paso esencial antes de realizar ajustes
+        de calibración o cambios en programas de clasificación, ya que ayuda a confirmar si la causa
+        es lógica (configuración/software) o física (cableado, iluminación, sincronía, red).
+      </p>
+
+      <p>
+        Como práctica recomendada, si se observan advertencias repetidas en el mismo carril o cámara,
+        se debe verificar primero la conectividad de red, la estabilidad del enlace hacia la Vision Unit,
+        y luego revisar sincronización de disparo, condiciones de iluminación y estado del hardware
+        asociado (cámara, trigger, encoder o switch).
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · CONSOLA DE DIAGNÓSTICO DE VISION UNIT -->
+<!-- ================================================= -->
+<section class="section" id="consola-diagnostico-vision-unit">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>17. Consola de diagnóstico de Vision Unit</h2>
+  </div>
+
+  <p class="section-sub">
+    Acceso avanzado a nivel de sistema operativo para diagnóstico, mantenimiento y recuperación
+    de las Vision Units que conforman la arquitectura de procesamiento distribuido de gpVision™.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Acceso por consola a Vision Unit</h3>
+      <div class="hint">
+        Sesión de terminal para control directo de procesos y servicios internos
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Imagen de WhatsApp 2025-12-15 a las 08.32.08_5afe4c8d.jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Acceso por consola a una Vision Unit de gpVision™ utilizado para tareas de diagnóstico
+        y mantenimiento. Esta vista permite ejecutar comandos directos sobre la unidad de
+        procesamiento por carril para reiniciar servicios, verificar procesos internos y
+        resolver advertencias de sincronización o adquisición de imágenes detectadas por el sistema.
+      </p>
+
+      <p>
+        La consola se utiliza habitualmente mediante acceso remoto seguro (SSH), permitiendo
+        al personal técnico interactuar directamente con el sistema operativo de la Vision Unit.
+        Desde aquí es posible comprobar el estado de los servicios de visión, validar el consumo
+        de recursos (CPU, memoria, disco), revisar logs locales y ejecutar comandos de recuperación
+        sin detener completamente la línea de clasificación.
+      </p>
+
+      <p>
+        En situaciones donde los Logs del sistema reportan errores persistentes de buffer,
+        pérdida de sincronización o desconexión de cámaras, esta herramienta resulta clave para
+        identificar si el problema se origina en un proceso detenido, un servicio bloqueado
+        o una condición anómala del hardware subyacente.
+      </p>
+
+      <p>
+        El uso de esta consola está recomendado exclusivamente para personal técnico autorizado,
+        ya que los comandos ejecutados impactan directamente en la estabilidad de la Vision Unit
+        y, por extensión, en el desempeño global del sistema gpVision™. Un diagnóstico correcto
+        desde esta interfaz permite restaurar la operación normal de un carril sin necesidad
+        de reinicios mayores del sistema completo.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · CONFIGURACIÓN DE DEFECTOS MORFOLÓGICOS -->
+<!-- ================================================= -->
+<section class="section" id="configuracion-defectos-morfologicos">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>18. Configuración de defectos morfológicos</h2>
+  </div>
+
+  <p class="section-sub">
+    Definición y habilitación de criterios morfológicos utilizados por el sistema de visión
+    para la detección estructural del fruto dentro del proceso de clasificación.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Defectos morfológicos configurables</h3>
+      <div class="hint">
+        Selección de defectos físicos y estructurales utilizados en el programa de calificación
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/unnamed (1).jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Pantalla de configuración de defectos morfológicos del sistema gpVision™, donde se
+        seleccionan y habilitan los criterios de detección asociados a características físicas
+        y estructurales del fruto, tales como partidura, machucón, guata blanca, calibre,
+        distribución, entre otros.
+      </p>
+
+      <p>
+        En esta sección se define qué defectos estarán disponibles para su ajuste dentro de la
+        Configuración de Clases, permitiendo al operador o técnico decidir cuáles atributos
+        morfológicos serán considerados en el proceso de clasificación. Cada defecto activado
+        representa una regla lógica que el sistema de visión aplicará durante el análisis de
+        imágenes MultiView™.
+      </p>
+
+      <p>
+        La correcta selección de estos defectos es fundamental para adaptar el comportamiento
+        del sistema a la variedad de fruta, condiciones de cosecha y exigencias comerciales.
+        Activar defectos innecesarios puede generar rechazos excesivos, mientras que omitir
+        defectos relevantes puede impactar negativamente la calidad del producto exportable.
+      </p>
+
+      <p>
+        Esta configuración suele realizarse durante la puesta en marcha inicial del sistema o
+        durante ajustes técnicos del programa de calificación, y constituye una de las bases
+        del motor lógico de gpVision™, asegurando que la clasificación responda fielmente a
+        las características morfológicas reales del fruto procesado.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · CONFIGURACIÓN DE CALIBRES -->
+<!-- ================================================= -->
+<section class="section" id="configuracion-calibres">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>19. Configuración de calibres</h2>
+  </div>
+
+  <p class="section-sub">
+    Definición de rangos de tamaño utilizados por gpVision™ para la validación dimensional
+    del fruto dentro del proceso de clasificación.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Configuración de rangos de tamaño por calibre</h3>
+      <div class="hint">
+        Ajuste de valores mínimos y máximos utilizados en la detección dimensional
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/unnamed (2).jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Pantalla de configuración de calibres en gpVision™, donde se definen los rangos de
+        tamaño mínimo y máximo por calibre utilizados para validar la detección dimensional
+        del fruto durante el proceso de clasificación.
+      </p>
+
+      <p>
+        Esta parametrización permite establecer umbrales precisos que determinan si un
+        producto cumple con los requisitos dimensionales asociados a una clase de
+        calificación específica. Los rangos configurados se utilizan tanto en la evaluación
+        del tamaño físico del fruto como en la coherencia entre el análisis de firmeza,
+        volumen y diámetro estimado.
+      </p>
+
+      <p>
+        La correcta configuración de calibres es fundamental para asegurar consistencia en
+        la clasificación, evitando solapamientos entre rangos o rechazos indebidos por
+        diferencias mínimas de tamaño. Estos valores suelen ajustarse según la variedad,
+        el destino comercial del producto y los estándares del cliente.
+      </p>
+
+      <p>
+        Los calibres definidos en esta sección quedan disponibles para su selección en la
+        Configuración de Clases y en el Editor de Salidas, permitiendo una gestión uniforme
+        de tamaños en todo el programa de calificación. Cualquier modificación en estos
+        rangos impacta directamente en la lógica de clasificación aplicada por el sistema
+        gpVision™.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · ERROR DE SOFTWARE (UNHANDLED ERROR) -->
+<!-- ================================================= -->
+<section class="section" id="error-unhandled">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>20. Error de Software – “Unhandled error occured”</h2>
+  </div>
+
+  <p class="section-sub">
+    Ejemplo de error no controlado en gpVision™ durante la ejecución de un programa de clasificación,
+    con impacto directo en la continuidad operativa del proceso.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Error no controlado en la interfaz</h3>
+      <div class="hint">
+        Este mensaje indica que el sistema encontró una condición no prevista y detuvo el proceso actual.
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/unnamed (4).jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        La interfaz muestra un “Unhandled error occured”, indicando que el software encontró una condición
+        no prevista durante la ejecución del programa de clasificación. Este tipo de error suele producirse
+        por una desincronización interna (por ejemplo, pérdida de comunicación con un módulo, datos
+        incompletos del programa activo o un fallo temporal del servicio), lo que impide que el sistema
+        gestione correctamente la excepción y detiene el proceso actual.
+      </p>
+
+      <p>
+        En términos prácticos, este mensaje suele aparecer cuando un componente crítico del flujo
+        (adquisición de imágenes, servicios de análisis, comunicación con Vision Units, base de datos o
+        módulos de salida) deja de responder o entrega información inconsistente respecto al estado del
+        programa en ejecución. Al no existir una rutina de recuperación para esa condición específica,
+        gpVision™ corta la operación para evitar resultados erróneos o decisiones de clasificación inválidas.
+      </p>
+
+      <p>
+        Para el diagnóstico, normalmente se recomienda revisar: (1) el panel de estado del sistema y los
+        carriles/cámaras conectadas, (2) el registro de eventos (Logs) para ubicar el origen del fallo,
+        (3) la conectividad de red entre estación de operador, servidor y Vision Units, y (4) la integridad del
+        programa activo (parámetros de clases, defectos, calibres y salidas).
+      </p>
+
+      <p>
+        Si el error ocurre de forma recurrente en un mismo punto del proceso, suele indicar una causa
+        persistente (desfase de sincronización, reinicios de servicio, datos corruptos o una configuración
+        incompleta). En ese caso, la revisión técnica debe enfocarse en estabilizar el servicio afectado y
+        validar que todos los módulos necesarios estén operativos antes de reiniciar la calificación.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · MAPEO DE CARACTERÍSTICAS A CLASES -->
+<!-- ================================================= -->
+<section class="section" id="mapeo-caracteristicas">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>21. Mapeo de Características a Clases</h2>
+  </div>
+
+  <p class="section-sub">
+    Configuración lógica que define cómo las características y atributos detectados por el sistema
+    gpVision™ se asignan a las clases finales de clasificación.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Asignación de características a clases de calificación</h3>
+      <div class="hint">
+        Definición de la lógica que gobierna la interpretación final del producto clasificado
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/unnamed (7).jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Es el módulo de configuración de mapeo de características y clases, donde se asignan los
+        defectos y atributos detectados (color, calibre, distribución, pedicelo, etc.) a las clases
+        finales de clasificación, definiendo cómo el sistema interpreta y enruta cada fruta según
+        la lógica del programa.
+      </p>
+
+      <p>
+        En esta pantalla se establece la correspondencia entre las características analizadas por
+        los algoritmos de visión y las clases de calificación disponibles, como Premium, Comercial
+        o Desecho. Cada atributo puede vincularse a una clase específica, permitiendo un control
+        preciso sobre el criterio que determina el destino final del producto.
+      </p>
+
+      <p>
+        El mapeo de características funciona como la capa de decisión final del programa de
+        calificación. Una vez que el sistema ha evaluado tamaño, color, defectos morfológicos y
+        otros parámetros, esta configuración define qué combinación de resultados conduce a cada
+        clase de salida.
+      </p>
+
+      <p>
+        Una configuración correcta de este módulo es crítica para garantizar coherencia entre la
+        detección visual y la clasificación física. Errores en el mapeo pueden provocar que frutas
+        correctamente analizadas sean asignadas a una clase incorrecta, afectando la eficiencia,
+        la calidad del producto final y la trazabilidad del proceso.
+      </p>
+
+      <p>
+        Este módulo suele ser ajustado durante la instalación inicial o por personal técnico
+        especializado, y normalmente permanece estable durante la operación regular, salvo
+        cambios en los criterios comerciales o en la estrategia de clasificación del cliente.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · DEFECTO EN CAVIDAD DEL PEDICELO (NIR) -->
+<!-- ================================================= -->
+<section class="section" id="defecto-pedicelo-nir">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>22. Defecto en cavidad del pedicelo (NIR)</h2>
+  </div>
+
+  <p class="section-sub">
+    Detección de alteraciones internas en la zona del pedicelo mediante análisis
+    en infrarrojo cercano (NIR).
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Detección de defecto interno en cavidad del pedicelo</h3>
+      <div class="hint">
+        Análisis NIR aplicado a tejido interno no visible en color
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/unnamed (8).jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        La cereza presenta daño en la cavidad del pedicelo, donde el sistema detecta
+        una alteración interna del tejido asociada a una herida o a un proceso de
+        pudrición inicial. Este tipo de defecto no siempre es visible externamente
+        en imágenes de color, pero se manifiesta claramente mediante el análisis en
+        infrarrojo cercano (NIR).
+      </p>
+
+      <p>
+        En la imagen NIR, esta zona aparece con una respuesta anómala en comparación
+        con el tejido sano circundante, indicando una pérdida de firmeza o una
+        degradación interna del tejido. Estas variaciones espectrales permiten al
+        sistema identificar defectos incipientes antes de que sean evidentes a simple
+        vista.
+      </p>
+
+      <p>
+        La detección de defectos en la cavidad del pedicelo es especialmente relevante,
+        ya que esta zona suele ser un punto de ingreso para patógenos y puede evolucionar
+        rápidamente hacia pudriciones más extensas durante el almacenamiento o transporte.
+      </p>
+
+      <p>
+        Gracias al uso combinado de imágenes MultiView™ y análisis NIR, gpVision™ puede
+        clasificar estos frutos como defectuosos de forma temprana, evitando que productos
+        con daño interno ingresen a categorías de mayor valor comercial y asegurando una
+        clasificación más precisa y consistente.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · GESTIÓN DE PROGRAMAS Y LOTES -->
+<!-- ================================================= -->
+<section class="section" id="gestion-programas-lotes">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>23. Gestión de programas y lotes</h2>
+  </div>
+
+  <p class="section-sub">
+    Vista de administración operativa para revisar programas configurados, lotes asociados
+    y su estado durante la ejecución del sistema.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Gestión y monitoreo de programas/lotes</h3>
+      <div class="hint">
+        Control de disponibilidad, estado y parámetros activos del proceso de clasificación
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/unnamed (9).jpg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Es la vista de gestión y monitoreo de programas/lotes, donde se visualizan los
+        procesos configurados, su estado, parámetros activos y resultados asociados,
+        permitiendo controlar la ejecución del sistema y verificar qué programas están
+        disponibles, cargados o en operación.
+      </p>
+
+      <p>
+        Esta pantalla funciona como un punto central para la supervisión del entorno de
+        trabajo, facilitando la identificación rápida del programa vigente y la validación
+        de que el sistema está ejecutando la lógica correcta de calificación. En contextos
+        productivos, esto ayuda a evitar que la línea opere con configuraciones equivocadas
+        o desactualizadas, especialmente cuando se alternan variedades, calibres o criterios
+        de calidad según el lote.
+      </p>
+
+      <p>
+        Además, al consolidar información del estado y los resultados asociados, esta vista
+        permite realizar seguimiento operativo sin necesidad de entrar a módulos más
+        específicos. Esto es útil para el operador o el equipo técnico al momento de
+        confirmar disponibilidad de programas, revisar configuraciones activas y preparar
+        el sistema para cambios de turno, cambios de lote o ajustes planificados.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · CONFIGURACIÓN DEL DEFECTO (CASILLAS) -->
+<!-- ================================================= -->
+<section class="section" id="configuracion-defecto-casillas">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>24. Configuración del defecto (casillas)</h2>
+  </div>
+
+  <p class="section-sub">
+    Parametrización de defectos individuales mediante porcentajes y reglas visuales
+    aplicadas durante el proceso de clasificación.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Configuración del defecto “Sin Pedicelo”</h3>
+      <div class="hint">
+        Definición de umbrales porcentuales y reglas de aceptación o rechazo
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Captura de pantalla_29-12-2025_155926_.jpeg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Esta pantalla corresponde a la configuración del defecto <strong>“Sin Pedicelo”</strong>,
+        donde se definen los umbrales de porcentaje para determinar si una fruta es aceptada
+        o rechazada. El sistema utiliza rangos visuales y reglas de color para clasificar
+        automáticamente la fruta según la presencia o ausencia del pedicelo.
+      </p>
+
+      <p>
+        Los controles deslizantes permiten ajustar con precisión el porcentaje mínimo o
+        máximo permitido, estableciendo claramente los límites entre fruta válida y fruta
+        defectuosa. Estas reglas se integran directamente en la lógica del programa de
+        calificación, influyendo en la asignación de clases como Premium, Comercial o
+        Desecho.
+      </p>
+
+      <p>
+        El uso de indicadores cromáticos (verde, amarillo y rojo) facilita la comprensión
+        visual del impacto del ajuste realizado, permitiendo al operador validar rápidamente
+        si la configuración es coherente con los estándares de calidad definidos. Esta
+        parametrización es especialmente crítica en productos donde la presencia del
+        pedicelo es un criterio determinante para el destino comercial de la fruta.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · DEFINICIÓN DE RANGOS DE COLOR -->
+<!-- ================================================= -->
+<section class="section" id="rangos-color-light-dark">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>25. Definición de rangos de color (Light / Dark)</h2>
+  </div>
+
+  <p class="section-sub">
+    Configuración de rangos cromáticos utilizados por el sistema para la
+    clasificación automática de fruta según tonalidad.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Rangos de color predeterminados</h3>
+      <div class="hint">
+        Separación de fruta por tonalidad clara y oscura
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Captura de pantalla_29-12-2025_16057_.jpeg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        Esta pantalla define los rangos de color predeterminados que el sistema
+        utiliza para clasificar la fruta según su tonalidad. Estos rangos se
+        configuran visualmente mediante barras cromáticas ajustables que
+        representan el espectro de color detectado por las cámaras del sistema
+        gpVision™.
+      </p>
+
+      <ul>
+        <li>
+          <strong>LIGHT:</strong> representa colores más claros o maduros,
+          generalmente asociados a fruta exportable o de mayor calidad.
+        </li>
+        <li>
+          <strong>DARK:</strong> representa colores más oscuros o inmaduros /
+          defectuosos, que suelen corresponder a fruta comercial o de descarte.
+        </li>
+      </ul>
+
+      <p>
+        Los límites de cada rango pueden ajustarse para adaptarse a variaciones
+        naturales del producto, condiciones de iluminación o requerimientos
+        específicos del cliente. Esta flexibilidad permite mantener criterios
+        consistentes de clasificación incluso ante cambios en el lote o variedad.
+      </p>
+
+      <p>
+        Estos rangos se aplican directamente a las salidas de clasificación,
+        permitiendo separar la fruta según color de forma completamente
+        automática. Una vez definidos, los rangos pueden ser seleccionados en el
+        Editor de salida, integrándose con otros criterios como tamaño y defectos
+        para formar la lógica final del programa de calificación.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- SOFTWARE GENERAL · SECCIONES DE CONFIGURACIÓN DE DEFECTOS -->
+<!-- ================================================= -->
+<section class="section" id="secciones-defectos-configurables">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>26. Secciones de configuración de defectos del sistema de visión</h2>
+  </div>
+
+  <p class="section-sub">
+    Vista general del catálogo de defectos configurables disponibles en gpVision™
+    para habilitar, ajustar y controlar la lógica de clasificación.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Listado de defectos configurables</h3>
+      <div class="hint">
+        Activación y control de criterios de evaluación usados por el sistema
+      </div>
+    </div>
+
+    <!-- IMAGEN -->
+    <div style="padding:14px 16px;">
+      <img src="Imagenes/Captura de pantalla_29-12-2025_16138_.jpeg" alt="Pruebas de salida del sistema" class="img-figure ss">
+    </div>
+
+    <div class="figure-b">
+      <p>
+        En esta pantalla se muestran las distintas secciones de defectos configurables
+        del sistema gpVision™, donde se seleccionan y activan los criterios de evaluación
+        utilizados para clasificar la fruta. Cada defecto corresponde a un atributo medido
+        por el sistema de visión (tamaño, color, firmeza, pedicelo, daños, pudrición, entre
+        otros) y puede habilitarse para influir directamente en la decisión de aceptación o
+        rechazo durante el proceso de clasificación automática.
+      </p>
+
+      <p>
+        Esta vista funciona como un “catálogo” central de criterios, permitiendo al equipo
+        técnico y de operación decidir qué defectos estarán disponibles para ser utilizados
+        en el programa de calificación. Al habilitar o deshabilitar defectos aquí, se controla
+        qué opciones aparecen en los módulos de configuración (por ejemplo, en la configuración
+        de clases/defectos y en el editor de salidas), evitando ajustes innecesarios y reduciendo
+        la complejidad operativa.
+      </p>
+
+      <p>
+        Además, organizar los defectos por secciones facilita la estandarización entre diferentes
+        variedades, clientes o temporadas, ya que permite replicar criterios de evaluación bajo
+        un marco común. Esto es especialmente útil cuando se requiere mantener consistencia en la
+        clasificación, mejorar la trazabilidad de decisiones y asegurar que los reportes estadísticos
+        reflejen exactamente los defectos que el sistema está evaluando en producción.
+      </p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Software General · GP Graders · Documentación técnica interna
+</footer>
+  
+<script>
+  // ====== BUSCADOR + AUTOCOMPLETE ======
+  const searchInput = document.getElementById("searchInput");
+  const suggestList = document.getElementById("suggestList");
+  const searchBtn = document.getElementById("searchBtn");
+  const clearBtn = document.getElementById("clearSearchBtn");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const meta = document.getElementById("searchMeta");
+
+  let hits = [];
+  let activeIndex = -1;
+
+  // Autocomplete index
+  let indexItems = []; // { id, text, el }
+  let suggestActive = -1;
+  const MAX_SUGGEST = 8;
+
+  const SKIP_TAGS = new Set(["SCRIPT","STYLE","INPUT","TEXTAREA","BUTTON","IFRAME","MARK"]);
+
+  function escapeRegExp(str){
+    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function clearMarks(){
+    document.querySelectorAll("mark.gp-hit").forEach(m => {
+      const t = document.createTextNode(m.textContent);
+      m.replaceWith(t);
+    });
+    hits = [];
+    activeIndex = -1;
+  }
+
+  function setActive(idx){
+    if(!hits.length) return;
+    hits.forEach(h => h.classList.remove("active"));
+    activeIndex = (idx + hits.length) % hits.length;
+    hits[activeIndex].classList.add("active");
+    hits[activeIndex].scrollIntoView({ behavior:"smooth", block:"center" });
+    meta.textContent = `Coincidencias: ${hits.length} · Mostrando ${activeIndex + 1}/${hits.length}`;
+  }
+
+  function highlight(term){
+    clearMarks();
+    if(!term) {
+      meta.textContent = "Sin búsqueda activa.";
+      return;
+    }
+
+    const root = document.querySelector("main");
+    const rx = new RegExp(escapeRegExp(term), "gi");
+
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node){
+        if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        const p = node.parentElement;
+        if(!p) return NodeFilter.FILTER_REJECT;
+        if(SKIP_TAGS.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    const nodes = [];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+
+    nodes.forEach(node => {
+      const txt = node.nodeValue;
+      if(!rx.test(txt)) return;
+
+      rx.lastIndex = 0;
+      const frag = document.createDocumentFragment();
+      let last = 0;
+      let m;
+
+      while((m = rx.exec(txt)) !== null){
+        const start = m.index;
+        const end = start + m[0].length;
+
+        if(start > last) frag.appendChild(document.createTextNode(txt.slice(last, start)));
+
+        const mark = document.createElement("mark");
+        mark.className = "gp-hit";
+        mark.textContent = txt.slice(start, end);
+        frag.appendChild(mark);
+
+        last = end;
+      }
+
+      if(last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
+
+      node.parentNode.replaceChild(frag, node);
+    });
+
+    hits = Array.from(document.querySelectorAll("mark.gp-hit"));
+    if(hits.length){
+      setActive(0);
+    }else{
+      meta.textContent = "No se encontraron coincidencias.";
+    }
+  }
+
+  // ====== AUTOCOMPLETE: construir índice del manual ======
+  function buildIndex(){
+    const root = document.querySelector("main");
+    indexItems = [];
+
+    // 1) Títulos y subtítulos (prioridad alta)
+    root.querySelectorAll("h1,h2,h3,h4").forEach((el, i) => {
+      const t = (el.innerText || "").trim();
+      if(t.length >= 3) indexItems.push({ id: `h-${i}`, text: t, el });
+    });
+
+    // 2) List items (li) (útiles para pasos)
+    root.querySelectorAll("li").forEach((el, i) => {
+      const t = (el.innerText || "").trim();
+      if(t.length >= 12) indexItems.push({ id: `li-${i}`, text: t.slice(0, 220), el });
+    });
+
+    // 3) Párrafos importantes (opcional: recorta)
+    root.querySelectorAll(".figure-b p").forEach((el, i) => {
+      const t = (el.innerText || "").trim();
+      if(t.length >= 18) indexItems.push({ id: `p-${i}`, text: t.slice(0, 220), el });
+    });
+  }
+
+  // Normaliza para comparar
+  function norm(s){
+    return (s || "")
+      .toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,""); // quita tildes
+  }
+
+  function scoreMatch(query, text){
+    // scoring simple: incluye, empieza, proximidad
+    const q = norm(query);
+    const t = norm(text);
+    if(!q) return -1;
+    const idx = t.indexOf(q);
+    if(idx === -1) return -1;
+
+    let score = 0;
+    if(idx === 0) score += 6;          // empieza con
+    score += Math.max(0, 5 - Math.min(idx, 5)); // mientras más cerca del inicio mejor
+    score += Math.min(q.length / 4, 4); // query más larga, mejor
+    return score;
+  }
+
+  function hiText(text, query){
+    const q = query.trim();
+    if(!q) return text;
+    const rx = new RegExp(escapeRegExp(q), "ig");
+    return text.replace(rx, (m)=>`<span class="suggest-hi">${m}</span>`);
+  }
+
+  function hideSuggest(){
+    suggestList.style.display = "none";
+    suggestList.innerHTML = "";
+    suggestActive = -1;
+  }
+
+function showSuggest(items, query){
+  if(!items.length){
+    hideSuggest();
+    return;
+  }
+  suggestList.innerHTML = items.map((it, idx) => {
+    const line = it.text.length > 120 ? it.text.slice(0, 120) + "…" : it.text;
+    return `
+      <div class="suggest-item" data-idx="${idx}">
+        <div class="suggest-title">${hiText(line, query)}</div>
+      </div>
+    `;
+  }).join("");
+  suggestList.style.display = "block";
+}
+
+  function getSuggestions(query){
+    const q = query.trim();
+    if(q.length < 1) return [];
+
+    // filtra y rankea
+    const ranked = indexItems
+      .map(it => ({ it, s: scoreMatch(q, it.text) }))
+      .filter(x => x.s >= 0)
+      .sort((a,b) => b.s - a.s)
+      .slice(0, MAX_SUGGEST)
+      .map(x => x.it);
+
+    return ranked;
+  }
+
+  function jumpToElement(el, query){
+    if(!el) return;
+    // Lleva al elemento
+    el.scrollIntoView({ behavior:"smooth", block:"center" });
+    // Resalta el término en el documento
+    highlight(query);
+    // y activa la primera coincidencia visible
+    if(hits.length) setActive(0);
+    hideSuggest();
+  }
+
+  // ====== EVENTOS ======
+  buildIndex();
+
+  searchInput?.addEventListener("input", () => {
+    const q = searchInput.value;
+    const suggestions = getSuggestions(q);
+    showSuggest(suggestions, q);
+  });
+
+  // click en sugerencias
+  suggestList?.addEventListener("click", (e) => {
+    const item = e.target.closest(".suggest-item");
+    if(!item) return;
+    const q = searchInput.value.trim();
+    const suggestions = getSuggestions(q);
+    const idx = Number(item.dataset.idx);
+    const it = suggestions[idx];
+    if(it) jumpToElement(it.el, q);
+  });
+
+  // navegación teclado (flechas + enter)
+  searchInput?.addEventListener("keydown", (e)=>{
+    const q = searchInput.value.trim();
+    const suggestions = getSuggestions(q);
+    if(!suggestions.length) return;
+
+    const items = Array.from(suggestList.querySelectorAll(".suggest-item"));
+
+    if(e.key === "ArrowDown"){
+      e.preventDefault();
+      suggestActive = (suggestActive + 1) % items.length;
+      items.forEach(x => x.classList.remove("active"));
+      items[suggestActive].classList.add("active");
+      items[suggestActive].scrollIntoView({ block:"nearest" });
+    }
+    if(e.key === "ArrowUp"){
+      e.preventDefault();
+      suggestActive = (suggestActive - 1 + items.length) % items.length;
+      items.forEach(x => x.classList.remove("active"));
+      items[suggestActive].classList.add("active");
+      items[suggestActive].scrollIntoView({ block:"nearest" });
+    }
+    if(e.key === "Enter"){
+      // Si hay item activo, salta a ese
+      if(suggestActive >= 0 && suggestions[suggestActive]){
+        e.preventDefault();
+        jumpToElement(suggestions[suggestActive].el, q);
+      }else{
+        // si no, hace búsqueda normal
+        highlight(q);
+        hideSuggest();
+      }
+    }
+    if(e.key === "Escape"){
+      hideSuggest();
+    }
+  });
+
+  // click fuera: cerrar lista
+  document.addEventListener("click", (e)=>{
+    const wrap = e.target.closest(".search-wrap");
+    if(!wrap) hideSuggest();
+  });
+
+  searchBtn?.addEventListener("click", () => {
+    const q = searchInput.value.trim();
+    highlight(q);
+    hideSuggest();
+  });
+
+  nextBtn?.addEventListener("click", ()=> setActive(activeIndex + 1));
+  prevBtn?.addEventListener("click", ()=> setActive(activeIndex - 1));
+
+  clearBtn?.addEventListener("click", ()=>{
+    searchInput.value = "";
+    clearMarks();
+    meta.textContent = "Sin búsqueda activa.";
+    hideSuggest();
+  });
+
+  // ===== Reveal al aparecer en pantalla =====
+  (function(){
+    const targets = [
+      ...document.querySelectorAll(".section"),
+      ...document.querySelectorAll(".figure"),
+      ...document.querySelectorAll(".search-wrap")
+    ];
+
+    targets.forEach(el => el.classList.add("gp-reveal"));
+
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add("is-in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    targets.forEach(el => io.observe(el));
+  })();
+</script>
+
+</body>
+</html>

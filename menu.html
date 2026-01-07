@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menú | Informe Técnico gpVision™</title>
+
+  <style>
+    :root{
+      --bg:#0b1624;
+      --panel:#0f223a;
+      --card: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.14);
+      --text:#e6edf5;
+      --muted: rgba(230,237,245,.75);
+      --accent:#4da3ff;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --r:16px;
+    }
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(77,163,255,.18), transparent 60%),
+        radial-gradient(700px 450px at 90% 85%, rgba(77,163,255,.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      overflow-x:hidden;
+    }
+
+    /* ===== subtle animated glow background (respetando colores) ===== */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      background:
+        radial-gradient(520px 320px at 15% 15%, rgba(77,163,255,.16), transparent 60%),
+        radial-gradient(520px 320px at 85% 80%, rgba(77,163,255,.10), transparent 62%);
+      filter: blur(0px);
+      opacity:.9;
+      animation: bgFloat 10s ease-in-out infinite alternate;
+      z-index:0;
+    }
+    @keyframes bgFloat{
+      from{ transform: translate3d(-10px,-6px,0) scale(1); }
+      to  { transform: translate3d(10px,8px,0) scale(1.02); }
+    }
+
+    /* Topbar */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      background: rgba(15,34,58,.92);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(10px);
+      transform: translateY(-6px);
+      opacity:0;
+      animation: fadeDown .45s ease forwards;
+    }
+    @keyframes fadeDown{
+      to{ transform: translateY(0); opacity:1; }
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width: 160px;
+    }
+
+    /* Logo GP Graders */
+    .logoWrap{
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 10px 22px rgba(0,0,0,.25);
+      overflow: hidden;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+      will-change: transform;
+    }
+    .logoWrap:hover{
+      transform: translateY(-1px) scale(1.03);
+      border-color: rgba(77,163,255,.55);
+      box-shadow: 0 14px 30px rgba(77,163,255,.14);
+    }
+    .logoWrap img{
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transform: translateZ(0);
+    }
+
+    .brand h1{
+      margin:0;
+      font-size: 14px;
+      line-height: 1.1;
+      letter-spacing: .2px;
+    }
+    .brand p{
+      margin:2px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Tabs */
+    .tabs{
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      flex: 1;
+    }
+    .tab{
+      text-decoration:none;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease, color .15s ease;
+      white-space: nowrap;
+      position: relative;
+      overflow:hidden;
+    }
+    .tab::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(90deg, transparent, rgba(77,163,255,.14), transparent);
+      transform: translateX(-120%);
+      transition: transform .45s ease;
+      pointer-events:none;
+    }
+    .tab:hover{
+      color: var(--text);
+      border-color: rgba(77,163,255,.35);
+      background: rgba(0,0,0,.18);
+      transform: translateY(-1px);
+    }
+    .tab:hover::after{ transform: translateX(120%); }
+    .tab.active{
+      color: var(--text);
+      border-color: rgba(77,163,255,.55);
+      background: rgba(77,163,255,.10);
+    }
+
+    .actions{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width: 140px;
+      justify-content: flex-end;
+    }
+
+    .btn{
+      cursor:pointer;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 13px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+      will-change: transform;
+      position: relative;
+      overflow:hidden;
+    }
+    .btn::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(400px 120px at 10% 10%, rgba(77,163,255,.18), transparent 65%);
+      opacity:0;
+      transition: opacity .2s ease;
+      pointer-events:none;
+    }
+    .btn:hover{
+      border-color: rgba(77,163,255,.55);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(0,0,0,.28);
+    }
+    .btn:hover::after{ opacity:1; }
+    .btn:active{ transform: translateY(0px) scale(.99); }
+
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(77,163,255,.95), rgba(77,163,255,.55));
+      color: #07121a;
+      border-color: rgba(255,255,255,.18);
+      font-weight: 800;
+    }
+
+    /* Main */
+    main{
+      width: min(980px, 100%);
+      margin: 26px auto;
+      padding: 0 18px 18px;
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      transform: translateY(10px);
+      opacity:0;
+      transition: transform .5s ease, opacity .5s ease;
+    }
+    .hero.reveal{
+      transform: translateY(0);
+      opacity:1;
+    }
+
+    .hero h2{
+      margin: 0 0 10px;
+      font-size: 22px;
+      letter-spacing: .2px;
+    }
+    .hero p{
+      margin: 0 0 10px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .chips{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .chip{
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      padding: 7px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .chip:hover{
+      transform: translateY(-1px);
+      border-color: rgba(77,163,255,.35);
+    }
+
+    .grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r);
+      padding: 14px;
+      box-shadow: var(--shadow);
+      text-decoration:none;
+      color: inherit;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
+      display:block;
+      position: relative;
+      overflow:hidden;
+
+      transform: translateY(10px);
+      opacity:0;
+      transition:
+        transform .5s ease,
+        opacity .5s ease,
+        border-color .15s ease,
+        box-shadow .15s ease,
+        background .15s ease;
+    }
+    .card.reveal{
+      transform: translateY(0);
+      opacity:1;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius: var(--r);
+      background: radial-gradient(500px 240px at 20% 10%, rgba(77,163,255,.12), transparent 60%);
+      opacity:0;
+      transition: opacity .18s ease;
+      pointer-events:none;
+    }
+
+    .card:hover{
+      border-color: rgba(77,163,255,.55);
+      transform: translateY(-2px);
+      box-shadow: 0 22px 70px rgba(0,0,0,.45);
+      background: rgba(255,255,255,.07);
+    }
+    .card:hover::before{ opacity:1; }
+    .card:active{ transform: translateY(-1px) scale(.995); }
+
+    .card .k{
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .card .v{
+      margin-top: 6px;
+      font-weight: 900;
+      font-size: 15px;
+      letter-spacing: .2px;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+    }
+
+    /* mini indicator */
+    .card .v::after{
+      content:"";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(77,163,255,.85);
+      box-shadow: 0 0 0 6px rgba(77,163,255,.12);
+      opacity:.85;
+      margin-left:auto;
+    }
+
+    .card .d{
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    footer{
+      text-align:center;
+      padding: 16px 18px 22px;
+      color: rgba(230,237,245,.55);
+      font-size: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Responsive */
+    @media (max-width: 720px){
+      .brand{min-width:auto}
+      .actions{min-width:auto}
+      .hero h2{font-size: 20px}
+    }
+
+    /* ===== HAMBURGER + MOBILE NAV ===== */
+    .menuBtn{
+      display:none;
+      cursor:pointer;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 18px;
+      line-height: 1;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+    .menuBtn:hover{
+      border-color: rgba(77,163,255,.55);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(0,0,0,.28);
+    }
+
+    .mobileNav{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(6px);
+      display:none;
+      z-index: 2000;
+      opacity:0;
+      transition: opacity .18s ease;
+    }
+    .mobileNav.open{ display:block; opacity:1; }
+
+    .mobileNavPanel{
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      left: 12px;
+      max-width: 520px;
+      margin-left: auto;
+      background: rgba(15,34,58,.96);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 18px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
+      overflow:hidden;
+      transform: translateY(10px);
+      opacity:0;
+      transition: transform .18s ease, opacity .18s ease;
+    }
+    .mobileNav.open .mobileNavPanel{
+      transform: translateY(0);
+      opacity:1;
+    }
+
+    .mobileNavHead{
+      padding: 14px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+
+    .mobileTitle{
+      font-weight: 900;
+      font-size: 14px;
+    }
+    .mobileSub{
+      margin-top:2px;
+      font-size: 12px;
+      color: rgba(230,237,245,.70);
+    }
+
+    .mobileNavLinks{
+      padding: 10px;
+      display:grid;
+      gap: 8px;
+    }
+
+    .mLink{
+      text-decoration:none;
+      color: var(--text);
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      font-size: 14px;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+    .mLink:hover{
+      border-color: rgba(77,163,255,.55);
+      background: rgba(77,163,255,.10);
+      transform: translateY(-1px);
+    }
+
+    /* Responsive behavior */
+    @media (max-width: 860px){
+      .tabs{ display:none; }
+      .menuBtn{ display:inline-flex; align-items:center; justify-content:center; }
+    }
+
+    /* ===== Reduced motion ===== */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation: none !important; transition: none !important; }
+      html{ scroll-behavior:auto; }
+      body::before{ display:none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <script>
+    // Protección simple: si no hay sesión, vuelve a login
+    if (sessionStorage.getItem("auth") !== "ok") {
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logoWrap">
+        <img src="Imagenes/image-removebg-preview.ico" alt="GP Graders">
+      </div>
+      <div>
+        <h1>Informe gpVision™</h1>
+        <p>Menú · navegación por módulos</p>
+      </div>
+    </div>
+
+    <!-- Botón hamburguesa (solo móvil) -->
+    <button class="menuBtn" id="menuBtn" type="button" aria-label="Abrir menú" aria-expanded="false">
+      ☰
+    </button>
+
+    <!-- Tabs normales (desktop) -->
+    <nav class="tabs" aria-label="Navegación principal">
+      <a class="tab active" href="menu.html">Menú</a>
+      <a class="tab" href="sistema-gpvision.html">GpVision</a>
+      <a class="tab" href="simple-gui.html">Simple GUI</a>
+      <a class="tab" href="software.html">Software general</a>
+      <a class="tab" href="hardware.html">Hardware general</a>
+      <a class="tab" href="mecanica.html">Mecánica</a>
+      <a class="tab" href="correccion-errores.html">Corrección de errores</a>
+      <a class="tab" href="defectos.html">Defectos</a>
+    </nav>
+
+    <!-- Menú móvil (overlay) -->
+    <div class="mobileNav" id="mobileNav" aria-hidden="true">
+      <div class="mobileNavPanel" role="dialog" aria-label="Menú de navegación">
+        <div class="mobileNavHead">
+          <div>
+            <div class="mobileTitle">Informe gpVision™</div>
+            <div class="mobileSub">Navegación</div>
+          </div>
+          <button class="btn" id="closeNavBtn" type="button">✕</button>
+        </div>
+
+        <div class="mobileNavLinks">
+          <a class="mLink" href="menu.html">Menú</a>
+          <a class="mLink" href="sistema-gpvision.html">GpVision</a>
+          <a class="mLink" href="simple-gui.html">Simple GUI</a>
+          <a class="mLink" href="software.html">Software general</a>
+          <a class="mLink" href="hardware.html">Hardware general</a>
+          <a class="mLink" href="mecanica.html">Mecánica</a>
+          <a class="mLink" href="correccion-errores.html">Corrección de errores</a>
+          <a class="mLink" href="defectos.html">Defectos</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn" id="logoutBtn" type="button">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Plataforma de Clasificación GP Graders gpVision™</h2>
+      <p>
+        Este sitio reúne el informe técnico de la plataforma <strong>gpVision™</strong>, orientado a documentar
+        arquitectura, operación, configuración de software, componentes de hardware, sistema mecánico y corrección
+        de errores asociados a la clasificación por visión artificial.
+      </p>
+      <p>
+        Utiliza las pestañas superiores para acceder a cada interfaz del informe. El objetivo es mantener secciones
+        claras y separadas para facilitar lectura, auditoría técnica y análisis por herramientas basadas en IA.
+      </p>
+
+      <div class="chips">
+        <span class="chip">MultiView™ (Color + NIR)</span>
+        <span class="chip">Cliente-Servidor</span>
+        <span class="chip">Vision Units · RTUnits</span>
+        <span class="chip">Clasificación por clases y defectos</span>
+        <span class="chip">Diagnóstico y logs</span>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Accesos rápidos">
+      <a class="card" href="sistema-gpvision.html">
+        <div class="k">Sección</div>
+        <div class="v">GpVision</div>
+        <div class="d">Visión general del sistema, arquitectura, flujo y componentes principales.</div>
+      </a>
+
+      <a class="card" href="simple-gui.html">
+        <div class="k">Sección</div>
+        <div class="v">Simple GUI</div>
+        <div class="d">Pantallas de operación diaria: clases, defectos, salidas y monitoreo.</div>
+      </a>
+
+      <a class="card" href="software.html">
+        <div class="k">Sección</div>
+        <div class="v">Software general</div>
+        <div class="d">Configuraciones, estadísticas, espectros, logs, errores y herramientas de soporte.</div>
+      </a>
+
+      <a class="card" href="hardware.html">
+        <div class="k">Sección</div>
+        <div class="v">Hardware general</div>
+        <div class="d">Rack, PC industrial, red, RTUnits, tableros y componentes asociados.</div>
+      </a>
+
+      <a class="card" href="mecanica.html">
+        <div class="k">Sección</div>
+        <div class="v">Mecánica</div>
+        <div class="d">Transporte por rollers, guías, motor/reductor y elementos de estabilización.</div>
+      </a>
+
+      <a class="card" href="correccion-errores.html">
+        <div class="k">Sección</div>
+        <div class="v">Corrección de errores</div>
+        <div class="d">Fallas típicas (segmentación, sincronización, comunicación) y acciones de corrección.</div>
+      </a>
+
+      <a class="card" href="defectos.html">
+        <div class="k">Sección</div>
+        <div class="v">Defectos</div>
+        <div class="d">Catálogo de defectos de cereza: definición, criterios visuales y ejemplos MultiView™.</div>
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    GP Graders · gpVision™ · Documentación técnica
+  </footer>
+
+  <script>
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      sessionStorage.removeItem("auth");
+      window.location.href = "login.html";
+    });
+
+    (function(){
+      const btn = document.getElementById("menuBtn");
+      const overlay = document.getElementById("mobileNav");
+      const closeBtn = document.getElementById("closeNavBtn");
+
+      if(!btn || !overlay || !closeBtn) return;
+
+      function openNav(){
+        overlay.classList.add("open");
+        overlay.setAttribute("aria-hidden","false");
+        btn.setAttribute("aria-expanded","true");
+        document.body.style.overflow = "hidden";
+      }
+      function closeNav(){
+        overlay.classList.remove("open");
+        overlay.setAttribute("aria-hidden","true");
+        btn.setAttribute("aria-expanded","false");
+        document.body.style.overflow = "";
+      }
+
+      btn.addEventListener("click", openNav);
+      closeBtn.addEventListener("click", closeNav);
+
+      overlay.addEventListener("click", (e)=>{
+        if(e.target === overlay) closeNav();
+      });
+
+      document.addEventListener("keydown", (e)=>{
+        if(e.key === "Escape" && overlay.classList.contains("open")) closeNav();
+      });
+
+      overlay.querySelectorAll("a").forEach(a=>{
+        a.addEventListener("click", closeNav);
+      });
+    })();
+
+    /* ===== Reveal animation (hero + cards) ===== */
+    (function(){
+      const targets = document.querySelectorAll(".hero, .card");
+      if(!targets.length) return;
+
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.classList.add("reveal");
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      targets.forEach((el, i)=>{
+        // Stagger suave en cards
+        if(el.classList.contains("card")){
+          el.style.transitionDelay = `${Math.min(i * 70, 420)}ms`;
+        }
+        io.observe(el);
+      });
+    })();
+  </script>
+</body>
+</html>

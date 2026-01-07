@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Hardware General | GP Graders</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root{
+      --bg0:#070e18;
+      --bg2:#0f1e33;
+      --panel: rgba(255,255,255,.04);
+      --stroke: rgba(255,255,255,.10);
+      --text:#eaf1ff;
+      --muted:#b9c6e3;
+      --brand:#4da3ff;
+      --brand2:#38d4ff;
+      --shadow: 0 16px 50px rgba(0,0,0,.45);
+      --r20:20px;
+      --card: rgba(255,255,255,.04); 
+      --r: 16px;                    
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family:"Segoe UI", Tahoma, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(77,163,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 80% 90%, rgba(77,163,255,.10), transparent 55%),
+        linear-gradient(135deg, var(--bg0), var(--bg2));
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(8,14,24,.9);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      z-index:10;
+    }
+
+    header .wrap{
+      max-width:1100px;
+      margin:auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    header h1{
+      margin:0;
+      font-size:16px;
+    }
+
+    header span{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .btn{
+      padding:9px 14px;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:700;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+    }
+
+    .btn.primary{
+  border-color: rgba(77,163,255,.55);
+  background: linear-gradient(180deg, rgba(77,163,255,.18), rgba(56,212,255,.12));
+}
+.btn.primary:hover{
+  border-color: rgba(77,163,255,.85);
+}
+
+    main{
+      max-width:1100px;
+      margin:auto;
+      padding:26px 18px 50px;
+    }
+
+    .section{
+      margin-top:40px;
+    }
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:8px;
+    }
+
+    .bar{
+      width:10px;
+      height:22px;
+      border-radius:8px;
+      background:linear-gradient(180deg,var(--brand),var(--brand2));
+    }
+
+    .section-title h2{
+      margin:0;
+      font-size:18px;
+    }
+
+    .section-sub{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:18px;
+      max-width:850px;
+    }
+
+    .figure{
+      background:var(--panel);
+      border:1px solid var(--stroke);
+      border-radius:var(--r20);
+      box-shadow:var(--shadow);
+      margin-bottom:20px;
+    }
+
+    .figure-h{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .figure-h h3{
+      margin:0;
+      font-size:14px;
+    }
+
+    .figure-h .hint{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+
+    .ph{
+      height:220px;
+      margin:14px 16px;
+      border-radius:16px;
+      border:2px dashed rgba(255,255,255,.25);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      font-size:12px;
+      color:rgba(255,255,255,.6);
+    }
+
+    .figure-b{
+      padding:0 16px 16px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.55;
+    }
+
+    footer{
+      text-align:center;
+      font-size:12px;
+      color:rgba(255,255,255,.4);
+      padding:20px;
+    }
+
+    /* ===== BUSCADOR ===== */
+.search-wrap{
+  margin-top: 14px;
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.search-head{
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+}
+.search-head h3{
+  margin:0;
+  font-size: 14px;
+}
+.search-head .hint{
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.search-body{
+  padding: 14px 16px 16px;
+}
+.search-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap: wrap;
+}
+.search-input{
+  flex: 1;
+  min-width: 220px;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.22);
+  color: var(--text);
+  outline: none;
+}
+.search-input:focus{
+  border-color: rgba(77,163,255,.55);
+}
+.search-meta{
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(230,237,245,.60);
+}
+
+/* resaltado */
+mark.gp-hit{
+  background: rgba(77,163,255,.25);
+  border: 1px solid rgba(77,163,255,.35);
+  color: var(--text);
+  padding: 0 2px;
+  border-radius: 6px;
+}
+mark.gp-hit.active{
+  background: rgba(77,163,255,.45);
+  border-color: rgba(77,163,255,.75);
+  box-shadow: 0 0 0 6px rgba(77,163,255,.14);
+}
+
+/* ===== AUTOCOMPLETE LIST ===== */
+.search-suggest{
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+.search-suggest .search-input{
+  width: 100%;
+}
+
+.suggest-list{
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: rgba(10,20,34,.98);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 14px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+  overflow: hidden;
+  z-index: 999;
+  max-height: 280px;
+  overflow-y: auto;
+  display: none;
+}
+
+.suggest-item{
+  padding: 10px 12px;
+  cursor: pointer;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.suggest-item:first-child{ border-top: none; }
+.suggest-item:hover,
+.suggest-item.active{
+  background: rgba(77,163,255,.12);
+}
+.suggest-title{
+  font-size: 13px;
+  color: rgba(230,237,245,.92);
+  line-height: 1.35;
+}
+
+.suggest-hi{
+  background: rgba(77,163,255,.22);
+  border: 1px solid rgba(77,163,255,.35);
+  padding: 0 2px;
+  border-radius: 6px;
+}
+
+.img-figure{
+  width: 80%;              /* ⬅ un poco más pequeña */
+  max-width: 900px;        /* ⬅ evita que se vean gigantes en pantallas grandes */
+  margin:14px auto;        /* ⬅ centra la imagen */
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  display:block;
+}
+
+.img-figure{
+  margin:14px auto;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  display:block;
+}
+
+.hardware-grid{
+  display:grid;
+  gap:20px;
+}
+
+@media (min-width: 900px){
+  .hardware-grid{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* =========================
+   ANIMACIONES / INTERACCIONES
+   ========================= */
+
+/* scroll suave al hacer click en anchors */
+html{ scroll-behavior:smooth; }
+
+/* transiciones globales suaves */
+.btn, .figure, .search-wrap, .suggest-item, .img-figure{
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .18s ease, filter .18s ease;
+}
+
+/* Botones más “vivos” */
+.btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(0,0,0,.28);
+}
+.btn:active{
+  transform: translateY(0px) scale(.98);
+}
+
+/* Tarjetas/figuras: hover con brillo y elevación */
+.figure{
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+}
+.figure:hover{
+  transform: translateY(-3px);
+  border-color: rgba(77,163,255,.40);
+  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+}
+
+/* Shine sutil al pasar el mouse */
+.figure::after{
+  content:"";
+  position:absolute;
+  inset:-40% -60%;
+  background: linear-gradient(120deg,
+    transparent 0%,
+    rgba(77,163,255,.08) 35%,
+    rgba(56,212,255,.10) 50%,
+    rgba(77,163,255,.08) 65%,
+    transparent 100%
+  );
+  transform: translateX(-35%) rotate(8deg);
+  opacity: 0;
+  pointer-events:none;
+  transition: opacity .18s ease;
+}
+.figure:hover::after{
+  opacity: 1;
+  animation: gpShine 1.2s ease forwards;
+}
+
+@keyframes gpShine{
+  0%{ transform: translateX(-35%) rotate(8deg); }
+  100%{ transform: translateX(35%) rotate(8deg); }
+}
+
+/* Imágenes: hover zoom sutil + foco accesible */
+.img-figure:hover{
+  transform: scale(1.02);
+  filter: saturate(1.03);
+}
+.img-figure:active{
+  transform: scale(1.00);
+}
+
+/* Títulos: animación ligera al hover */
+.figure-h h3{
+  transition: transform .18s ease, letter-spacing .18s ease;
+}
+.figure:hover .figure-h h3{
+  transform: translateX(2px);
+  letter-spacing: .2px;
+}
+
+/* Autocomplete: interacción más notoria */
+.suggest-item{
+  transform: translateY(0);
+}
+.suggest-item:hover{
+  transform: translateY(-1px);
+  border-color: rgba(77,163,255,.25);
+}
+
+/* Respeta gente con reduce motion */
+@media (prefers-reduced-motion: reduce){
+  *{ animation: none !important; transition: none !important; }
+  html{ scroll-behavior:auto; }
+}
+
+/* Reveal */
+.gp-reveal{
+  opacity: 0;
+  transform: translateY(10px);
+}
+.gp-reveal.is-in{
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .45s ease, transform .45s ease;
+}
+
+.btn:focus-visible,
+.search-input:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 6px rgba(77,163,255,.18);
+  border-color: rgba(77,163,255,.65);
+}
+
+/* ===== LIGHTBOX PARA IMG FIGURE ===== */
+.img-lightbox{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 7000;
+  padding: 18px;
+
+  opacity: 0;
+  transition: opacity .18s ease;
+  cursor: zoom-out;
+}
+.img-lightbox.open{
+  display: flex;
+  opacity: 1;
+}
+.img-lightbox img{
+  max-width: min(1100px, 96vw);
+  max-height: 92vh;
+  border-radius: 18px;
+  box-shadow: 0 30px 90px rgba(0,0,0,.72);
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(8,14,24,.96);
+  padding: 8px;
+
+  transform: translateY(10px) scale(.99);
+  transition: transform .2s ease;
+}
+.img-lightbox.open img{
+  transform: translateY(0) scale(1);
+}
+
+/* Botón cerrar */
+.img-lightbox-close{
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 900;
+  transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.img-lightbox-close:hover{
+  border-color: rgba(77,163,255,.55);
+  box-shadow: 0 14px 40px rgba(0,0,0,.35);
+  background: rgba(0,0,0,.12);
+  transform: translateY(-1px);
+}
+.img-lightbox-close:active{ transform: translateY(0) scale(.99); }
+
+/* Hint visual: el cursor indica zoom */
+.img-figure{
+  cursor: zoom-in;
+}
+
+.hardware-grid{
+  align-items: start; /* clave: evita que las tarjetas se estiren */
+}
+
+.hardware-grid > .figure{
+  align-self: start;
+}
+
+.hardware-grid{
+  columns: 2;
+  column-gap: 20px;
+}
+
+.hardware-grid > .figure{
+  break-inside: avoid;
+  margin-bottom: 20px;
+  display: inline-block;
+  width: 100%;
+}
+
+@media (max-width: 900px){
+  .hardware-grid{ columns: 1; }
+}
+
+.figure details summary{
+  cursor:pointer;
+  list-style:none;
+  user-select:none;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.14);
+  color: var(--text);
+  font-weight:800;
+  display:inline-block;
+  margin-top:8px;
+}
+.figure details summary::-webkit-details-marker{ display:none; }
+.figure details[open] summary{
+  border-color: rgba(77,163,255,.35);
+  box-shadow: 0 0 0 6px rgba(77,163,255,.10);
+}
+
+/* ===== ANIMACIÓN ACORDEÓN ===== */
+.gp-accordion .accordion-content{
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    max-height .45s cubic-bezier(.4,0,.2,1),
+    opacity .25s ease,
+    transform .25s ease;
+}
+
+/* estado abierto */
+.gp-accordion[open] .accordion-content{
+  max-height: 1200px; /* suficientemente grande */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* mejora visual del summary */
+.gp-accordion summary{
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+.gp-accordion summary::-webkit-details-marker{
+  display: none;
+}
+
+/* indicador ▸ / ▾ */
+.gp-accordion summary::before{
+  content: "▸";
+  display: inline-block;
+  margin-right: 6px;
+  transition: transform .25s ease;
+}
+.gp-accordion[open] summary::before{
+  transform: rotate(90deg);
+} 
+.figure{
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+
+
+.img-figure.xs{ width:25%; }
+.img-figure.s{ width:35%; }
+.img-figure.ss{ width:50%; }
+.img-figure.sm{ width:75%; }
+.img-figure.md{ width:85%; }
+.img-figure.lg{ width:95%; }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <div>
+      <h1>Hardware General – GP Graders</h1>
+      <span>Infraestructura física del sistema de clasificación</span>
+    </div>
+    <a href="menu.html" class="btn">⬅ Volver al menú</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="search-wrap" id="buscador">
+  <div class="search-head">
+    <div>
+      <h3>Búsqueda rápida en el manual</h3>
+      <div class="hint">Busca por palabra o frase y salta entre coincidencias</div>
+    </div>
+    <button class="btn" id="clearSearchBtn" type="button">Limpiar</button>
+  </div>
+
+  <div class="search-body">
+    <div class="search-row">
+      
+      <div class="search-suggest">
+  <input class="search-input" id="searchInput" type="text" autocomplete="off"
+    placeholder="Ej: RTUnit, calibración, carril, licencia...">
+  <div class="suggest-list" id="suggestList"></div>
+</div>
+
+
+      <button class="btn primary" id="searchBtn" type="button">Buscar</button>
+      <button class="btn" id="prevBtn" type="button">◀</button>
+      <button class="btn" id="nextBtn" type="button">▶</button>
+    </div>
+    <div class="search-meta" id="searchMeta">Sin búsqueda activa.</div>
+  </div>
+</section>
+
+<!-- ================================================= -->
+<!-- 1. INTRODUCCIÓN HARDWARE -->
+<!-- ================================================= -->
+<section class="section" id="hardware-general">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>introduccion del sistema</h2>
+  </div>
+
+  <details class="figure" open>
+    <summary class="figure-h" style="cursor:pointer;">
+      <h3>Arquitectura general hardware</h3>
+      <div class="hint">Visión macro del sistema</div>
+    </summary>
+
+    <div class="figure-b">
+
+  <p class="section-sub">
+    La infraestructura de hardware del sistema gpVision™ constituye el esqueleto físico y operativo sobre el cual se
+    sustenta la tecnología de clasificación de GP Graders. Este ecosistema ha sido diseñado bajo una arquitectura
+    cliente-servidor industrial, donde una estación de operador centralizada gobierna múltiples nodos de procesamiento
+    dedicados, asociados directamente a cada carril de la máquina.
+  </p>
+
+  <p class="section-sub">
+    El hardware de gpVision™ está concebido para operar de forma continua en entornos industriales exigentes,
+    garantizando sincronización precisa, procesamiento en tiempo real y una comunicación estable entre todos los
+    subsistemas de la línea de clasificación.
+  </p>
+
+  <p class="section-sub">
+    Los pilares tecnológicos que componen esta arquitectura de hardware son los siguientes:
+  </p>
+
+  <ul class="section-sub" style="margin-top:-8px; line-height:1.65;">
+    <li>
+      <strong>Unidades de Procesamiento y Control:</strong> El núcleo inteligente del sistema reside en las Vision Units,
+      computadoras industriales dedicadas que ejecutan los algoritmos de visión y control por carril. Estas unidades
+      trabajan en conjunto con el PLC Allen-Bradley Micro820, responsable de ejecutar la lógica de control, monitorear
+      sensores, gestionar señales de seguridad y coordinar el comportamiento general de la máquina.
+    </li>
+
+    <li>
+      <strong>Sincronización y Comunicación en Tiempo Real:</strong> Las RT Units V3 cumplen un rol crítico en la
+      sincronización del sistema, gestionando la relación temporal entre cámaras, el Encoder —encargado de medir el
+      desplazamiento de la cadena— y los módulos de salida. Habitualmente, se instala una RT Unit por cada dos carriles,
+      asegurando precisión milimétrica en la clasificación.
+    </li>
+
+    <li>
+      <strong>Sistema de Adquisición Óptica:</strong> Para lograr el escaneo del 100% de la superficie del producto, el
+      sistema incorpora cámaras MultiView™ junto a módulos de iluminación LED de alta potencia. Esta combinación permite
+      capturar imágenes de alta resolución tanto en color visible como en espectro NIR (infrarrojo cercano), habilitando
+      una detección confiable de defectos externos e internos.
+    </li>
+
+    <li>
+      <strong>Actuación y Mecánica de Tracción:</strong> El movimiento físico del sistema es impulsado por motores
+      eléctricos acoplados a reductores de velocidad Techtop, que disminuyen las RPM y aumentan el torque para garantizar
+      un desplazamiento sincronizado de rodillos, ejes y cadenas. La expulsión final del producto se ejecuta mediante los
+      Dropout Modules (Grader IO), los cuales activan solenoides de salida de forma precisa y repetible.
+    </li>
+
+    <li>
+      <strong>Infraestructura Eléctrica y de Red:</strong> Todos los componentes del sistema se centralizan en racks de
+      servidores y tableros eléctricos que albergan variadores de frecuencia, fuentes de alimentación, protecciones y
+      switches de red industriales. Esta infraestructura garantiza una comunicación continua, ordenada y segura entre
+      cámaras, unidades de procesamiento y la estación del operador.
+    </li>
+  </ul>
+
+  <p class="section-sub" style="margin-top:14px;">
+    Para asegurar la estabilidad operativa del hardware, es fundamental mantener una adecuada gestión térmica en los
+    tableros eléctricos y racks de servidores, así como una organización rigurosa del cableado. El exceso de calor o
+    cables tensionados pueden provocar microcortes de comunicación que el sistema interpreta como pérdidas de
+    sincronización, afectando directamente la precisión de la clasificación.
+  </p>
+  </div>
+  </details>
+</section>
+
+<section class="section" id="infraestructura-electrica">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>2. Infraestructura eléctrica y control</h2>
+  </div>
+
+  <div class="hardware-grid">
+
+<!-- TARJETA -->
+<article class="figure">
+  <div class="figure-h">
+    <h3>Rack de hardware del sistema gpVision™</h3>
+    <div class="hint">
+      Servidores de procesamiento, switches industriales y comunicación en tiempo real
+    </div>
+  </div>
+
+  <div class="figure-b">
+    <img src="Imagenes/Captura de pantalla_29-12-2025_17217_.jpeg" class="img-figure ss" alt="Rack de hardware gpVision™">
+
+    <!-- TEXTO RESUMIDO -->
+    <p>
+      El rack de servidores gpVision™ concentra el núcleo físico del sistema,
+      alojando las <strong>Vision Units</strong> responsables del procesamiento
+      de imágenes por carril, junto con el equipamiento de red necesario para
+      la comunicación continua entre cámaras, RT Units, PLC y la estación del operador.
+    </p>
+
+    <!-- TEXTO TÉCNICO COMPLETO -->
+ <details class="gp-accordion">
+      <summary>Ver explicación técnica</summary>
+  <div class="accordion-content">
+      <p>
+        En su interior se integran <strong>servidores industriales de alto rendimiento</strong>,
+        switches Ethernet administrables y sistemas de distribución eléctrica,
+        organizados bajo criterios de orden, redundancia y accesibilidad.
+        El cableado Ethernet estructurado visible en el rack permite una
+        transmisión de datos estable y de baja latencia, requisito esencial
+        para la clasificación en tiempo real.
+      </p>
+
+      <p>
+        Este diseño centralizado facilita la <strong>escalabilidad del sistema</strong>,
+        el mantenimiento preventivo y la supervisión técnica, permitiendo
+        agregar nuevos carriles, cámaras o unidades de procesamiento sin
+        afectar la operación existente.
+      </p>
+
+      <p>
+        Asimismo, la correcta gestión térmica y el ordenamiento del cableado
+        reducen riesgos de fallas, microcortes de red o pérdidas de sincronización
+        durante la operación continua, asegurando la estabilidad del sistema
+        gpVision™ en entornos industriales exigentes.
+      </p>
+    </details>
+  </div>
+</article>
+
+
+<!-- TARJETA -->
+<article class="figure">
+  <div class="figure-h">
+    <h3>Tablero eléctrico de sincronización y potencia (RT Units V3)</h3>
+    <div class="hint">
+      RT Units V3 + fuentes LED · Coordinación determinística del sistema
+    </div>
+  </div>
+
+  <div class="figure-b">
+    <img src="Imagenes/Captura de pantalla_29-12-2025_172142_.jpeg"
+         class="img-figure ss"
+         alt="Tablero eléctrico RT Units V3 del sistema gpVision™">
+
+    <!-- TEXTO RESUMIDO -->
+    <p>
+      Este tablero eléctrico concentra los módulos <strong>RT Unit V3</strong> del sistema gpVision™,
+      responsables de mantener la <strong>sincronización determinística</strong> entre cámaras de adquisición,
+      encoder de movimiento y las salidas físicas asociadas a la expulsión del producto,
+      asegurando que cada imagen capturada quede alineada con la posición real de la fruta dentro del carril.
+    </p>
+
+    <!-- TEXTO TÉCNICO COMPLETO -->
+<details class="gp-accordion">
+      <summary>Ver explicación técnica</summary>
+  <div class="accordion-content">
+      <p>
+        Además de las RT Units V3, el tablero integra las <strong>fuentes de alimentación para la iluminación LED</strong>,
+        proporcionando energía estable para mantener condiciones ópticas constantes durante la operación.
+        La estabilidad eléctrica del sistema de iluminación es clave para obtener imágenes repetibles
+        (Color/NIR), reduciendo variaciones que puedan afectar la detección de defectos y la consistencia
+        del modelo de visión.
+      </p>
+
+      <p>
+        En términos operativos, las <strong>RT Units V3 actúan como el “reloj” del proceso</strong>:
+        generan y distribuyen señales de disparo y temporización, validan la lectura del encoder
+        y coordinan el momento exacto en que deben activarse las salidas
+        (solenoides / Dropout Modules) para que la eyección ocurra dentro de la ventana correcta.
+        Habitualmente, se implementa una RT Unit por cada dos carriles, optimizando el balance
+        entre capacidad, costo y robustez del sistema.
+      </p>
+
+      <p>
+        Finalmente, la <strong>organización del cableado</strong>, el etiquetado de circuitos y la
+        separación adecuada entre potencia y señales de control dentro del tablero son fundamentales
+        para evitar interferencias y microcortes.
+        Una instalación limpia y térmicamente controlada reduce eventos de pérdida de sincronización,
+        que podrían traducirse en errores de temporización, capturas fuera de fase o expulsiones incorrectas.
+      </p>
+    </details>
+  </div>
+</article>
+
+<!-- TARJETA -->
+<article class="figure">
+  <div class="figure-h">
+    <h3>Tablero de control eléctrico del sistema de clasificación</h3>
+    <div class="hint">
+      PLC, variadores de frecuencia, protecciones y módulos de E/S para control seguro y sincronizado
+    </div>
+  </div>
+
+  <div class="figure-b">
+    <img src="Imagenes/Captura de pantalla_29-12-2025_17223_.jpeg"
+         class="img-figure ss"
+         alt="Tablero de control eléctrico principal del sistema gpVision™">
+
+    <!-- TEXTO RESUMIDO -->
+    <p>
+      El tablero de control eléctrico principal integra los componentes responsables de la
+      <strong>lógica industrial del sistema gpVision™</strong>, centralizando el PLC,
+      los variadores de frecuencia, las protecciones eléctricas y los módulos de
+      entradas y salidas (E/S). Desde este punto se gobierna el comportamiento global
+      de la máquina, asegurando que cada subsistema opere de forma coordinada y segura.
+    </p>
+
+    <!-- TEXTO TÉCNICO COMPLETO -->
+ <details class="gp-accordion">
+      <summary>Ver explicación técnica</summary>
+  <div class="accordion-content">
+      <p>
+        El <strong>PLC</strong> ejecuta la lógica de control en tiempo real, monitoreando
+        sensores de posición, presencia, seguridad y estado de los motores, mientras que
+        los <strong>variadores de frecuencia</strong> regulan la velocidad y el torque de
+        los motores eléctricos que impulsan la cadena, rodillos y ejes de transporte.
+        Esta regulación permite adaptar el flujo del producto según la capacidad de
+        procesamiento y el programa de clasificación activo.
+      </p>
+
+      <p>
+        Las <strong>protecciones eléctricas</strong>, contactores y relés de seguridad
+        resguardan tanto a los equipos como a los operadores frente a sobrecorrientes,
+        cortocircuitos y condiciones anómalas de operación. Los módulos de E/S permiten
+        la interconexión ordenada con sensores de campo y actuadores, facilitando el
+        diagnóstico, mantenimiento y futuras expansiones del sistema.
+      </p>
+
+      <p>
+        Una correcta <strong>distribución térmica</strong>, la separación adecuada entre
+        potencia y control, y un cableado claramente identificado son fundamentales para
+        garantizar la confiabilidad del tablero. Estas buenas prácticas reducen
+        interferencias electromagnéticas y fallas intermitentes que podrían impactar
+        directamente en la sincronización del transporte y la precisión del proceso de
+        clasificación de fruta.
+      </p>
+    </details>
+  </div>
+</article>
+
+<!-- TARJETA -->
+<article class="figure">
+  <div class="figure-h">
+    <h3>Gabinete de PC industrial – gestión de cableado</h3>
+    <div class="hint">
+      Cables tensionados, sin sujeción ni alivio de tensión · Riesgo de microcortes y fallas intermitentes
+    </div>
+  </div>
+
+  <div class="figure-b">
+    <img src="Imagenes/Captura de pantalla_29-12-2025_172223_.jpeg"
+         class="img-figure ss"
+         alt="Gestión deficiente de cableado en gabinete de PC industrial">
+
+    <!-- TEXTO RESUMIDO -->
+    <p>
+      En esta imagen se observa una <strong>gestión deficiente del cableado</strong> dentro del gabinete del PC industrial.
+      Los cables de red, energía y datos se encuentran <strong>tensionados</strong>, sin una correcta sujeción mecánica ni
+      alivio de tensión, lo que incrementa el riesgo de desconexiones accidentales y fallas intermitentes durante la operación.
+    </p>
+
+    <!-- TEXTO TÉCNICO COMPLETO -->
+ <details class="gp-accordion">
+      <summary>Ver explicación técnica</summary>
+  <div class="accordion-content">
+      <p>
+        Este tipo de instalación puede provocar <strong>microcortes de comunicación</strong>, interferencias eléctricas y
+        desconexiones momentáneas que afectan directamente la arquitectura cliente-servidor del sistema gpVision™.
+        Dado que las Vision Units y la estación del operador dependen de enlaces Ethernet estables y continuos,
+        incluso interrupciones de muy corta duración pueden generar pérdida de sincronización o errores de estado.
+      </p>
+
+      <p>
+        En la práctica, estas condiciones explican eventos como <strong>timeouts de cámaras</strong>, pérdidas temporales
+        de conexión con RT Units, errores no controlados en el software o comportamientos erráticos del sistema de clasificación.
+        Estos fallos no siempre están asociados a problemas lógicos o de programación, sino a una infraestructura física inadecuada.
+      </p>
+
+      <p>
+        Para una operación confiable, es indispensable implementar una <strong>gestión de cableado ordenada</strong>, con
+        fijación adecuada, radios de curvatura correctos, separación entre señales de potencia y datos, y un diseño que facilite
+        la ventilación y el acceso técnico. Estas buenas prácticas reducen significativamente fallas intermitentes y mejoran
+        la estabilidad general del sistema gpVision™ en entornos industriales.
+      </p>
+    </details>
+  </div>
+</article>
+
+<!-- TARJETA -->
+<article class="figure">
+  <div class="figure-h">
+    <h3>Tablero eléctrico – distribución térmica y componentes de potencia</h3>
+    <div class="hint">
+      Alta concentración de variadores, fuentes y cableado · Ventilación y separación limitadas
+    </div>
+  </div>
+
+  <div class="figure-b">
+    <img src="Imagenes/Captura de pantalla_29-12-2025_172249_.jpeg"
+         class="img-figure ss"
+         alt="Tablero eléctrico con alta densidad de componentes de potencia y cableado">
+
+    <!-- TEXTO RESUMIDO -->
+    <p>
+      En esta imagen se aprecia una <strong>alta densidad de cableado y componentes de potencia</strong>,
+      como variadores de frecuencia y fuentes de alimentación, instalados con una
+      <strong>separación térmica limitada</strong> dentro del tablero eléctrico.
+      Esta configuración reduce la capacidad de disipación de calor y eleva la
+      temperatura interna durante la operación continua.
+    </p>
+
+    <!-- TEXTO TÉCNICO COMPLETO -->
+   <details class="gp-accordion">
+      <summary>Ver explicación técnica</summary>
+  <div class="accordion-content">
+      <p>
+        La acumulación de calor, combinada con el <strong>ruido eléctrico generado por dispositivos
+        de potencia</strong>, puede afectar negativamente la estabilidad de las señales de control
+        y comunicación. En sistemas como gpVision™, donde la sincronización entre hardware,
+        visión y control es crítica, estas condiciones incrementan la probabilidad de
+        <strong>fallas intermitentes difíciles de diagnosticar</strong>.
+      </p>
+
+      <p>
+        Como consecuencia, el sistema puede experimentar <strong>reinicios inesperados de equipos</strong>,
+        pérdidas temporales de sincronización, desconexiones de módulos o errores de comunicación
+        que impactan directamente en la continuidad del proceso de clasificación.
+        Estos eventos suelen manifestarse de forma esporádica y aumentan con la temperatura
+        ambiente y la carga operativa.
+      </p>
+
+      <p>
+        Para mitigar estos riesgos, es fundamental diseñar los tableros eléctricos con una
+        <strong>adecuada separación entre componentes de potencia y control</strong>,
+        ventilación forzada o pasiva suficiente y una distribución que facilite la
+        disipación térmica. Estas buenas prácticas aseguran una operación más estable,
+        prolongan la vida útil de los
+
+  </div>
+</section>
+
+<section class="section" id="infraestructura-electrica">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>3. Componentes específicos (catálogo técnico)</h2>
+  </div>
+
+ <div class="hardware-grid">
+
+<!-- TARJETA -->
+<article class="figure">
+  <div class="figure-h">
+    <h3>Tarjeta FireWire (IEEE 1394)</h3>
+    <div class="hint">
+      Interfaz de comunicación dedicada para cámaras industriales · Alta velocidad y baja latencia
+    </div>
+  </div>
+
+  <div class="figure-b">
+    <img
+      src="Imagenes/WhatsApp_Image_2025-12-29_at_5.11.19_PM-removebg-preview.png"
+      class="img-figure ss"
+      alt="Tarjeta FireWire (IEEE 1394) utilizada en gpVision™">
+
+    <!-- TEXTO RESUMIDO -->
+    <p>
+      La tarjeta <strong>FireWire (IEEE 1394)</strong> es un componente crítico del sistema
+      <strong>gpVision™</strong>, utilizada como interfaz de comunicación directa entre las
+      <strong>cámaras industriales</strong> y las <strong>Vision Units</strong> encargadas del
+      procesamiento de imágenes. Permite transferencia de datos a alta velocidad y baja latencia,
+      indispensable para visión artificial en tiempo real.
+    </p>
+
+    <!-- TEXTO TÉCNICO COMPLETO -->
+    <details class="gp-accordion">
+      <summary>Ver detalle técnico</summary>
+
+      <div class="accordion-content">
+        <p>
+          A diferencia de interfaces genéricas, FireWire ofrece un <strong>flujo de datos continuo y determinístico</strong>,
+          lo que resulta especialmente adecuado para la captura simultánea de múltiples imágenes por segundo sin pérdida
+          de información. La tarjeta incorpora múltiples puertos IEEE 1394, permitiendo la conexión de una o más cámaras
+          según la arquitectura del sistema y la cantidad de carriles configurados.
+        </p>
+
+        <p>
+          En gpVision™, la correcta instalación y reconocimiento de esta tarjeta a nivel de sistema operativo y software
+          es fundamental para garantizar la sincronización entre cámaras, iluminación y procesamiento. Cualquier falla en
+          la comunicación FireWire puede traducirse en pérdida de imágenes, desalineación temporal o errores en la
+          clasificación, por lo que su estado debe ser verificado durante la puesta en marcha y en tareas de mantenimiento
+          preventivo.
+        </p>
+      </div>
+    </details>
+  </div>
+</article>
+
+<!-- TARJETA -->
+<article class="figure">
+  <div class="figure-h">
+    <h3>Tarjeta gráfica (GPU) del sistema gpVision™</h3>
+    <div class="hint">
+      Procesamiento y salida de video para la interfaz del operador
+    </div>
+  </div>
+
+  <div class="figure-b">
+    <img
+      src="Imagenes/WhatsApp_Image_2025-12-29at_5.11.20_PM-removebg-preview.png"
+      class="img-figure ss"
+      alt="Tarjeta gráfica de perfil bajo utilizada en el sistema gpVision™">
+
+    <!-- TEXTO RESUMIDO -->
+    <p>
+      La <strong>tarjeta gráfica (GPU)</strong> es el componente encargado de generar la
+      <strong>salida de video</strong> del sistema <strong>gpVision™</strong>, permitiendo la
+      visualización de la interfaz gráfica del operador, paneles de diagnóstico, imágenes
+      capturadas y estados del sistema en tiempo real.
+    </p>
+
+    <!-- TEXTO TÉCNICO COMPLETO -->
+    <details class="gp-accordion">
+      <summary>Ver detalle técnico</summary>
+
+      <div class="accordion-content">
+        <p>
+          Este tipo de GPU, de <strong>perfil bajo</strong> y diseño compacto, está orientado a
+          sistemas industriales donde el consumo energético, la estabilidad térmica y la
+          compatibilidad con gabinetes reducidos son prioritarios. Su función principal no es
+          el procesamiento de visión artificial, sino asegurar una representación visual
+          fluida y confiable del software gpVision™.
+        </p>
+
+        <p>
+          En la arquitectura gpVision™, el procesamiento de imágenes se realiza en las
+          <strong>Vision Units</strong> mediante CPU y hardware dedicado, mientras que la GPU
+          se utiliza exclusivamente para la visualización local del sistema. Una correcta
+          instalación de drivers y configuración de resolución de pantalla es clave para
+          evitar problemas de visualización, latencia gráfica o bloqueos de la interfaz
+          durante la operación continua.
+        </p>
+      </div>
+    </details>
+  </div>
+</article>
+
+<!-- TARJETA -->
+<article class="figure">
+  <div class="figure-h">
+    <h3>Iluminación LED blanca lineal del sistema gpVision™</h3>
+    <div class="hint">
+      Fuente de iluminación visible (RGB) para inspección superficial por visión artificial
+    </div>
+  </div>
+
+  <div class="figure-b">
+    <img
+      src="Imagenes/WhatsApp_Image_2025-12-9_at_5.11.20_PM-removebg-preview.png"
+      class="img-figure ss"
+      alt="Iluminación LED blanca lineal (RGB) para visión artificial">
+
+    <!-- TEXTO RESUMIDO -->
+    <p>
+      La iluminación <strong>LED blanca lineal</strong> es un componente fundamental del sistema
+      <strong>gpVision™</strong>, ya que proporciona una fuente de luz uniforme y controlada en el
+      espectro visible (<strong>RGB</strong>) para la captura de imágenes de alta calidad por parte
+      de las cámaras <strong>MultiView™</strong>.
+    </p>
+
+    <!-- TEXTO TÉCNICO COMPLETO -->
+    <details class="gp-accordion">
+      <summary>Ver detalle técnico</summary>
+
+      <div class="accordion-content">
+        <p>
+          Este tipo de iluminación se utiliza principalmente para la <strong>detección de defectos
+          externos</strong> como partiduras, picaduras de pájaro, machucones, pudrición visible,
+          variaciones de color y alteraciones de textura superficial del fruto. La disposición lineal
+          de los LEDs permite una iluminación homogénea a lo largo del ancho del carril, reduciendo
+          sombras y reflejos indeseados.
+        </p>
+
+        <p>
+          En la configuración del sistema, la intensidad y posición de la iluminación LED blanca
+          deben ajustarse cuidadosamente para maximizar el contraste visual del defecto sin saturar
+          la imagen. Una iluminación correctamente calibrada es clave para asegurar una segmentación
+          estable, minimizar falsos positivos y mantener consistencia entre distintos turnos y
+          condiciones de operación.
+        </p>
+
+        <p>
+          Es importante destacar que esta fuente corresponde exclusivamente a <strong>luz visible
+          (RGB)</strong> y no debe confundirse con sistemas de iluminación infrarroja (<strong>NIR</strong>),
+          los cuales se documentan y configuran como componentes independientes dentro de gpVision™.
+        </p>
+      </div>
+    </details>
+  </div>
+</article>
+
+<!-- TARJETA -->
+<article class="figure">
+  <div class="figure-h">
+    <h3>Iluminación LED infrarroja lineal (NIR) del sistema gpVision™</h3>
+    <div class="hint">
+      Fuente de iluminación en infrarrojo cercano para detección de defectos internos
+    </div>
+  </div>
+
+  <div class="figure-b">
+    <img
+      src="Imagenes/WhatsApp_Image_2025-12-29_at_5.1.20_PM-removebg-preview.png"
+      class="img-figure ss"
+      alt="Iluminación LED infrarroja lineal (NIR) para visión artificial">
+
+    <!-- TEXTO RESUMIDO -->
+    <p>
+      La iluminación <strong>LED infrarroja lineal (NIR)</strong> es un componente especializado del
+      sistema <strong>gpVision™</strong>, diseñado para emitir luz en el espectro del
+      <strong>infrarrojo cercano</strong>, invisible al ojo humano pero fundamental para el
+      análisis interno del fruto mediante visión artificial.
+    </p>
+
+    <!-- TEXTO TÉCNICO COMPLETO -->
+    <details class="gp-accordion">
+      <summary>Ver detalle técnico</summary>
+
+      <div class="accordion-content">
+        <p>
+          Esta fuente de iluminación se utiliza principalmente para la
+          <strong>detección de defectos internos o fisiológicos</strong> que no siempre presentan
+          señales visibles en color, tales como blando mínimo, descomposición incipiente,
+          daño por humedad, variaciones internas de tejido o cambios en la estructura celular
+          de la cereza.
+        </p>
+
+        <p>
+          La disposición lineal de los LEDs infrarrojos permite una iluminación uniforme a lo
+          largo del carril de inspección, asegurando una respuesta espectral consistente entre
+          frutos y reduciendo variaciones asociadas a posición, orientación o velocidad de paso.
+        </p>
+
+        <p>
+          En la configuración de gpVision™, la iluminación NIR debe calibrarse en conjunto con
+          las <strong>cámaras infrarrojas</strong> y los parámetros espectrales del sistema.
+          Un ajuste adecuado de intensidad, ganancia y sincronización es clave para maximizar
+          la sensibilidad del defecto y minimizar interferencias con señales RGB u otras
+          fuentes de iluminación.
+        </p>
+
+        <p>
+          Es importante destacar que esta iluminación corresponde exclusivamente al
+          <strong>canal NIR</strong> y funciona de manera complementaria a la iluminación LED
+          blanca (RGB), permitiendo una clasificación más robusta y completa del estado del fruto.
+        </p>
+      </div>
+    </details>
+  </div>
+</article>
+
+<!-- TARJETA -->
+<article class="figure">
+  <div class="figure-h">
+    <h3>Módulo Turck esclavo de entradas y salidas (Remote I/O)</h3>
+    <div class="hint">
+      Módulo de adquisición y control distribuido para señales digitales del sistema gpVision™
+    </div>
+  </div>
+
+  <div class="figure-b">
+    <img
+      src="Imagenes/WhatsApp_Image_2025-12-29_at_5.11.2_PM-removebg-preview.png"
+      class="img-figure ss"
+      alt="Módulo Turck esclavo de entradas y salidas industriales (Remote I/O)">
+
+    <!-- TEXTO RESUMIDO -->
+    <p>
+      El módulo <strong>Turck esclavo de entradas y salidas (Remote I/O)</strong> es un componente
+      fundamental dentro de la arquitectura de automatización del sistema
+      <strong>gpVision™</strong>, encargado de la adquisición y distribución de
+      <strong>señales digitales</strong> provenientes de sensores, actuadores y dispositivos de campo.
+    </p>
+
+    <!-- TEXTO TÉCNICO COMPLETO -->
+    <details class="gp-accordion">
+      <summary>Ver detalle técnico</summary>
+
+      <div class="accordion-content">
+        <p>
+          Este módulo funciona como un <strong>esclavo de bus de campo</strong>, comunicándose con
+          el PLC principal mediante <strong>protocolos industriales</strong> (por ejemplo
+          Profinet, EtherNet/IP u otros según configuración), permitiendo una integración
+          confiable y en tiempo real con el sistema de control.
+        </p>
+
+        <p>
+          Las <strong>entradas digitales</strong> del módulo reciben señales de sensores de presencia,
+          fotoceldas, finales de carrera, estados de seguridad u otros elementos asociados al flujo
+          de fruta y a la operación mecánica del sistema. Las <strong>salidas digitales</strong>,
+          por su parte, se utilizan para accionar electroválvulas, actuadores neumáticos,
+          indicadores luminosos o señales de control hacia otros equipos.
+        </p>
+
+        <p>
+          La disposición compacta y robusta del módulo permite su instalación directamente
+          en campo, reduciendo la longitud de cableado y mejorando la confiabilidad del sistema.
+          Además, su diseño industrial garantiza resistencia frente a vibraciones, humedad
+          y condiciones propias de ambientes de packing y líneas de proceso.
+        </p>
+
+        <p>
+          En gpVision™, el <strong>correcto mapeo de las entradas y salidas</strong> del módulo Turck
+          es clave para asegurar la sincronización entre la detección visual, la lógica del PLC
+          y las acciones físicas del sistema, tales como rechazo de fruta, señalización de estados
+          o control de dispositivos auxiliares.
+        </p>
+      </div>
+    </details>
+  </div>
+</article>
+
+<!-- TARJETA -->
+<article class="figure">
+  <div class="figure-h">
+    <h3>Módulo Turck Master de bus de campo</h3>
+    <div class="hint">
+      Nodo maestro de comunicación para módulos Remote I/O del sistema gpVision™
+    </div>
+  </div>
+
+  <div class="figure-b">
+    <img
+      src="Imagenes/WhatsApp_Image_2025-12-29_t_5.11.20_PM-removebg-preview.png"
+      class="img-figure ss"
+      alt="Módulo Turck Master de bus de campo para automatización industrial">
+
+    <!-- TEXTO RESUMIDO -->
+    <p>
+      El <strong>módulo Turck Master</strong> es el nodo central de comunicación del sistema de
+      <strong>entradas y salidas distribuidas</strong> en la arquitectura de automatización
+      del sistema <strong>gpVision™</strong>. Su función principal es actuar como
+      <strong>maestro de bus de campo</strong>, gestionando la comunicación entre el PLC
+      principal y los módulos <strong>Turck Remote I/O</strong> instalados en campo.
+    </p>
+
+    <!-- TEXTO TÉCNICO COMPLETO -->
+    <details class="gp-accordion">
+      <summary>Ver detalle técnico</summary>
+
+      <div class="accordion-content">
+        <p>
+          El módulo Turck Master se comunica directamente con el <strong>PLC</strong> mediante
+          protocolos industriales determinísticos, tales como <strong>EtherNet/IP</strong>,
+          <strong>Profinet</strong> u otros, según la configuración del sistema. A través de
+          esta comunicación, el módulo maestro concentra y sincroniza el intercambio de
+          datos entre el controlador y los nodos de E/S distribuidos.
+        </p>
+
+        <p>
+          Desde el punto de vista funcional, el Master se encarga de la
+          <strong>gestión de direccionamiento, temporización y diagnóstico</strong> de los
+          módulos esclavos conectados, asegurando que las señales digitales y/o analógicas
+          de sensores y actuadores lleguen al PLC de forma ordenada, confiable y en tiempo real.
+        </p>
+
+        <p>
+          En sistemas como gpVision™, donde la sincronización entre visión artificial,
+          lógica de control y actuación física es crítica, el correcto funcionamiento del
+          módulo Turck Master es clave para evitar <strong>latencias, pérdidas de señal
+          o estados inconsistentes</strong> entre carriles, sensores y mecanismos de rechazo.
+        </p>
+
+        <p>
+          Su diseño industrial compacto permite la instalación directa en gabinete o en
+          campo, reduciendo cableado punto a punto y mejorando la escalabilidad del sistema.
+          Además, el soporte de <strong>diagnóstico avanzado</strong> facilita tareas de
+          puesta en marcha, mantenimiento y detección temprana de fallas en la red de E/S
+          distribuidas.
+        </p>
+      </div>
+    </details>
+  </div>
+</article>
+
+</main>
+
+<footer>
+  Hardware General · GP Graders · Documentación técnica interna
+</footer>
+
+<!-- LIGHTBOX (1 sola vez en toda la página) -->
+<div class="img-lightbox" id="imgLightbox" aria-hidden="true">
+  <button class="img-lightbox-close" id="imgLightboxClose" type="button" aria-label="Cerrar">✕</button>
+  <img id="imgLightboxImg" alt="">
+</div>
+
+
+<script>
+  // ====== BUSCADOR + AUTOCOMPLETE ======
+  const searchInput = document.getElementById("searchInput");
+  const suggestList = document.getElementById("suggestList");
+  const searchBtn = document.getElementById("searchBtn");
+  const clearBtn = document.getElementById("clearSearchBtn");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const meta = document.getElementById("searchMeta");
+
+  let hits = [];
+  let activeIndex = -1;
+
+  // Autocomplete index
+  let indexItems = []; // { id, text, el }
+  let suggestActive = -1;
+  const MAX_SUGGEST = 8;
+
+  const SKIP_TAGS = new Set(["SCRIPT","STYLE","INPUT","TEXTAREA","BUTTON","IFRAME","MARK"]);
+
+  function escapeRegExp(str){
+    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function clearMarks(){
+    document.querySelectorAll("mark.gp-hit").forEach(m => {
+      const t = document.createTextNode(m.textContent);
+      m.replaceWith(t);
+    });
+    hits = [];
+    activeIndex = -1;
+  }
+
+  function setActive(idx){
+    if(!hits.length) return;
+    hits.forEach(h => h.classList.remove("active"));
+    activeIndex = (idx + hits.length) % hits.length;
+    hits[activeIndex].classList.add("active");
+    hits[activeIndex].scrollIntoView({ behavior:"smooth", block:"center" });
+    meta.textContent = `Coincidencias: ${hits.length} · Mostrando ${activeIndex + 1}/${hits.length}`;
+  }
+
+  function highlight(term){
+    clearMarks();
+    if(!term) {
+      meta.textContent = "Sin búsqueda activa.";
+      return;
+    }
+
+    const root = document.querySelector("main");
+    const rx = new RegExp(escapeRegExp(term), "gi");
+
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node){
+        if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        const p = node.parentElement;
+        if(!p) return NodeFilter.FILTER_REJECT;
+        if(SKIP_TAGS.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    const nodes = [];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+
+    nodes.forEach(node => {
+      const txt = node.nodeValue;
+      if(!rx.test(txt)) return;
+
+      rx.lastIndex = 0;
+      const frag = document.createDocumentFragment();
+      let last = 0;
+      let m;
+
+      while((m = rx.exec(txt)) !== null){
+        const start = m.index;
+        const end = start + m[0].length;
+
+        if(start > last) frag.appendChild(document.createTextNode(txt.slice(last, start)));
+
+        const mark = document.createElement("mark");
+        mark.className = "gp-hit";
+        mark.textContent = txt.slice(start, end);
+        frag.appendChild(mark);
+
+        last = end;
+      }
+
+      if(last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
+
+      node.parentNode.replaceChild(frag, node);
+    });
+
+    hits = Array.from(document.querySelectorAll("mark.gp-hit"));
+    if(hits.length){
+      setActive(0);
+    }else{
+      meta.textContent = "No se encontraron coincidencias.";
+    }
+  }
+
+  // ====== AUTOCOMPLETE: construir índice del manual ======
+  function buildIndex(){
+    const root = document.querySelector("main");
+    indexItems = [];
+
+    // 1) Títulos y subtítulos (prioridad alta)
+    root.querySelectorAll("h1,h2,h3,h4").forEach((el, i) => {
+      const t = (el.innerText || "").trim();
+      if(t.length >= 3) indexItems.push({ id: `h-${i}`, text: t, el });
+    });
+
+    // 2) List items (li) (útiles para pasos)
+    root.querySelectorAll("li").forEach((el, i) => {
+      const t = (el.innerText || "").trim();
+      if(t.length >= 12) indexItems.push({ id: `li-${i}`, text: t.slice(0, 220), el });
+    });
+
+    // 3) Párrafos importantes (opcional: recorta)
+    root.querySelectorAll(".figure-b p").forEach((el, i) => {
+      const t = (el.innerText || "").trim();
+      if(t.length >= 18) indexItems.push({ id: `p-${i}`, text: t.slice(0, 220), el });
+    });
+  }
+
+  // Normaliza para comparar
+  function norm(s){
+    return (s || "")
+      .toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,""); // quita tildes
+  }
+
+  function scoreMatch(query, text){
+    // scoring simple: incluye, empieza, proximidad
+    const q = norm(query);
+    const t = norm(text);
+    if(!q) return -1;
+    const idx = t.indexOf(q);
+    if(idx === -1) return -1;
+
+    let score = 0;
+    if(idx === 0) score += 6;          // empieza con
+    score += Math.max(0, 5 - Math.min(idx, 5)); // mientras más cerca del inicio mejor
+    score += Math.min(q.length / 4, 4); // query más larga, mejor
+    return score;
+  }
+
+  function hiText(text, query){
+    const q = query.trim();
+    if(!q) return text;
+    const rx = new RegExp(escapeRegExp(q), "ig");
+    return text.replace(rx, (m)=>`<span class="suggest-hi">${m}</span>`);
+  }
+
+  function hideSuggest(){
+    suggestList.style.display = "none";
+    suggestList.innerHTML = "";
+    suggestActive = -1;
+  }
+
+function showSuggest(items, query){
+  if(!items.length){
+    hideSuggest();
+    return;
+  }
+  suggestList.innerHTML = items.map((it, idx) => {
+    const line = it.text.length > 120 ? it.text.slice(0, 120) + "…" : it.text;
+    return `
+      <div class="suggest-item" data-idx="${idx}">
+        <div class="suggest-title">${hiText(line, query)}</div>
+      </div>
+    `;
+  }).join("");
+  suggestList.style.display = "block";
+}
+
+  function getSuggestions(query){
+    const q = query.trim();
+    if(q.length < 1) return [];
+
+    // filtra y rankea
+    const ranked = indexItems
+      .map(it => ({ it, s: scoreMatch(q, it.text) }))
+      .filter(x => x.s >= 0)
+      .sort((a,b) => b.s - a.s)
+      .slice(0, MAX_SUGGEST)
+      .map(x => x.it);
+
+    return ranked;
+  }
+
+  function jumpToElement(el, query){
+    if(!el) return;
+    // Lleva al elemento
+    el.scrollIntoView({ behavior:"smooth", block:"center" });
+    // Resalta el término en el documento
+    highlight(query);
+    // y activa la primera coincidencia visible
+    if(hits.length) setActive(0);
+    hideSuggest();
+  }
+
+  // ====== EVENTOS ======
+  buildIndex();
+
+  searchInput?.addEventListener("input", () => {
+    const q = searchInput.value;
+    const suggestions = getSuggestions(q);
+    showSuggest(suggestions, q);
+  });
+
+  // click en sugerencias
+  suggestList?.addEventListener("click", (e) => {
+    const item = e.target.closest(".suggest-item");
+    if(!item) return;
+    const q = searchInput.value.trim();
+    const suggestions = getSuggestions(q);
+    const idx = Number(item.dataset.idx);
+    const it = suggestions[idx];
+    if(it) jumpToElement(it.el, q);
+  });
+
+  // navegación teclado (flechas + enter)
+  searchInput?.addEventListener("keydown", (e)=>{
+    const q = searchInput.value.trim();
+    const suggestions = getSuggestions(q);
+    if(!suggestions.length) return;
+
+    const items = Array.from(suggestList.querySelectorAll(".suggest-item"));
+
+    if(e.key === "ArrowDown"){
+      e.preventDefault();
+      suggestActive = (suggestActive + 1) % items.length;
+      items.forEach(x => x.classList.remove("active"));
+      items[suggestActive].classList.add("active");
+      items[suggestActive].scrollIntoView({ block:"nearest" });
+    }
+    if(e.key === "ArrowUp"){
+      e.preventDefault();
+      suggestActive = (suggestActive - 1 + items.length) % items.length;
+      items.forEach(x => x.classList.remove("active"));
+      items[suggestActive].classList.add("active");
+      items[suggestActive].scrollIntoView({ block:"nearest" });
+    }
+    if(e.key === "Enter"){
+      // Si hay item activo, salta a ese
+      if(suggestActive >= 0 && suggestions[suggestActive]){
+        e.preventDefault();
+        jumpToElement(suggestions[suggestActive].el, q);
+      }else{
+        // si no, hace búsqueda normal
+        highlight(q);
+        hideSuggest();
+      }
+    }
+    if(e.key === "Escape"){
+      hideSuggest();
+    }
+  });
+
+  // click fuera: cerrar lista
+  document.addEventListener("click", (e)=>{
+    const wrap = e.target.closest(".search-wrap");
+    if(!wrap) hideSuggest();
+  });
+
+  searchBtn?.addEventListener("click", () => {
+    const q = searchInput.value.trim();
+    highlight(q);
+    hideSuggest();
+  });
+
+  nextBtn?.addEventListener("click", ()=> setActive(activeIndex + 1));
+  prevBtn?.addEventListener("click", ()=> setActive(activeIndex - 1));
+
+  clearBtn?.addEventListener("click", ()=>{
+    searchInput.value = "";
+    clearMarks();
+    meta.textContent = "Sin búsqueda activa.";
+    hideSuggest();
+  });
+
+  // ===== Reveal al aparecer en pantalla =====
+  (function(){
+    const targets = [
+      ...document.querySelectorAll(".section"),
+      ...document.querySelectorAll(".figure"),
+      ...document.querySelectorAll(".search-wrap")
+    ];
+
+    targets.forEach(el => el.classList.add("gp-reveal"));
+
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add("is-in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    targets.forEach(el => io.observe(el));
+  })();
+
+  (function(){
+    const lightbox = document.getElementById("imgLightbox");
+    const lightboxImg = document.getElementById("imgLightboxImg");
+    const closeBtn = document.getElementById("imgLightboxClose");
+
+    if(!lightbox || !lightboxImg) return;
+
+    function openLightbox(src, alt){
+      lightboxImg.src = src;
+      lightboxImg.alt = alt || "";
+      lightbox.classList.add("open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      closeBtn?.focus?.({preventScroll:true});
+    }
+
+    function closeLightbox(){
+      lightbox.classList.remove("open");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      // opcional: limpiar src para liberar memoria
+      lightboxImg.src = "";
+    }
+
+    // Click en cualquier imagen con clase .img-figure
+    document.addEventListener("click", (e)=>{
+      const img = e.target.closest("img.img-figure");
+      if(!img) return;
+      if(!img.src) return;
+      openLightbox(img.src, img.alt);
+    });
+
+    // Cerrar con click afuera o botón
+    lightbox.addEventListener("click", (e)=>{
+      // si clickeas el fondo (o el botón), se cierra; si clickeas la imagen, no
+      if(e.target === lightbox) closeLightbox();
+    });
+    closeBtn?.addEventListener("click", closeLightbox);
+
+    // Cerrar con ESC
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape" && lightbox.classList.contains("open")){
+        closeLightbox();
+      }
+    });
+  })();
+
+
+</script>
+
+</body>
+</html>

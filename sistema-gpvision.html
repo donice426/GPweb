@@ -1,0 +1,3657 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>gpVision™ | Manual Técnico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root{
+      --bg0:#070e18;
+      --bg2:#0f1e33;
+      --panel: rgba(255,255,255,.04);
+      --stroke: rgba(255,255,255,.10);
+      --text:#eaf1ff;
+      --muted:#b9c6e3;
+      --brand:#4da3ff;
+      --brand2:#38d4ff;
+      --shadow: 0 16px 50px rgba(0,0,0,.45);
+      --r20:20px;
+      --card: rgba(255,255,255,.04); 
+      --r: 16px;                    
+    }
+
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family:"Segoe UI", Tahoma, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(77,163,255,.18), transparent 60%),
+        radial-gradient(900px 600px at 80% 90%, rgba(77,163,255,.10), transparent 55%),
+        linear-gradient(135deg, var(--bg0), var(--bg2));
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(8,14,24,.9);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      z-index:10;
+    }
+
+    header .wrap{
+      max-width:1100px;
+      margin:auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    header h1{
+      margin:0;
+      font-size:16px;
+    }
+
+    header span{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .btn{
+      padding:9px 14px;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:700;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+    }
+    .btn.primary{
+  border-color: rgba(77,163,255,.55);
+  background: linear-gradient(180deg, rgba(77,163,255,.18), rgba(56,212,255,.12));
+}
+.btn.primary:hover{
+  border-color: rgba(77,163,255,.85);
+}
+
+
+    main{
+      max-width:1100px;
+      margin:auto;
+      padding:26px 18px 50px;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section{
+      margin-top:40px;
+    }
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:8px;
+    }
+
+    .bar{
+      width:10px;
+      height:22px;
+      border-radius:8px;
+      background:linear-gradient(180deg,var(--brand),var(--brand2));
+    }
+
+    .section-title h2{
+      margin:0;
+      font-size:18px;
+    }
+
+    .section-sub{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:18px;
+      max-width:800px;
+      line-height:1.65;
+    }
+
+    /* ===== FIGURE BLOCK ===== */
+    .figure{
+      background:var(--panel);
+      border:1px solid var(--stroke);
+      border-radius:var(--r20);
+      box-shadow:var(--shadow);
+      margin-bottom:20px;
+    }
+
+    .figure-h{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .figure-h h3{
+      margin:0;
+      font-size:14px;
+    }
+
+    .figure-h .hint{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+
+    .ph{
+      height:230px;
+      margin:14px 16px;
+      border-radius:16px;
+      border:2px dashed rgba(255,255,255,.25);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      font-size:12px;
+      color:rgba(255,255,255,.6);
+    }
+
+    .figure-b{
+      padding:0 16px 16px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.55;
+    }
+
+    footer{
+      text-align:center;
+      font-size:12px;
+      color:rgba(255,255,255,.4);
+      padding:20px;
+    }
+
+.img-figure{
+  width: 80%;              /* ⬅ un poco más pequeña */
+  max-width: 900px;        /* ⬅ evita que se vean gigantes en pantallas grandes */
+  margin:14px auto;        /* ⬅ centra la imagen */
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  display:block;
+}
+
+.img-figure{
+  margin:14px auto;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  display:block;
+}
+
+.img-figure.xs{ width:25%; }
+.img-figure.s{ width:35%; }
+.img-figure.ss{ width:50%; }
+.img-figure.sm{ width:75%; }
+.img-figure.md{ width:85%; }
+.img-figure.lg{ width:95%; }
+
+/* ===== BUSCADOR ===== */
+.search-wrap{
+  margin-top: 14px;
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  overflow: visible;
+}
+.search-head{
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+}
+.search-head h3{
+  margin:0;
+  font-size: 14px;
+}
+.search-head .hint{
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.search-body{
+  padding: 14px 16px 16px;
+}
+.search-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap: wrap;
+}
+.search-input{
+  flex: 1;
+  min-width: 220px;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(0,0,0,.22);
+  color: var(--text);
+  outline: none;
+}
+.search-input:focus{
+  border-color: rgba(77,163,255,.55);
+}
+.search-meta{
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(230,237,245,.60);
+}
+
+/* resaltado */
+mark.gp-hit{
+  background: rgba(77,163,255,.25);
+  border: 1px solid rgba(77,163,255,.35);
+  color: var(--text);
+  padding: 0 2px;
+  border-radius: 6px;
+}
+mark.gp-hit.active{
+  background: rgba(77,163,255,.45);
+  border-color: rgba(77,163,255,.75);
+  box-shadow: 0 0 0 6px rgba(77,163,255,.14);
+}
+
+/* ===== AUTOCOMPLETE LIST ===== */
+.search-suggest{
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+.search-suggest .search-input{
+  width: 100%;
+}
+
+.suggest-list{
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: rgba(10,20,34,.98);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 14px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+  overflow: hidden;
+  z-index: 999;
+  max-height: 280px;
+  overflow-y: auto;
+  display: none;
+}
+
+.suggest-item{
+  padding: 10px 12px;
+  cursor: pointer;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.suggest-item:first-child{ border-top: none; }
+.suggest-item:hover,
+.suggest-item.active{
+  background: rgba(77,163,255,.12);
+}
+.suggest-title{
+  font-size: 13px;
+  color: rgba(230,237,245,.92);
+  line-height: 1.35;
+}
+
+.suggest-hi{
+  background: rgba(77,163,255,.22);
+  border: 1px solid rgba(77,163,255,.35);
+  padding: 0 2px;
+  border-radius: 6px;
+}
+
+/* =========================
+   ANIMACIONES / INTERACCIONES
+   ========================= */
+
+/* scroll suave al hacer click en anchors */
+html{ scroll-behavior:smooth; }
+
+/* transiciones globales suaves */
+.btn, .figure, .search-wrap, .suggest-item, .img-figure{
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .18s ease, filter .18s ease;
+}
+
+/* Botones más “vivos” */
+.btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(0,0,0,.28);
+}
+.btn:active{
+  transform: translateY(0px) scale(.98);
+}
+
+/* Tarjetas/figuras: hover con brillo y elevación */
+.figure{
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+}
+.figure:hover{
+  transform: translateY(-3px);
+  border-color: rgba(77,163,255,.40);
+  box-shadow: 0 18px 60px rgba(0,0,0,.55);
+}
+
+/* Shine sutil al pasar el mouse */
+.figure::after{
+  content:"";
+  position:absolute;
+  inset:-40% -60%;
+  background: linear-gradient(120deg,
+    transparent 0%,
+    rgba(77,163,255,.08) 35%,
+    rgba(56,212,255,.10) 50%,
+    rgba(77,163,255,.08) 65%,
+    transparent 100%
+  );
+  transform: translateX(-35%) rotate(8deg);
+  opacity: 0;
+  pointer-events:none;
+  transition: opacity .18s ease;
+}
+.figure:hover::after{
+  opacity: 1;
+  animation: gpShine 1.2s ease forwards;
+}
+
+@keyframes gpShine{
+  0%{ transform: translateX(-35%) rotate(8deg); }
+  100%{ transform: translateX(35%) rotate(8deg); }
+}
+
+/* Imágenes: hover zoom sutil + foco accesible */
+.img-figure:hover{
+  transform: scale(1.02);
+  filter: saturate(1.03);
+}
+.img-figure:active{
+  transform: scale(1.00);
+}
+
+/* Títulos: animación ligera al hover */
+.figure-h h3{
+  transition: transform .18s ease, letter-spacing .18s ease;
+}
+.figure:hover .figure-h h3{
+  transform: translateX(2px);
+  letter-spacing: .2px;
+}
+
+/* Autocomplete: interacción más notoria */
+.suggest-item{
+  transform: translateY(0);
+}
+.suggest-item:hover{
+  transform: translateY(-1px);
+  border-color: rgba(77,163,255,.25);
+}
+
+/* Respeta gente con reduce motion */
+@media (prefers-reduced-motion: reduce){
+  *{ animation: none !important; transition: none !important; }
+  html{ scroll-behavior:auto; }
+}
+
+/* Reveal */
+.gp-reveal{
+  opacity: 0;
+  transform: translateY(10px);
+}
+.gp-reveal.is-in{
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .45s ease, transform .45s ease;
+}
+
+.btn:focus-visible,
+.search-input:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 6px rgba(77,163,255,.18);
+  border-color: rgba(77,163,255,.65);
+}
+
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <div>
+      <h1>gpVision™ – Manual Técnico</h1>
+      <span>Documento estructurado · Sección gpVision</span>
+    </div>
+    <a href="menu.html" class="btn">⬅ Volver al menú</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="search-wrap" id="buscador">
+  <div class="search-head">
+    <div>
+      <h3>Búsqueda rápida en el manual</h3>
+      <div class="hint">Busca por palabra o frase y salta entre coincidencias</div>
+    </div>
+    <button class="btn" id="clearSearchBtn" type="button">Limpiar</button>
+  </div>
+
+  <div class="search-body">
+    <div class="search-row">
+      
+    <div class="search-suggest">
+  <input class="search-input" id="searchInput" type="text" autocomplete="off"
+    placeholder="Ej: RTUnit, calibración, carril, licencia...">
+  <div class="suggest-list" id="suggestList"></div>
+</div>
+
+      <button class="btn primary" id="searchBtn" type="button">Buscar</button>
+      <button class="btn" id="prevBtn" type="button">◀</button>
+      <button class="btn" id="nextBtn" type="button">▶</button>
+    </div>
+    <div class="search-meta" id="searchMeta">Sin búsqueda activa.</div>
+  </div>
+</section>
+
+
+  <section class="section" id="pdf">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>Manual en PDF</h2>
+  </div>
+
+  <p class="section-sub">
+    Puedes abrir el PDF en una pestaña nueva o verlo directamente aquí.
+  </p>
+
+  <div class="figure">
+    <div class="figure-h">
+      <h3>Visor del manual</h3>
+      <div class="hint">Si no se carga, usa el botón para abrirlo en otra pestaña</div>
+    </div>
+
+    <div style="padding:14px 16px;">
+      <a href="Manuales/GPVisionGrader_manual_2_22 (1).pdf" class="btn" target="_blank" rel="noopener">
+        📄 Abrir PDF en otra pestaña
+      </a>
+    </div>
+
+    <div style="padding:0 16px 16px;">
+      <iframe
+        src="Manuales/GPVisionGrader_manual_2_22 (1).pdf"
+        title="Manual gpVision PDF"
+        style="width:100%; height:70vh; border:1px solid rgba(255,255,255,.12); border-radius:16px; background:rgba(255,255,255,.02);"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+  <!-- 1. INTRODUCCIÓN -->
+  <section class="section" id="introduccion">
+    <div class="section-title">
+      <div class="bar"></div>
+      <h2>1. Introducción al sistema gpVision™</h2>
+    </div>
+
+    <!-- ✅ REEMPLAZO ORDENADO (solo esta parte cambió) -->
+    <div class="section-sub">
+      <p style="margin:0 0 10px;"><b>1. Configuración</b></p>
+      <p style="margin:0 0 10px;">
+        GP Vision Grader requiere la instalación de Microsoft SQL Server 2017 (versión 14.x).
+        Se pueden usar las ediciones Standard y Express. Consulte la documentación y la
+        especificación de cada versión de MS SQL Server en
+        <span style="color:rgba(234,241,255,.85); text-decoration:underline;">https://www.microsoft.com/</span>.
+      </p>
+      <p style="margin:0 0 10px;">
+        Si MS SQL Server está instalado, asegúrese de que los parámetros de conexión sean correctos.
+        GP Vision Grader debe instalarse de forma predeterminada en el mismo equipo que MS SQL Server.
+        El ID de instancia de MS SQL Server debe ser <b>SQLEXPRESS</b> y la autenticación de Windows debe estar habilitada.
+        Cualquier cambio en la configuración anterior requiere ajustar el archivo de configuración creado al instalar GP Vision Grader.
+      </p>
+      <p style="margin:0 0 10px;">
+        También es importante tener MS SQL Server instalado en la misma cuenta de Windows que GP Vision Grader.
+        De lo contrario, podrían ser necesarios algunos cambios de permisos.
+      </p>
+      <p style="margin:0 0 10px;">
+        Ejecute <b>GPVisionGraderSetup_XXX.exe</b> y siga las instrucciones para instalar GP Vision Grader.
+      </p>
+      <p style="margin:0 0 10px;">
+        Si es necesario, ajuste el archivo de configuración <b>GP Vision GraderSettings.xml</b> creado en el directorio
+        <b>C:\ProgramData\GP Graders\GP Vision Grader</b>.
+      </p>
+      <p style="margin:0 0 10px;">
+        Si la configuración es correcta, GP Vision Grader creará una base de datos vacía durante el primer inicio
+        y la llenará con datos semilla.
+      </p>
+      <p style="margin:0 0 10px;">
+        Asegúrese de hacer una copia de seguridad de la base de datos SQL antes de realizar cualquier actualización de GP Vision Grader.
+      </p>
+      <p style="margin:0 0 16px;">
+        Se recomienda instalar una herramienta de administración de SQL adicional que pueda ser necesaria para realizar copias de seguridad
+        u otras tareas de mantenimiento de la base de datos. SQL Server Management Studio 17.9 es la versión recomendada, pero cualquier
+        versión posterior también debería ser compatible (consulte la documentación de SQL Server Management Studio para obtener información
+        sobre compatibilidad).
+      </p>
+
+      <p style="margin:0 0 10px;"><b>2. Requisitos</b></p>
+      <p style="margin:0 0 16px;">
+        La configuración mínima de la PC con GUI de GP Vision Grader debe incluir: Intel Core i7-6700,
+        disco duro SSD de 256 GB, Windows 10 Pro o Home Edition, 8 GB de RAM, dos monitores con una resolución mínima
+        admitida de 1600 × 900 px, dos puertos Ethernet.
+      </p>
+
+      <p style="margin:0 0 10px;"><b>3. Información general</b></p>
+      <p style="margin:0 0 10px;">
+        GP Vision Grader funciona como cliente en una arquitectura cliente-servidor. Permite al operador controlar los dispositivos en
+        todo el sistema. También registra datos de los dispositivos (como estadísticas) y los guarda en la base de datos para la generación
+        de informes.
+      </p>
+      <p style="margin:0 0 10px;">
+        Este manual se basa en el supuesto de que el hardware necesario está correctamente montado, conectado y disponible, en particular:
+      </p>
+      <ul style="margin:0; padding-left:18px;">
+        <li>Cámaras / carcasas para cámaras</li>
+        <li>Unidades de Visión</li>
+        <li>Unidades RT</li>
+        <li>Módulos de abandono (Grader IO)</li>
+        <li>Iluminación LED</li>
+      </ul>
+    </div>
+
+<div class="figure">
+  <div class="figure-h">
+    <h3>4. Interfaz de usuario</h3>
+    <div class="hint">Descripción general de la interfaz y funciones comunes</div>
+  </div>
+
+  <!-- Imagen principal -->
+  <img src="Imagenes/interfaz-general.jpeg" alt="Interfaz general gpVision" class="img-figure md">
+
+  <div class="figure-b">
+    <p style="margin:0 0 10px;">
+      <b>Descripción general de la interfaz de usuario</b>
+    </p>
+
+    <ol style="margin:0 0 14px; padding-left:18px;">
+      <li><b>Menú principal:</b> pase el puntero del mouse sobre el área del menú o haga clic en el ícono del menú para expandir la barra de menú.</li>
+      <li><b>Área de trabajo:</b> la mayoría de las ventanas de la aplicación se abrirán como una nueva pestaña en el área de trabajo.</li>
+      <li><b>Controles del modo del sistema:</b> muestra el perfil actual y el programa de clasificación; permite iniciar o detener la clasificación.</li>
+      <li>
+        <b>Indicadores de velocidad de línea, llenado y rendimiento:</b>
+        se actualizan periódicamente según los datos de las unidades de visión. El rendimiento puede ser estimado o basado en peso real según la configuración.
+      </li>
+      <li>
+        <b>Estado del sistema:</b> permite visualizar el estado de todos los componentes. Si existe advertencia o error, se habilita el botón de herramientas para iniciar reparación automática.
+        <br><br>
+        <b>Registrar información de depuración:</b> permite descargar información adicional desde la Unidad de Visión.
+      </li>
+    </ol>
+
+    <!-- Estado / depuración -->
+    <img src="Imagenes/estado-del-sistema.jpeg" alt="Estado del sistema y depuración" class="img-figure sm">
+
+    <p><b>Acoplar / desacoplar</b></p>
+    <p>Cada pestaña del área de trabajo puede desacoplarse y abrirse en una ventana independiente.</p>
+
+    <img src="Imagenes/acoplar-desacoplar.jpeg" alt="Acoplar y desacoplar pestañas" class="img-figure sm">
+
+    <p><b>Funciones comunes</b></p>
+    <ul style="padding-left:18px;">
+      <li><b>Clic derecho / Menú contextual:</b> algunas funciones solo están disponibles mediante el menú contextual.</li>
+    </ul>
+
+    <img src="Imagenes/menu-contextual.jpeg" alt="Menú contextual" class="img-figure xs">
+
+    <ul style="padding-left:18px;">
+      <li><b>Validación:</b> errores se indican con borde rojo y mensajes emergentes.</li>
+    </ul>
+
+    <img src="Imagenes/validacion-error.jpeg" alt="Validación y error" class="img-figure sm">
+
+    <p><b>Doble clic:</b> inicia la acción predeterminada (normalmente editar).</p>
+
+    <p><b>Controles comunes</b></p>
+    <p><b>Selector de frutas</b></p>
+    <p>Permite cargar imágenes de frutas desde distintas fuentes.</p>
+
+    <img src="Imagenes/selector-frutas.jpeg" alt="Selector de frutas" class="img-figure sm">
+
+    <ul style="padding-left:18px;">
+      <li><b>Obtener imagen:</b> carga imágenes del Lane seleccionado según el estado del sistema.</li>
+      <li><b>Pegar:</b> obtiene la última imagen del portapapeles y permite seleccionar entre múltiples elementos.</li>
+    </ul>
+
+    <img src="Imagenes/seleccion-frutas.jpeg" alt="Ventana de selección de frutas" class="img-figure s">
+
+    <ul style="padding-left:18px;">
+      <li><b>Importar:</b> importa imágenes externas.</li>
+      <li><b>Copiar:</b> guarda imágenes en el portapapeles (hasta 50).</li>
+      <li><b>Exportar:</b> exporta imágenes a archivo.</li>
+      <li>
+        <b>Color, Nir, Shrivel, Suave, Anotado:</b>
+        habilita o deshabilita vistas según hardware y algoritmo.
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<div class="figure">
+  <div class="figure-h">
+    <h3>5. Permisos de la cuenta</h3>
+    <div class="hint">Permisos de cuenta y modos de operación</div>
+  </div>
+
+  <div class="figure-b">
+    <p><b>Permisos de la cuenta</b></p>
+
+    <p>
+      El usuario de GP Vision Grader puede operar bajo distintos modos de cuenta,
+      los cuales definen el nivel de acceso a las funciones del sistema:
+    </p>
+
+    <ul style="padding-left:18px;">
+      <li style="margin:6px 0;">
+        <b>Administrador:</b> en este modo están disponibles todas las características
+        y funciones del sistema, incluyendo la configuración completa, perfiles y
+        ajustes avanzados de la aplicación.
+      </li>
+      <li style="margin:6px 0;">
+        <b>Operador:</b> este modo no permite al usuario modificar la configuración
+        del sistema ni los perfiles. El acceso se limita a la operación normal del
+        sistema y a la mayoría de las funciones operativas de la aplicación.
+      </li>
+    </ul>
+
+    <p>
+      El modo de operación actual se muestra en la parte inferior de la sección del
+      menú de la aplicación:
+    </p>
+
+    <!-- Imagen: modo actual -->
+    <img src="Imagenes/modo-operacion-actual.jpeg" alt="Modo de operación actual" class="img-figure xs">
+
+    <p>
+      Para cambiar entre los modos <b>Operador</b> y <b>Administrador</b>, haga clic
+      sobre el elemento del menú que representa el modo de operación actual.
+      La contraseña predeterminada para acceder al modo Administrador es:
+      <b>Admin</b>.
+    </p>
+
+    <!-- Imagen: cambio de modo -->
+    <img src="Imagenes/cambio-modo-operacion.jpeg" alt="Cambio de modo Operador a Administrador" class="img-figure sm">
+
+    <p>
+      El propósito de disponer de dos tipos de cuentas es evitar que el Operador
+      realice cambios accidentales en la configuración del sistema, garantizando
+      la estabilidad operativa y la seguridad de los parámetros críticos.
+    </p>
+  </div>
+</div>
+  </section>
+
+<div class="figure">
+  <div class="figure-h">
+    <h3>6. Inicio del programa</h3>
+    <div class="hint">Secuencia de inicio, acciones y manejo de errores</div>
+  </div>
+
+  <!-- Imagen (la pegas después en /imagenes) -->
+  <img src="Imagenes/inicio-programa.jpeg" alt="Secuencia de inicio de GP Vision Grader" class="img-figure ss">
+
+  <div class="figure-b">
+    <p style="margin:0 0 10px;">
+      Durante el inicio de <b>GP Vision Grader</b> se realizan múltiples acciones. Algunas de ellas son:
+      <b>actualizaciones de base de datos</b>, <b>conexión a unidades de visión (carriles)</b> y <b>carga de archivos de configuración</b>.
+    </p>
+
+    <p style="margin:0 0 10px;">
+      Si alguna acción genera un <b>error</b> o una <b>advertencia</b>, la secuencia de inicio se detendrá.
+      Al pasar el cursor sobre el nombre de la acción, se mostrarán los detalles de la advertencia o el error.
+    </p>
+
+    <p style="margin:0;">
+      Algunas advertencias o errores pueden bloquear la aplicación e impedir que el operador la ejecute; sin embargo,
+      en la mayoría de los casos el botón de inicio estará activo y el operador podrá iniciarla.
+    </p>
+  </div>
+</div>
+
+<div class="figure">
+  <div class="figure-h">
+    <h3>7. Licencias</h3>
+    <div class="hint">Gestión, activación y validación de licencias</div>
+  </div>
+
+  <div class="figure-b">
+    <p style="margin:0 0 10px;">
+      El programa <b>GP Vision Grader</b> requiere un archivo de licencia válido.
+      La licencia limita el número de carriles que se pueden gestionar o el tiempo
+      de uso del software.
+    </p>
+
+    <p style="margin:0 0 10px;">
+      Para obtener una nueva licencia, se debe crear un <b>archivo de solicitud de licencia</b>.
+      Este archivo puede generarse desde la ventana del <b>Administrador de Licencias</b>,
+      la cual se abre automáticamente al iniciar el programa si aún no se ha proporcionado
+      una licencia válida.
+    </p>
+
+    <p style="margin:0 0 10px;">
+      En el Administrador de Licencias, introduzca el nombre de su empresa, su dirección
+      de correo electrónico y su código de licencia. Luego haga clic en
+      <b>“Generar solicitud de licencia”</b> para obtener el archivo de solicitud.
+      Este archivo debe enviarse al representante de <b>GP Graders</b>, quien proporcionará
+      el archivo de licencia correspondiente.
+    </p>
+
+    <p style="margin:0 0 10px;">
+      Una vez recibido el archivo de licencia, este puede cargarse mediante la opción
+      <b>“Cargar archivo de licencia”</b> dentro del Administrador de Licencias.
+    </p>
+
+    <p style="margin:0 0 10px;">
+      Otra forma de generar una licencia es mediante la <b>verificación en línea</b>.
+      Para ello, complete el formulario correspondiente y haga clic en
+      <b>“Verificar licencia en línea”</b>. Este método requiere una conexión activa
+      a internet y que la hora local del computador esté correctamente configurada.
+    </p>
+
+    <p style="margin:0 0 10px;">
+      El archivo de licencia se guarda en el directorio:
+      <br>
+      <b>C:\ProgramData\GP Graders\GP Vision Grader\</b>
+    </p>
+
+    <p style="margin:0 0 10px;">
+      La licencia está vinculada al hardware del equipo. Por lo tanto, para instalar
+      GP Vision Grader en un computador nuevo se requiere una nueva licencia y la
+      generación de una nueva solicitud de licencia.
+    </p>
+
+    <p style="margin:0;">
+      El Administrador de Licencias también puede abrirse manualmente haciendo clic en
+      el botón <b>Acerca de</b> en la barra de título de la ventana principal de la
+      aplicación o desde el botón <b>Acerca de</b> en el menú principal.
+    </p>
+
+    <!-- Imagen: acceso a "Acerca de" -->
+    <img src="Imagenes/licencia.jpeg" alt="Acceso al administrador de licencias desde Acerca de" class="img-figure ss">
+  </div>
+</div>
+
+  </section>
+
+
+
+<div class="figure">
+  <div class="figure-h">
+    <h3>8. Configuración del sistema</h3>
+    <div class="hint">Orden de configuración y requisitos previos</div>
+  </div>
+
+  <div class="figure-b">
+    <p style="margin:0 0 10px;">
+      La configuración del sistema consta de secciones que deben configurarse en el orden indicado.
+      La mayoría están relacionadas con la configuración del hardware, por lo que asegúrese de que
+      todos los componentes estén correctamente montados y conectados antes de configurar el sistema.
+    </p>
+
+    <p style="margin:0 0 10px;">
+      Asegúrese de que el sistema esté en <b>modo de configuración</b>; de lo contrario, la configuración
+      del sistema estará en <b>modo de solo lectura</b>.
+    </p>
+
+    <p style="margin:0;">
+      <b>Nota importante:</b> Arranque la máquina para sincronizar la posición de los codificadores antes de
+      configurar la cámara (requiere al menos una rotación completa del eje de la cadena). Asegúrese de que
+      la cadena no se mueva al ajustar el enfoque de la cámara frontal o trasera hasta que la cortadora esté configurada.
+    </p>
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:14px 0;">
+
+    <p style="margin:0 0 10px;"><b>8.1. Unidades RT</b></p>
+
+    <p style="margin:0 0 10px;">
+      La Unidad RT es un componente de hardware que gestiona la comunicación y la sincronización entre
+      las cámaras, los módulos de E/S de nivelación y las unidades de visión. Normalmente hay una Unidad RT
+      por cada dos carriles y una por cada unidad de visión.
+    </p>
+
+    <p style="margin:0 0 10px;">
+      En esta sección, el operador puede gestionar la lista de Unidades RT y módulos de desconexión.
+      Utilice la opción <b>“Añadir nuevo”</b> en la esquina inferior derecha para añadir una nueva unidad RT.
+      Debe proporcionar un nombre y un número (el nombre es descriptivo; el número ordena la lista).
+    </p>
+
+    <p style="margin:0 0 10px;">
+      Utilice los botones correspondientes para editar y eliminar unidades RT existentes.
+    </p>
+
+    <p style="margin:0 0 10px;"><b>Módulos de deserción (módulos de E/S de Grader)</b></p>
+
+    <p style="margin:0 0 10px;">
+      Expanda una Unidad RT existente y haga clic en el <b>+</b> para agregar un nuevo módulo de abandono.
+      Se debe proporcionar la siguiente información:
+    </p>
+
+    <ul style="margin:0 0 10px; padding-left:18px;">
+      <li style="margin:6px 0;">
+        <b>ID de bus:</b> seleccione el bus de la unidad RT a la que está conectado el módulo de deserción.
+        El ID 0 se refiere a Serial1 y el ID 1 se refiere a Serial2.
+      </li>
+      <li style="margin:6px 0;">
+        <b>Nodo:</b> seleccione el número consecutivo del módulo en la cadena conectada a un único puerto
+        bus/serie (la numeración comienza desde 0).
+      </li>
+      <li style="margin:6px 0;">
+        <b>Dirección de hardware:</b> la dirección de hardware (MAC) está impresa en los módulos (recinto).
+      </li>
+    </ul>
+
+    <!-- (imagen) -->
+    <img src="Imagenes/Captura de pantalla_24-12-2025_04720_.jpeg" alt="Dirección MAC, ID de bus y nodo del módulo de deserción" class="img-figure md">
+
+    <p style="margin:0 0 10px;">
+      Los números de salida mostrados junto a cada módulo se refieren a los números de salida reales
+      solo si se selecciona la configuración <b>“Todas las salidas”</b>. En otros casos, estos números deben
+      considerarse como información sobre cuántas salidas reales se pueden conectar a la cadena dada.
+      Consulte la sección <b>“Desplazamientos de salida”</b> para más información.
+    </p>
+
+    <!-- (imagen) -->
+    <img src="Imagenes/Captura de pantalla_24-12-2025_04735_.jpeg" alt="Configuración de salidas y numeración" class="img-figure md">
+
+    <p style="margin:0 0 10px;"><b>Diagnóstico del módulo de deserción</b></p>
+
+    <p style="margin:0 0 10px;">
+      Si el modo de configuración está activado, el sistema mostrará el estado de la conexión entre la Unidad
+      de Visión y cada módulo de deserción:
+    </p>
+
+    <ul style="margin:0; padding-left:18px;">
+      <li style="margin:6px 0;"><b>Estado no disponible:</b> no hay comunicación entre la estación del operador y la unidad de visión o entre la unidad de visión y la RTUnit.</li>
+      <li style="margin:6px 0;"><b>Sin conexión:</b> el módulo no está conectado correctamente; verifique MAC, ID de bus, diseño y cableado.</li>
+      <li style="margin:6px 0;"><b>Conectado:</b> existe conexión; debería pasar a Comunicación correcta después de 60 s si el enlace es estable.</li>
+      <li style="margin:6px 0;"><b>Comunicación correcta:</b> conexión estable (&gt; 60 s sin interrupciones).</li>
+    </ul>
+
+    <!-- (imagen) -->
+    <img src="Imagenes/Captura de pantalla_24-12-2025_04742_.jpeg" alt="Estados de diagnóstico del módulo de deserción" class="img-figure md">
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.2. Carriles</b></p>
+
+<p style="margin:0 0 10px;">
+  Un carril representa un solo carril de la máquina. Cada carril se gestiona mediante
+  un programa informático específico instalado en una unidad Vision. Normalmente,
+  una sola unidad Vision gestiona dos carriles; ambos están disponibles bajo la misma
+  dirección de red, pero cada carril utiliza un puerto de comunicación diferente.
+</p>
+
+<p style="margin:0 0 10px;">
+  Los puertos predeterminados para dos carriles que se ejecutan en una sola unidad
+  Vision son <b>20000</b> y <b>20001</b>.
+</p>
+
+<p style="margin:0 0 10px;">
+  Utilice <b>“Agregar nuevo”</b> en la esquina inferior derecha de la pantalla para
+  agregar un nuevo carril. También puede editar o eliminar carriles existentes.
+</p>
+
+<p style="margin:0 0 10px;">
+  Para agregar un nuevo carril se debe proporcionar la siguiente información:
+</p>
+
+<ul style="margin:0 0 12px; padding-left:18px;">
+  <li style="margin:6px 0;"><b>Nombre:</b> identificador del carril.</li>
+  <li style="margin:6px 0;"><b>Dirección IP:</b> dirección de red de la unidad Vision (IPv4 o IPv6).</li>
+  <li style="margin:6px 0;"><b>Puerto:</b> puerto de comunicación de la unidad Vision.</li>
+  <li style="margin:6px 0;"><b>Número:</b> se utiliza para ordenar los carriles en la lista.</li>
+  <li style="margin:6px 0;"><b>Unidad RT:</b> unidad RT conectada a la unidad Vision.</li>
+  <li style="margin:6px 0;">
+    <b>Distribución de salida maestra:</b> solo un carril puede seleccionarse como
+    distribución de salida maestra. Es necesario para usar el modo global de
+    distribución de salida.
+  </li>
+</ul>
+
+<p style="margin:0 0 10px;">
+  Utilice la <b>conexión de prueba</b> para verificar si el carril está funcionando y
+  si la red está configurada correctamente.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_05151_.jpeg" alt="Conexión de prueba de carriles" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  Utilice <b>Habilitar / Deshabilitar</b> para activar o desactivar un carril.
+  La edición solo está disponible si el carril está deshabilitado.
+</p>
+
+<p style="margin:0 0 10px;">
+  Utilice <b>Buscar cámaras</b> para encontrar la cámara después de conectarla por
+  primera vez a la unidad Vision (puede ser necesario recargarla).
+</p>
+
+<p style="margin:0 0 10px;">
+  Utilice <b>Información del software</b> para mostrar las versiones del software de Lane.
+  El carril debe estar habilitado y conectado.
+</p>
+
+<p style="margin:0 0 10px;">
+  Utilice <b>Recargar</b> para recargar el carril si se ha conectado una nueva cámara.
+  Use <b>Reconectar</b> para reconectarse manualmente si es necesario.
+</p>
+
+<p style="margin:0 0 10px;">
+  Los íconos y los mensajes de advertencia o error indican el estado actual de cada carril.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_0522_.jpeg" alt="Estado de carriles" class="img-figure sm">
+
+<p style="margin:0 0 10px;"><b>Herramienta de actualización de la Unidad de Visión</b></p>
+
+<p style="margin:0 0 10px;">
+  Haga clic en <b>Actualizar software</b> en la esquina inferior izquierda para abrir
+  la herramienta de actualización. Puede usar el archivo integrado del software del
+  operador o cargar un archivo externo.
+</p>
+
+<p style="margin:0 0 10px;">
+  La columna de estado se volverá verde si la actualización fue correcta o roja si
+  ocurrió un error. Reinicie el software del operador para recargar la configuración
+  global.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_0529_.jpeg" alt="Actualización de la Unidad de Visión" class="img-figure sm">
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.3. Configuración global</b></p>
+
+<p style="margin:0 0 10px;">
+  Hay <b>tres tipos</b> de configuraciones globales:
+</p>
+
+<ul style="margin:0 0 12px; padding-left:18px;">
+  <li style="margin:6px 0;"><b>Estación del operador</b></li>
+  <li style="margin:6px 0;"><b>Calibración de la cámara</b></li>
+  <li style="margin:6px 0;"><b>Configuración de carril</b></li>
+</ul>
+
+<p style="margin:0 0 10px;"><b>Estación del operador</b></p>
+
+<ul style="margin:0 0 12px; padding-left:18px;">
+  <li style="margin:6px 0;">
+    <b>Gamma:</b> se aplica a todas las imágenes mostradas en el software.
+    Los valores se usan en todas las ventanas, excepto en la configuración del sistema
+    (existe una gamma independiente para esa sección).
+  </li>
+  <li style="margin:6px 0;">
+    <b>Tiene cámara frontal/trasera/izquierda/derecha:</b> activa o desactiva opciones de la interfaz
+    necesarias para configurar cámaras según su presencia física.
+    Para habilitar o deshabilitar cámaras frontales o traseras es necesario conectarlas o desconectarlas
+    físicamente de la red y volver a cargar cámaras en la Vision Unit ejecutando <b>Buscar cámaras</b>
+    (ver sección Carriles).
+  </li>
+  <li style="margin:6px 0;">
+    <b>Calificador de peso:</b> habilita/deshabilita la clasificación por peso.
+  </li>
+  <li style="margin:6px 0;">
+    <b>Tipo de fotografía de referencia (Arriba | Delante | Detrás | Izquierda | Derecha):</b>
+    se utiliza para detectar fruta. Los tipos se definen por el tipo de cámara y los filtros aplicados
+    (por ejemplo, polarización, paso de banda). No confundir el tipo de foto con el tipo de cámara.
+    Actualmente hay cuatro tipos de foto: <b>Color</b>, <b>NIR</b>, <b>Suave</b> y <b>Shrivel</b>.
+    El tipo de foto de referencia predeterminado es <b>NIR</b>.
+  </li>
+  <li style="margin:6px 0;">
+    <b>Ajustes de tamaño:</b> activa o desactiva el algoritmo que corrige el tamaño medido según la distancia
+    cámara-fruta y la posición respecto al centro de la vista. La distancia debe medirse desde el punto de
+    referencia de la cámara hasta la parte superior del rodillo de la copa. También debe indicarse la distancia
+    entre copas (entre centros de copas adyacentes).
+  </li>
+</ul>
+
+<p style="margin:0 0 10px;"><b>Calibración de la cámara</b></p>
+
+<p style="margin:0 0 10px;">
+  Para calibrar una cámara, se deben proporcionar los valores correctos de <b>ganancia</b> y <b>obturación</b>.
+  Consulte la sección “Calibración de la cámara” para obtener más información sobre cómo configurar estos parámetros.
+</p>
+
+<p style="margin:0 0 10px;"><b>Configuración de carril</b></p>
+
+<p style="margin:0 0 10px;">
+  Esta sección contiene los ajustes de configuración de las unidades Vision. Cambiar estos ajustes no tendrá ningún efecto
+  si la unidad de visión no está conectada a GP Vision Grader. La configuración se almacena en la base de datos local de la estación
+  del operador y se envía a la unidad de visión y sus carriles correspondientes una vez establecida la conexión.
+</p>
+
+<p style="margin:0 0 10px;">
+  Las siguientes configuraciones dependientes del hardware deben configurarse durante la primera configuración de la máquina:
+</p>
+
+<ul style="margin:0 0 12px; padding-left:18px;">
+  <li style="margin:6px 0;"><b>lane_cupsPerEncoderRevolution</b></li>
+  <li style="margin:6px 0;"><b>lane_pulsesPerEncoderRevolution</b></li>
+  <li style="margin:6px 0;"><b>rtu_exitActivationLatency</b></li>
+  <li style="margin:6px 0;">
+    <b>rtu_effectiveLedPowerOnTime:</b> asegúrese de establecer este valor al menos
+    <b>30 µs</b> más que el tiempo de obturación más largo.
+  </li>
+</ul>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_05433_.jpeg" alt="Configuración global: parámetros dependientes de hardware" class="img-figure md">
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.4. Cámaras de carril</b></p>
+
+<p style="margin:0 0 10px;">
+  En esta ventana, el operador puede gestionar las cámaras disponibles. Si una cámara está conectada,
+  se detectará automáticamente y se mostrará en la lista. La detección automática no elimina cámaras
+  no utilizadas; si una cámara se conecta a una unidad Vision incorrecta, debe eliminarse manualmente.
+</p>
+
+<p style="margin:0 0 10px;">
+  El operador debe asegurarse de que cada cámara tenga asignado el tipo de fotografía correcto, que
+  las imágenes estén invertidas correctamente y que el enfoque y la polarización estén configurados
+  adecuadamente. Haga clic en el ícono de la cámara para habilitar la vista previa.
+</p>
+
+
+<p style="margin:0 0 10px;"><b>Tipo de foto</b></p>
+
+<p style="margin:0 0 10px;">
+  Consulte más información sobre los tipos de foto en la sección <b>Configuración global</b>.
+</p>
+
+<p style="margin:0 0 10px;"><b>Fuente de la foto</b></p>
+
+<p style="margin:0 0 10px;">
+  Seleccione una de las siguientes fuentes según la posición física de la cámara:
+  <b>frontal</b>, <b>superior</b>, <b>trasera</b>, <b>izquierda</b> o <b>derecha</b>.
+  La cámara frontal se refiere a la que toma la primera foto de la fruta y suele estar
+  montada en el lado de salida del domo de luz.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_05623_.jpeg" alt="Fuente de la foto de la cámara" class="img-figure ss">
+
+<p style="margin:0 0 10px;"><b>Transformación / rotación de imágenes</b></p>
+
+<p style="margin:0 0 10px;">
+  Utilice las funciones <b>Girar horizontalmente</b> y <b>Girar verticalmente</b> para
+  transformar la imagen. Para verificar la orientación correcta, coloque una franja con
+  texto impreso debajo de la cámara y asegúrese de que sea legible y coincida con la dirección
+  del movimiento de las copas.
+</p>
+
+<p style="margin:0 0 10px;">
+  Haga clic en <b>Guardar</b> después de voltear la imagen para aplicar los cambios.
+<p style="margin:0 0 10px;"> <b>INCORRECTO: </b></p>
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_1450_.jpeg" alt="Rotación incorrecta de imagen" class="img-figure sm">
+
+<p style="margin:0 0 10px;"> <b>CORRECTO:</b></p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_1652_.jpeg" alt="Rotación correcta de imagen" class="img-figure sm">
+
+<p style="margin:0 0 10px;"><b>Distancia de la cámara</b></p>
+
+<p style="margin:0 0 10px;">
+  Asegúrese de que la cámara esté instalada a la distancia correcta de las copas. Una distancia
+  menor reduce la cantidad de copas visibles pero aumenta el tamaño de la imagen de una sola fruta.
+</p>
+
+<p style="margin:0 0 10px;">
+  <b>Tamaño de copa: 1 pulgada</b><br>
+  Distancia recomendada: <b>73 cm</b> para versiones &lt; 1.7.0 (aprox. 10–11 copas visibles, 220×220 px).
+  Desde la versión 1.7.0, la distancia recomendada es <b>52 cm</b> (aprox. 7 copas, 300×300 px).
+</p>
+
+<p style="margin:0 0 10px;">
+  <b>Tamaño de copa: 1,5 pulgadas</b><br>
+  Distancia recomendada: <b>66 cm</b> (aprox. 7 copas, 300×300 px).
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_11112_.jpeg" alt="Distancia correcta de la cámara a las copas" class="img-figure xs">
+
+<p style="margin:0 0 10px;"><b>Enfoque y apertura de la cámara</b></p>
+
+<p style="margin:0 0 10px;">
+  Establezca la apertura de la cámara en <b>f/2</b>. La cámara debe enfocar un objeto sobre las copas;
+  utilice esferas de calibración o fruta real para ajustar el enfoque. Evite imágenes sobreexpuestas;
+  ajuste ganancia, obturación y gamma si es necesario.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_11128_.jpeg" alt="Enfoque y apertura de la cámara" class="img-figure sm">
+
+<p style="margin:0 0 10px;"><b>Polarización</b></p>
+
+<p style="margin:0 0 10px;">
+  Gire el filtro polarizador mientras observa la vista previa. Cuanto más oscura sea la imagen,
+  mayor será la polarización. Ajuste el filtro para lograr la imagen más polarizada posible.
+</p>
+ 
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.5. Calibración de la cámara</b></p>
+
+<p style="margin:0 0 10px;">
+  El propósito de la calibración de la cámara es configurar el <b>balance de blancos</b> y compensar
+  las diferencias en la cantidad de luz que incide sobre las copas ubicadas en el centro y en los bordes
+  de la vista de la cámara.
+</p>
+
+<p style="margin:0 0 10px;">
+  Siga los pasos a continuación para realizar la calibración:
+</p>
+
+<p style="margin:0 0 8px;"><b>1.</b> Habilite la vista previa de la cámara y coloque la franja de calibración debajo de la cámara.</p>
+
+<p style="margin:0 0 8px;">
+  <b>2.</b> Establezca los valores iniciales de ganancia y obturación en los valores predeterminados
+  haciendo clic en <b>Cámara predeterminada: ganancia / obturador</b>.
+</p>
+
+<p style="margin:0 0 8px;">
+  <b>3.</b> Configure el área de calibración ajustando <b>Y1</b> y <b>Y2</b> en el lado derecho de la vista previa
+  y <b>X1</b> y <b>X2</b> en la parte inferior. Ajuste ganancia u obturador para obtener la imagen más brillante
+  posible sin sobreexponerla.
+</p>
+
+<p style="margin:0 0 8px;">
+  Si la imagen es demasiado tenue, aumente la ganancia; si es demasiado brillante, disminuya el obturador.
+  La ganancia debe estar siempre al mínimo si el obturador es inferior a su valor inicial, y viceversa.
+  El obturador nunca debe superar su valor inicial.
+</p>
+
+<p style="margin:0 0 10px;">
+  A continuación se muestran ejemplos de imágenes sobreexpuestas y correctas:
+</p>
+
+<p style="margin:0 0 10px;"><b>Sobreexpuesta:</b></p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_11650_.jpeg" alt="Imagen sobreexpuesta" class="img-figure sm">
+
+<p style="margin:0 0 10px;"><b>Correcta:</b></p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_11736_.jpeg" alt="Imagen correcta" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  Utilice <b>píxeles sobreexpuestos</b> y <b>brillo promedio</b> como indicadores. El brillo máximo es 255
+  y el brillo promedio debe ser aproximadamente <b>190</b>. No debe haber píxeles sobreexpuestos.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_1180_.jpeg" alt="Indicadores de brillo y sobreexposición" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  <b>4.</b> Copie los valores de ganancia y obturación en el tipo de foto correspondiente en la sección
+  <b>Calibración de la cámara</b> de la configuración global y guarde la configuración.
+</p>
+
+<p style="margin:0 0 10px;">
+  Valores predeterminados de ganancia y obturación:
+</p>
+
+<ul style="margin:0 0 12px; padding-left:18px;">
+  <li style="margin:6px 0;"><b>Color:</b> ganancia 1, obturador 80</li>
+  <li style="margin:6px 0;"><b>NIR:</b> ganancia 95, obturador 300</li>
+  <li style="margin:6px 0;"><b>Suave:</b> ganancia 100, obturador 300</li>
+  <li style="margin:6px 0;"><b>Shrivel:</b> ganancia 0, obturador 50</li>
+</ul>
+
+<p style="margin:0 0 10px;">
+  No debería haber una diferencia significativa entre estos valores y los obtenidos tras la calibración.
+</p>
+
+<p style="margin:0 0 10px;">
+  <b>5.</b> Ajuste nuevamente el área de calibración (Y1, Y2, X1, X2). El área no debe exceder la franja
+  de calibración. Para cámaras superiores, X1 y X2 deben cubrir todo el ancho.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_11920_.jpeg" alt="Área de calibración cámara superior" class="img-figure md">
+
+<p style="margin:0 0 10px;">
+  Para cámaras frontales y traseras, ajuste X1 y X2 para mantener la región de interés (ROI)
+  dentro del área de la franja y cubriendo la zona donde se ubica la fruta.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_11926_.jpeg" alt="ROI en cámaras frontal y trasera" class="img-figure md">
+
+<p style="margin:0 0 10px;">
+  <b>6.</b> Haga clic en <b>Ganancia/obturador de cámara predeterminado</b>, luego en
+  <b>Restablecer calibración</b>, después en <b>Balance de blancos</b> (solo para cámaras a color)
+  y finalmente en <b>Calibrar la cámara</b> para iniciar la calibración automática.
+</p>
+
+<p style="margin:0 0 10px;">
+  Si la calibración es correcta, la imagen tendrá un color sólido en escala de grises.
+  En caso contrario, el sistema mostrará errores como imagen demasiado oscura o demasiado brillante.
+  Repita los pasos 3 a 6 hasta completar correctamente la calibración.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_11932_.jpeg" alt="Calibración automática de cámara" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  <b>7.</b> Repita los pasos 1 a 6 para cada tipo de fotografía y posición de cámara en el mismo carril.
+</p>
+
+<p style="margin:0 0 10px;">
+  <b>8.</b> Repita los pasos 5 y 6 para las demás cámaras y carriles. No edite la sección de calibración
+  de la cámara en la configuración global durante este proceso para asegurar valores consistentes.
+</p>
+
+<p style="margin:0;">
+  Si alguna calibración resulta demasiado brillante u oscura, repita todo el proceso desde el paso 1.
+</p>
+
+
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.6. Calibración de tamaño</b></p>
+
+<p style="margin:0 0 10px;">
+  Es necesario calibrar el tamaño para convertir correctamente las medidas de la fruta en píxeles
+  a la unidad real. La unidad base del software es el <b>milímetro (mm)</b>.
+  La calibración debe realizarse en <b>cada carril</b> (no es necesario para todas las cámaras).
+  Por defecto se debe usar la <b>cámara de referencia</b>, pero se puede cambiar si es necesario.
+</p>
+
+<p style="margin:0 0 10px;">
+  Coloque las <b>bolas de calibración</b> en las copas:
+</p>
+
+<ul style="margin:0 0 12px; padding-left:18px;">
+  <li style="margin:6px 0;">
+    Para cámaras <b>superior, izquierda y derecha</b>: use al menos <b>tres</b> bolas si el ajuste de tamaño
+    está desactivado, o solo <b>una</b> bola en la copa central si el ajuste de tamaño está activado.
+  </li>
+  <li style="margin:6px 0;">
+    Para cámaras <b>frontal y trasera</b>: use <b>una</b> bola.
+  </li>
+</ul>
+
+<p style="margin:0 0 10px;">
+  Habilite la vista previa de la cámara y configure el área de calibración (ROI) ajustando <b>Y1, Y2, X1 y X2</b>.
+  Asegúrese de que todas las bolas de calibración queden dentro del área. Reduzca el valor de <b>gamma</b>
+  si las copas no son visibles.
+</p>
+
+<p style="margin:0 0 10px;">
+  Asegúrese de que el tamaño del objeto de referencia esté configurado de acuerdo con el tamaño de las bolas utilizadas.
+  Ajuste el <b>diámetro mínimo de fruta</b> y el <b>umbral</b> hasta que solo se marquen las bolas de calibración.
+</p>
+
+<p style="margin:0 0 10px;">
+  Evite una imagen demasiado tenue o demasiado brillante, ya que puede afectar el tamaño aparente de las bolas:
+  una imagen demasiado brillante puede hacer que se vean más grandes por reflejos; una tenue puede producir el efecto contrario.
+</p>
+
+<p style="margin:0 0 10px;">
+  Utilice el panel de configuración de la izquierda para ajustar: <b>ganancia</b>, <b>obturador</b>, <b>gamma</b>,
+  <b>grosor de línea</b> y <b>color</b>.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_12341_.jpeg" alt="Panel de ajustes para calibración de tamaño" class="img-figure xs">
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_12351_.jpeg" alt="ROI y bolas de calibración dentro del área" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  Haga clic en <b>Aplicar</b> para capturar el resultado de la calibración y luego en <b>Guardar</b>
+  para almacenarlo en la base de datos.
+</p>
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.7. Cortador</b></p>
+
+<p style="margin:0 0 10px;">
+  El cortador debe configurarse para que el software pueda comparar las imágenes de fruta de las
+  cámaras adyacentes. También permite establecer el número y la posición de las copas visibles en
+  la imagen de la cámara y configurar la distancia entre ellas.
+</p>
+
+<p style="margin:0 0 10px;">
+  Comience configurando el <b>número de copas base</b> para las cámaras superiores en la sección
+  <b>“Posición de la cámara: SUPERIOR”</b> al número de copas completas visibles menos uno.
+  Esta configuración global se aplicará a todas las cámaras montadas en posición superior.
+</p>
+
+<p style="margin:0 0 10px;">
+  Asegúrese de modificar el número de copas base solo durante la configuración del primer carril.
+  Si se cambia posteriormente, deberá repetir la configuración del cortador para todos los carriles.
+  Lo mismo aplica para el ancho y alto de las copas; no se recomienda modificar los valores
+  predeterminados, ya que podría afectar el rendimiento del sistema.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_12512_.jpeg" alt="Configuración general del cortador" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  Una vez configurados los tamaños y la cantidad de copas, proceda con los siguientes pasos,
+  configurando <b>un carril a la vez</b>, preferiblemente comenzando con cámaras frontales,
+  luego superiores y finalmente traseras:
+</p>
+
+<ol style="margin:0 0 12px; padding-left:18px;">
+  <li style="margin:6px 0;">
+    Haga clic en uno de los botones <b>Configurar</b> (marcados en rojo en la captura).
+  </li>
+  <li style="margin:6px 0;">
+    Coloque las bolas de calibración en las copas:
+    <ul style="margin:6px 0 0; padding-left:18px;">
+      <li>Al menos tres bolas para cámaras superior, izquierda y derecha.</li>
+      <li>Una bola para cámaras frontal y trasera.</li>
+    </ul>
+  </li>
+  <li style="margin:6px 0;">
+    Regrese a la vista general del cortador y ajuste el <b>umbral del cortador</b> y el
+    <b>diámetro mínimo de fruta</b> hasta que las bolas estén correctamente delineadas.
+  </li>
+  <li style="margin:6px 0;">
+    Seleccione el panel izquierdo para ver la vista previa de copas y ajuste
+    <b>X izquierda</b>, <b>Y izquierda</b>, <b>Y central</b>, <b>X derecha</b> y <b>Y derecha</b>
+    para que las copas queden dentro de las áreas de vista previa.
+  </li>
+</ol>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_1278_.jpeg" alt="Vista previa y ajuste de copas" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  Para cámaras frontal y trasera, solo se configura una copa, por lo que únicamente están
+  disponibles los parámetros <b>X izquierda</b> e <b>Y izquierda</b>.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_12752_.jpeg" alt="Configuración de copas en cámaras frontal y trasera" class="img-figure ss">
+
+<p style="margin:0 0 10px;">
+  El ancho máximo del área de previsualización (marcado con el recuadro rojo) debe ser al menos
+  una copa menor que el área visible. Esto compensa desalineaciones de la cámara que podrían
+  provocar que no se vean las mismas copas entre cámaras adyacentes.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_12821_.jpeg" alt="Configuración incorrecta del cortador" class="img-figure xs">
+
+<!-- (ACA QUEDEEEEEEEEEEEE) -->
+<p style="margin:0 0 10px;"><b>INCORRECTO:</b></p>
+
+<img src="Imagenes/Captura de pantalla_24-12-2025_8223_.jpeg" alt="Configuración correcta del cortador" class="img-figure sm">
+
+<p style="margin:0 0 10px;"><b>CORRECTO:</b></p>
+
+<img src="Imagenes/Captura de pantalla_24-12-2025_8241_.jpeg" alt="Configuración correcta del cortador" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  <b>5.</b> Ajuste la posición del <b>punto de referencia</b> para que la línea apunte directamente
+  al marcador visible en la vista previa. Este punto se utilizará para calcular los desplazamientos
+  de salida. Solo debe ajustarse para la cámara de referencia montada en la posición superior.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_8656_.jpeg" alt="Ajuste del punto de referencia" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  <b>6.</b> Seleccione el segundo panel (derecha) y ajuste el cortador de la cámara dependiente
+  hasta que los contornos de las bolas coincidan con las bolas reales.
+</p>
+
+<p style="margin:0 0 10px;"><b>INCORRECTO:</b></p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_8850_.jpeg" alt="Ajuste de cámara dependiente" class="img-figure sm">
+
+<p style="margin:0 0 10px;"><b>CORRECTO:</b></p>
+
+<img src="Imagenes/Captura de pantalla_24-12-2025_8106_.jpeg" alt="Ajuste de cámara dependiente" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  <b>7.</b> Repita el paso anterior para cada cámara dependiente del carril.
+</p>
+
+<p style="margin:0 0 10px;">
+  <b>8.</b> Configure la <b>primera copa</b>. Esta se refiere siempre a la primera imagen de la fruta.
+  Si se utiliza cámara frontal, la primera copa es la visible; si no, corresponde a la copa más a la
+  izquierda vista por la cámara superior.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_8142_.jpeg" alt="Configuración de la primera copa" class="img-figure xs">
+
+<p style="margin:0 0 10px;">
+  Ejemplo de configuración de primera copa:
+</p>
+
+<ul style="margin:0 0 12px; padding-left:18px;">
+  <li><b>Frontal:</b> 0 (distancia entre A y A)</li>
+  <li><b>Superior:</b> 1 (distancia entre A y B)</li>
+  <li><b>Trasera:</b> 4 (distancia entre A y E)</li>
+</ul>
+
+<p style="margin:0 0 10px;">
+  <b>9.</b> Guarde los cambios o restaure la configuración anterior antes de cerrar la ventana.
+  Al cerrar sin guardar, los cambios se perderán. Confirme que el punto de referencia esté verificado
+  marcando la opción correspondiente antes de guardar.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_81724_.jpeg" alt="Guardar configuración del cortador" class="img-figure sm">
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.8. Calibración de peso</b></p>
+
+<p style="margin:0 0 10px;">
+  La calibración de peso se puede habilitar en la configuración global. Requiere que la <b>celda de carga</b>
+  y el <b>sensor de proximidad de sincronización de línea</b> estén montados y conectados a la <b>RTUnit</b>.
+  La clasificación por peso requiere una <b>RTUnit por carril</b>.
+</p>
+
+<p style="margin:0 0 10px;"><b>Montaje del sensor de proximidad de sincronización de línea</b></p>
+
+<p style="margin:0 0 10px;">
+  Asegúrese de que el sensor esté montado en una posición donde una de las copas quede aproximadamente
+  en el centro de la celda de carga cuando se active la señal de sincronización de línea.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_8200_.jpeg" alt="Montaje del sensor de proximidad de sincronización de línea" class="img-figure sm">
+
+<p style="margin:0 0 10px;"><b>Descripción general / Configuración del clasificador de peso</b></p>
+
+<p style="margin:0 0 10px;">
+  Comience configurando los siguientes parámetros globales para <b>todos los carriles</b>:
+</p>
+
+<ul style="margin:0 0 12px; padding-left:18px;">
+  <li style="margin:6px 0;"><b>Peso de calibración:</b> masa usada como referencia durante la calibración.</li>
+  <li style="margin:6px 0;">
+    <b>Número de muestras de calibración requeridas:</b> define cuántas veces debe colocarse la masa en el carril.
+    La masa debe colocarse en un recipiente diferente cada vez. Más muestras permiten definir mejor la desviación
+    óptima de la señal de sincronización de línea para tomar mediciones de peso.
+  </li>
+  <li style="margin:6px 0;">
+    <b>Diferencia mínima entre el peso del vaso vacío y el del vaso lleno durante la calibración:</b>
+    define la diferencia mínima como porcentaje respecto a la lectura del vaso vacío.
+    Ejemplo: si se configura en 20% y el vaso vacío marca 1000, con la masa debe marcar ≥ 1200;
+    si no, el vaso no se reconocerá como lleno. Ajuste según la celda de carga utilizada.
+  </li>
+</ul>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_8210_.jpeg" alt="Parámetros de configuración del clasificador de peso" class="img-figure sm">
+
+<p style="margin:0 0 10px;"><b>Diagnóstico</b></p>
+
+<p style="margin:0 0 10px;">
+  Una vez configurados los parámetros globales, utilice <b>Diagnóstico</b> para verificar:
+  que las celdas de carga estén conectadas correctamente y que la diferencia entre taza vacía y llena sea adecuada.
+</p>
+
+<p style="margin:0 0 10px;">
+  Nota: la línea de referencia se puede arrastrar o mover usando el control deslizante.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_82411_.jpeg" alt="Diagnóstico: línea de referencia" class="img-figure sm">
+
+<p style="margin:0 0 10px;"><b>Contando tazas</b></p>
+
+<p style="margin:0 0 10px;">
+  Asegúrese de que los parámetros <b>lane_pulsesPerEncoderRevolution</b> y <b>lane_cupsPerEncoderRevolution</b>
+  en la configuración global sean correctos y que los sensores de sincronización estén conectados a las RTUnits.
+</p>
+
+<p style="margin:0 0 10px;">
+  Inicie el conteo de vasos para cada carril y siga las instrucciones en pantalla. El procedimiento solo puede
+  ejecutarse para un carril, pero el resultado se puede guardar para todos si el número de copas es igual
+  (marque “Aplicar a todos los carriles habilitados” antes de guardar).
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_82541_.jpeg" alt="Conteo de tazas por carril" class="img-figure sm">
+
+<p style="margin:0 0 10px;"><b>Calibración</b></p>
+
+<p style="margin:0 0 10px;">
+  Configure Vision para cargar la distancia de la celda de carga (en copas) midiendo la distancia entre el punto
+  de referencia (el mismo que se usa en la configuración del cortador) y el centro de la celda de carga.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_84157_127.0.0.1.jpeg" alt="Distancia entre punto de referencia y celda de carga" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  Inicie la calibración y siga las instrucciones en pantalla:
+</p>
+
+<ul style="margin:0 0 12px; padding-left:18px;">
+  <li style="margin:6px 0;">Poner en marcha la máquina y esperar la señal de sincronización de línea.</li>
+  <li style="margin:6px 0;">Esperar hasta que la velocidad del carril se estabilice y alcance la velocidad deseada.</li>
+  <li style="margin:6px 0;">
+    Colocar la masa de referencia una vez para determinar la diferencia real entre vaso vacío y lleno mientras la máquina
+    está en funcionamiento.
+  </li>
+  <li style="margin:6px 0;">
+    Esperar hasta que el programa recopile la cantidad necesaria de medidas de peso de vasos vacíos.
+  </li>
+  <li style="margin:6px 0;">
+    Colocar la masa de referencia el número de veces necesario para recolectar medidas de peso de vasos llenos.
+  </li>
+</ul>
+
+<p style="margin:0 0 10px;">
+  Una vez recopilados los datos, se mostrarán las tablas de configuración del punto de referencia del clasificador de peso.
+  El punto de referencia se establece automáticamente para minimizar la desviación estándar, pero puede ajustarse manualmente
+  antes de guardar.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_84431_127.0.0.1.jpeg" alt="Tablas y punto de referencia del clasificador de peso" class="img-figure sm">
+
+<p style="margin:0 0 10px;"><b>Guardar y continuar con el siguiente carril</b></p>
+
+<p style="margin:0 0 10px;">
+  Los resultados se muestran en una pantalla de resumen para comparar carriles y verificar la velocidad a la que se calibraron.
+  La calibración y la velocidad de funcionamiento no deben variar más del <b>10%</b> para asegurar precisión. Si se supera ese límite,
+  se mostrará una advertencia en el estado del sistema.
+</p>
+
+<p style="margin:0 0 10px;">
+  El <b>desplazamiento de peso seco (WG)</b> es el porcentaje del ancho de la celda de carga calculado a partir del punto de referencia y
+  el número de lecturas por vaso. El <b>promedio del desplazamiento</b> es la lectura media de la celda de carga para vasos vacíos.
+  El <b>divisor</b> es el valor promedio de la celda de carga por unidad de masa, basado en vasos llenos durante la calibración.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_84643_127.0.0.1.jpeg" alt="Resumen de resultados de calibración de peso" class="img-figure sm">
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.9. Salidas</b></p>
+
+<p style="margin:0 0 10px;">
+  En esta ventana, el operador puede <b>agregar y eliminar salidas</b>.
+  Además, permite configurar qué salidas se considerarán como <b>desperdicio</b>.
+</p>
+
+<p style="margin:0 0 10px;">
+  La opción <b>“Es desperdicio”</b> solo afecta a las <b>estadísticas</b> del sistema y no modifica
+  el comportamiento físico de las salidas durante la clasificación.
+</p>
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.10. Etiquetadoras</b></p>
+
+<p style="margin:0 0 10px;">
+  En esta ventana, el operador puede <b>agregar y quitar etiquetadoras</b> del sistema.
+</p>
+
+<p style="margin:0 0 10px;">
+  Las etiquetadoras configuradas estarán disponibles posteriormente para ser
+  <b>asignadas a salidas lógicas</b> dentro del módulo de <b>Asignaciones de E/S</b>.
+</p>
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.11. Asignaciones de IO</b></p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_84941_127.0.0.1.jpeg" alt="Diseños predefinidos de asignaciones IO" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  El módulo <b>Asignaciones de E/S</b> permite al operador asignar las salidas de los
+  módulos de E/S del Clasificador a <b>salidas lógicas</b> y/o <b>etiquetadoras</b>.
+</p>
+
+<p style="margin:0 0 10px;">
+  El operador puede utilizar uno de los <b>diseños predefinidos</b> seleccionando una
+  de las opciones disponibles en la columna <b>Diseño</b>.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_85123_127.0.0.1.jpeg" alt="Diseños predefinidos de asignaciones IO" class="img-figure xs">
+
+<p style="margin:0 0 10px;">
+  Si ninguno de los diseños predefinidos se ajusta a la configuración real del hardware,
+  es posible <b>asignar manualmente</b> cada puerto seleccionando las
+  salidas o etiquetadoras disponibles desde la lista.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_85344_127.0.0.1.jpeg" alt="Asignación manual de puertos IO" class="img-figure xs">
+
+<p style="margin:0 0 10px;">
+  Tenga en cuenta que la lista solo muestra <b>salidas y etiquetadoras no asignadas</b>.
+</p>
+
+<p style="margin:0 0 10px;">
+  El <b>fondo amarillo</b> indica puertos no utilizados dentro de la configuración actual.
+</p>
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.12. Desplazamientos de salida</b></p>
+
+<p style="margin:0 0 10px;">
+  El desplazamiento de salida es la <b>distancia entre una salida</b> y el <b>punto de referencia</b>
+  configurado en la configuración del cortador. La distancia se mide en <b>copas</b> y debe medirse manualmente.
+</p>
+
+<p style="margin:0 0 10px;">
+  Primero, se ajusta ejecutando la <b>calibración de salida</b>. Es necesario asignar salidas a los puertos
+  de E/S en <b>Asignaciones de E/S</b> antes de iniciar la calibración.
+</p>
+
+<p style="margin:0 0 10px;">
+  <b>Copiar salida</b> o <b>Copiar carril</b> permite copiar rápidamente los desplazamientos entre carriles y salidas.
+  Esto puede ser útil, ya que los módulos de salida deben montarse a la misma distancia del punto de referencia
+  en cada carril (esto puede ocurrir solo en carriles pares e impares).
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_85525_127.0.0.1.jpeg" alt="Vista general de desplazamientos de salida" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  Inicie la calibración de salida cuando se hayan proporcionado todos los desplazamientos y diseños de salida.
+</p>
+
+<p style="margin:0 0 10px;">
+  Conecte el <b>módulo de calibración LED</b> a la salida LED del módulo de punción conectado a la salida/puntera
+  que se está calibrando. Asegúrese de que la máquina esté en funcionamiento y marque la casilla junto al número
+  de salida calibrada.
+</p>
+
+<p style="margin:0 0 10px;">
+  La luz intermitente del módulo de calibración LED crea un efecto estroboscópico que permite ver la posición exacta
+  de la copa sincronizada con la activación del módulo de punción correspondiente.
+</p>
+
+<p style="margin:0 0 10px;">
+  Asegúrese de que el módulo de calibración apunte al módulo de punción correcto y ajuste el desplazamiento hasta que
+  la puntera apunte exactamente al centro de la copa. Repita el proceso para cada puntera.
+</p>
+
+<p style="margin:0 0 10px;"><b>INCORRECTO:</b></p>
+
+<!-- INCORRECTO: (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_85947_127.0.0.1.jpeg" alt="Desplazamiento de salida incorrecto" class="img-figure s">
+
+<p style="margin:0 0 10px;"><b>CORRECTO:</b></p>
+
+<!-- CORRECTO: (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_85947_127.0.0.1.jpeg" alt="Desplazamiento de salida correcto" class="img-figure s">
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_9046_127.0.0.1.jpeg" alt="Proceso de calibración de desplazamientos de salida" class="img-figure sm">
+
+<p style="margin:0 0 10px;">
+  Guarde los cambios antes de cerrar la ventana de <b>Desplazamientos de salida</b>.
+</p>
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.13. Pruebas de salida</b></p>
+
+<p style="margin:0 0 10px;">
+  Las pruebas de salida permiten al operador <b>activar las salidas seleccionadas</b>
+  para verificar su correcto funcionamiento.
+</p>
+
+<p style="margin:0 0 10px;">
+  Las salidas se activan <b>secuencialmente</b>, comenzando por la salida 1
+  para todos los carriles simultáneamente.
+</p>
+
+<p style="margin:0 0 10px;">
+  El intervalo de activación se puede configurar mediante uno de los
+  <b>valores predefinidos</b> disponibles en los botones de la parte superior.
+</p>
+
+<p style="margin:0 0 10px;">
+  Cada salida puede seleccionarse de forma individual haciendo clic en la
+  celda correspondiente de la tabla.
+</p>
+
+<p style="margin:0 0 10px;">
+  Al hacer clic en el <b>encabezado de fila</b>, el operador puede seleccionar
+  todas las salidas del carril correspondiente.
+</p>
+
+<p style="margin:0 0 10px;">
+  Al hacer clic en el <b>encabezado de columna</b>, se seleccionan todas las
+  salidas del número indicado.
+</p>
+
+<!-- (imagen) -->
+<img src="Imagenes/Captura de pantalla_24-12-2025_928_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.14. Desplazamientos de la etiquetadora</b></p>
+
+<p style="margin:0 0 10px;">
+  Los desplazamientos de la etiquetadora funcionan de la <b>misma manera</b>
+  que los desplazamientos de salida.
+</p>
+
+<p style="margin:0 0 10px;">
+  Consulte la sección <b>“Desplazamientos de salida”</b> de este manual para
+  obtener información detallada sobre el procedimiento de configuración y calibración.
+</p>
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+<p style="margin:0 0 10px;"><b>8.15. Prueba de etiquetadora</b></p>
+
+<p style="margin:0 0 10px;">
+  La prueba de etiquetadora funciona de la <b>misma manera</b> que la prueba de salida.
+</p>
+
+<p style="margin:0 0 12px;">
+  Consulte la sección <b>“Pruebas de salida”</b> de este manual para obtener
+  información detallada sobre el procedimiento de prueba.
+</p>
+
+  </div>
+</div>
+
+</section>
+<div class="figure">
+  <div class="figure-h">
+    <h3>9. Configuración de perfiles</h3>
+    <div class="hint">Ajustes de cámara, imágenes y algoritmos de visión</div>
+  </div>
+
+  <div class="figure-b">
+    <p>
+      El sistema de perfiles permite al operador configurar los parámetros de visión utilizados durante
+      la clasificación de fruta. Estos ajustes pueden variar dependiendo del color de la fruta,
+      la rotación durante el transporte y la complejidad del programa de clasificación seleccionado.
+    </p>
+
+    <p>
+      Desde el perfil es posible definir el número de imágenes utilizadas para la clasificación
+      (conteo de vasos), permitiendo optimizar el rendimiento de la unidad de visión cuando se utilizan
+      algoritmos más complejos o se trabaja con limitaciones de procesamiento.
+    </p>
+
+    <p>
+      Algunos programas de clasificación requieren una menor cantidad de imágenes por fruta para
+      cumplir con los requisitos de rendimiento de la unidad Vision.
+    </p>
+
+    <p>
+      Para acceder a esta configuración, asegúrese de haber iniciado sesión como administrador y de que
+      el sistema se encuentre en modo de configuración. Abra la ventana de <strong>Configuración de Perfiles</strong>
+      desde el menú principal.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_82319_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p>
+      En la parte inferior de la ventana, seleccione el perfil que desea editar. Es posible modificar
+      el nombre del perfil y elegir uno de los algoritmos de visión disponibles.
+    </p>
+
+    <p>
+      Configure el número de imágenes tomadas ajustando los siguientes parámetros:
+    </p>
+
+    <ul>
+      <li>
+        <strong>Imágenes por vaso:</strong> define cuántas veces la cámara capturará una nueva imagen
+        cada vez que la máquina avance un vaso.
+      </li>
+      <li>
+        <strong>Número de imágenes tomadas:</strong> define cuántas imágenes serán capturadas y procesadas
+        por cada fruta y por cada tipo de fotografía disponible (solo para cámaras Top).
+      </li>
+    </ul>
+
+    <p>
+      El número máximo de imágenes tomadas está limitado por la siguiente fórmula:
+    </p>
+
+    <p style="text-align:center; font-weight:700;">
+      (Cantidad de vasos base − 1) × Imágenes por vaso + 1
+    </p>
+
+    <p>
+      La cantidad de vasos base puede configurarse en la ventana de configuración de la cortadora
+      (ver sección correspondiente de este manual).
+    </p>
+
+    <p>
+      Utilice la opción <strong>"Establecer como actual"</strong> para definir el perfil que será utilizado
+      durante la clasificación. El perfil actual no puede ser eliminado y solo puede modificarse
+      en modo de configuración.
+    </p>
+
+    <p>
+      Si el nuevo perfil actual utiliza un algoritmo de visión diferente al del perfil anterior,
+      el programa de clasificación dejará de estar configurado como actual debido a la compatibilidad
+      entre algoritmos. El perfil activo se muestra en la barra superior de la ventana principal.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_82618_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p>
+      Utilice las pestañas ubicadas en el lateral izquierdo de la ventana para acceder al formulario
+      de configuración de cámaras.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_82734_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p>
+      Seleccione el perfil editado desde la lista ubicada en la esquina superior izquierda de la ventana
+      y ajuste los parámetros específicos de la cámara según sea necesario. Una vez realizados los cambios,
+      guarde la configuración.
+    </p>
+
+    <p>
+      La opción <strong>"Copiar por tipo de foto"</strong> permite copiar la configuración de la cámara
+      seleccionada a todas las cámaras que utilicen el mismo tipo de fotografía, agilizando el proceso
+      de configuración.
+    </p>
+  </div>
+  </div>
+</section>
+
+<!-- ===================== -->
+<!-- 10. PROGRAMAS DE CALIFICACIÓN -->
+<!-- ===================== -->
+<div class="figure" id="programas-calificacion">
+  <div class="figure-h">
+    <h3>10. Programas de calificación</h3>
+    <div class="hint">Configuración de programas, tabla de clasificación y parámetros avanzados</div>
+  </div>
+
+  <div class="figure-b">
+
+    <p>
+      Un programa de clasificación consta de un conjunto de parámetros y opciones de configuración que determinan
+      cómo se clasifica la fruta. Cada programa debe asignarse a un perfil que determina el algoritmo de visión que se
+      utilizará para la clasificación. GP Vision Grader permite al operador crear múltiples programas de clasificación y
+      alternar entre ellos durante la clasificación. Utilice el menú principal para abrir la ventana de programas de
+      clasificación. Añada un nuevo programa de clasificación: asígnele un nombre y seleccione un perfil.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_125710_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure ss">
+
+    <p>
+      Utilice "Establecer como actual" para cambiar el programa de calificación actual. Este programa se muestra en la
+      barra superior de la ventana principal:
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_125843_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p>
+      Los programas de calificación se pueden clonar, eliminar, importar y exportar.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_125943_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure md">
+
+    <p>
+  Haga doble clic o seleccione Abrir/editar para editar el programa de calificación.
+    </p>
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+    <p style="margin:0 0 10px;"><b>10.1. Tabla de clasificación</b></p>
+
+    <p>
+      La tabla de calificación consta de siete secciones:
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_1336_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <ol style="margin:0; padding-left:18px;">
+      <li style="margin:10px 0;">
+        <b>Arrastrar y soltar:</b> permite al operador cambiar el orden de las clases arrastrando y soltando las filas de la tabla.
+        El programa de clasificación procesa la tabla de clasificación de arriba a abajo. Si no se cumplen las condiciones de la
+        primera clase de la tabla, se analiza la siguiente. La fruta clasificada se asignará a la primera clase que cumpla las
+        condiciones.
+      </li>
+
+      <li style="margin:10px 0;">
+        <b>Estado:</b> muestra advertencias y errores. En el ejemplo anterior, el símbolo de advertencia indica que no se han especificado
+        condiciones de clasificación para la nueva Clase 1. Esto podría provocar que todas las frutas se asignen a esa clase.
+        Pase el cursor sobre el símbolo de advertencia para ver la información sobre herramientas con los detalles de la advertencia.
+      </li>
+
+      <li style="margin:10px 0;">
+        <b>Clase:</b> muestra el nombre de la clase y, opcionalmente, el nombre del grupo asignado (entre paréntesis). Cada clase se
+        representa en una sola fila en la tabla de calificación. Utilice el botón "Añadir clase" en la esquina superior derecha de la
+        ventana para añadir una nueva clase o utilice el menú contextual para añadir una nueva clase directamente debajo de la
+        clase seleccionada. El nombre se asignará automáticamente. Haga clic en la celda de la columna "Clase" para cambiar
+        el nombre de la clase. Es importante recordar que los nombres de las clases deben ser únicos; de lo contrario, GP Vision
+        Grader no permitirá que el operador guarde los cambios y mostrará un mensaje de error junto al botón "Guardar".
+      </li>
+    </ol>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_13435_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p>
+      Haga clic derecho en la fila de la tabla para agregar/editar/copiar/eliminar la clase (aparecerá un menú contextual)
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_13519_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure xs">
+
+    <p>
+      La ventana del editor de clases permite al operador modificar las condiciones de las entidades (en particular, las
+      relacionadas con las entidades mostradas en modo compacto) y la asignación de grupos. Los grupos se utilizan
+      únicamente para generar informes; si no se asigna ningún grupo, se usará el nombre de la clase.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_13849_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure ss">
+
+    <p style="margin:14px 0 10px;">
+      <b>4. Salidas:</b> Cada clase debe tener al menos una salida asignada. Para asignar salidas, introduzca el número de
+      salida separado por comas en la columna "Salida". También es posible proporcionar rangos de números de
+      salida, introduciendo el primer y el último número de salida en un rango separado por un guion. A continuación,
+      se muestran algunos ejemplos de asignaciones de salida correctas:
+    </p>
+
+    <ul style="margin:0 0 12px; padding-left:18px;">
+      <li>1</li>
+      <li>2, 3, 4</li>
+      <li>24</li>
+      <li>24,7,911</li>
+    </ul>
+
+    <p style="margin:14px 0 10px;">
+      <b>5. Características:</b> todas las características utilizadas para la calificación en el programa de calificación se muestran como
+      columnas en la tabla. Haga clic en "Administrar características" para agregar, eliminar, cambiar los nombres o el orden de
+      las características (consulte la sección "Administrar características" de este manual para obtener más información).
+    </p>
+
+    <p style="margin:14px 0 10px;">
+      <b>6. Condiciones de clasificación:</b> cada clase puede tener un conjunto de condiciones de clasificación que determinan
+      si la fruta se asignará a esa clase. Es importante tener en cuenta que las condiciones de clasificación de una
+      sola clase deben considerarse como si existiera una operación lógica AND entre ellas. Esto significa que todas
+      las condiciones de clasificación de la clase dada deben cumplirse para asignar la fruta a esa clase. Existen dos
+      tipos de condiciones de clasificación: número/mínmáx o verdadero/falso.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_13945_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure ss">
+
+    <p>
+      En el ejemplo anterior hay dos características, pero solo una tiene una condición de calificación especificada.
+      La condición de calificación indica que el % promedio de Shivel de la característica debe ser mayor o igual a 0,18.
+      No se especifica un valor máximo. La casilla de verificación "Tallo" permanece vacía, por lo que se omitirá. Es
+      importante tener en cuenta que las características de verdadero/falso utilizan casillas de verificación triestado:
+    </p>
+
+    <ul style="margin:0 0 12px; padding-left:18px;">
+      <li>sin condición de calificación</li>
+      <li>la característica debe ser falsa</li>
+      <li>la característica debe ser verdadera</li>
+    </ul>
+
+    <p style="margin:14px 0 10px;">
+      <b>7. Otros:</b> muestra las condiciones de las características relacionadas con las características mostradas en modo compacto.
+      El signo más indica varias condiciones de características. Haga clic con el botón derecho en una fila de la tabla para abrir
+      el menú contextual y la ventana del editor de clases para editar la condición de la característica relacionada. Utilice el
+      administrador de características (Administrar características) para cambiar el modo de visualización entre estándar y compacto.
+    </p>
+
+    <p style="margin:14px 0 10px;"><b>Etiquetadoras</b></p>
+
+    <p>
+      Si se agregan etiquetadoras (consulte Configuración del sistema &gt; Etiquetadoras), la columna Etiquetadora aparecerá entre las secciones
+      "Salida" y "Características" de la tabla. Utilice el menú desplegable de etiquetadoras para seleccionar la que se usará para la clase dada.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_131042_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p style="margin:14px 0 10px;"><b>Interruptor de alternancia de actualizaciones de API</b></p>
+
+    <p>
+      El interruptor "Actualizaciones de API" aparece en la esquina superior derecha, sobre la tabla de calificación, si las actualizaciones del
+      programa de calificación a través de la API están habilitadas (ver: Configuración de la aplicación). Al habilitar las actualizaciones de API
+      para el programa en cuestión, se deshabilitan la tabla de calificación y todas las funciones de gestión del programa de calificación
+      relacionadas con este. El interruptor solo está activo si no hay cambios pendientes. Las Actualizaciones de API deben estar habilitadas
+      para editar el programa de calificación a través de la API.
+    </p>
+
+    <p style="margin:14px 0 10px;"><b>Guardar/Restaurar, Guardar y aplicar/Restaurar</b></p>
+
+    <p>
+      Cada cambio realizado en el programa de calificación debe guardarse o cancelarse. Mientras no se guarde y aplique, los cambios no
+      tendrán ningún efecto en la calificación. Utilice los botones Guardar y Restaurar en la esquina inferior derecha de la ventana. El botón
+      Guardar indicará los cambios no guardados activando el icono del disco. El botón Guardar solo guardará los cambios pendientes en la
+      base de datos. Si el operador está editando el programa de calificación actual y el sistema está en modo de calificación, el botón Guardar
+      será reemplazado por el botón Guardar y aplicar, que guarda el programa de calificación en la base de datos y envía la nueva configuración
+      a las unidades Vision.
+    </p>
+
+    <p>No hay cambios pendientes:</p>
+    <img src="Imagenes/Captura de pantalla_26-12-2025_131124_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure xs">
+
+    <p>Cambios no guardados:</p>
+    <img src="Imagenes/Captura de pantalla_26-12-2025_13125_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure xs">
+
+    <p>Guardar y aplicar:</p>
+    <img src="Imagenes/Captura de pantalla_26-12-2025_131310_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure xs">
+
+    <p style="margin:14px 0 10px;"><b>Vista previa de los cambios de distribución</b></p>
+
+    <p>
+      Antes de guardar, el operador puede obtener una vista previa de cómo los cambios influirán en la distribución de la fruta.
+      La distribución se calcula en base a la fruta ya clasificada almacenada en la memoria de la Unidad de Visión.
+      El número de elementos almacenados para calcular los cambios de distribución se puede ajustar en la configuración global. El gráfico se
+      puede ordenar en orden descendente o por orden de clases en la tabla de calificación (si se selecciona la distribución por clase). Al pasar
+      el cursor sobre las columnas del gráfico, se muestra la distribución en puntos porcentuales de toda la distribución y los porcentajes
+      relacionados con la columna correspondiente.
+    </p>
+
+    <ul style="margin:0 0 12px; padding-left:18px;">
+      <li>Azul – línea base – porción sin cambios de la distribución</li>
+      <li>Verde – aumento de la distribución</li>
+      <li>Gris – disminución de la distribución</li>
+    </ul>
+
+    <p>
+      Entonces la distribución total después de los cambios sería Azul + Verde, antes de los cambios: Azul + Gris.
+      El número sin clasificar en la esquina superior derecha muestra el porcentaje de fruta que no cumple con los criterios de
+      ninguna clase en la tabla de clasificación.
+    </p>
+
+    <p>
+      Guardar, Guardar y Aplicar funcionan igual que en la tabla de calificación. Volver permite al operador volver a editar el
+      programa de calificación sin guardar los cambios.
+    </p>
+
+    <p>
+      El botón "Editar programa" deshabilita la vista previa de los cambios de distribución. Esto se debe a que editar el programa
+      de calificación puede cambiar la lista de funciones disponibles. La opción "Administrar funciones" aún se puede usar, ya que
+      no afecta la lista de funciones disponibles; solo las agrega o elimina de la tabla de calificación.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_131350_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p style="margin:14px 0 10px;"><b>Editar programa</b></p>
+
+    <p>
+      Editar programa abre la ventana de configuración del programa, que permite al operador modificar la configuración del
+      programa y gestionar la lista de funciones disponibles. Consulte la sección "Editar programa" de este manual para obtener
+      más información.
+    </p>
+
+    <p style="margin:14px 0 10px;"><b>Indicador de programa actual</b></p>
+
+    <p>
+      La línea vertical verde en el lado izquierdo de la pestaña del programa de calificación indica que el programa seleccionado
+      es el programa actual.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_131436_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure s">
+
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+    <p style="margin:0 0 10px;"><b>10.2. Distribución de salidas</b></p>
+
+    <p>
+      El módulo de distribución de salidas permite al operador configurar un tipo específico de distribución de fruta dentro de los
+      grupos de salidas. Para añadir una nueva distribución de salidas, haga clic en el botón "Añadir distribución de salidas".
+      Complete el formulario con la siguiente información:
+    </p>
+
+    <ul style="margin:0 0 12px; padding-left:18px;">
+      <li>
+        <b>Modo:</b>
+        <ul style="margin:6px 0 0; padding-left:18px;">
+          <li>
+            <b>Global:</b> cuenta los elementos globalmente (toma en cuenta todos los carriles al agregar elementos). Tenga en cuenta
+            que el modo global requiere que se defina el maestro de distribución de salida (consulte Configuración del sistema &gt; Carriles).
+            El maestro de distribución de salida es responsable de resolver la salida según la clase reportada por los carriles; en otras palabras,
+            los carriles esclavos preguntan al maestro de distribución de salida dónde expulsar cada elemento.
+          </li>
+          <li><b>Local:</b> cada carril cuenta los artículos individualmente.</li>
+        </ul>
+      </li>
+
+      <li>
+        <b>Tipo:</b>
+        <ul style="margin:6px 0 0; padding-left:18px;">
+          <li><b>Conteo:</b> distribución por número de elementos calificados.</li>
+          <li><b>Peso:</b> distribución por peso de los artículos clasificados.</li>
+          <li><b>Cuantiles:</b> distribución por característica seleccionada; el número de cuantiles depende del número de salidas elegidas.</li>
+        </ul>
+      </li>
+
+      <li><b>Característica:</b> requerida solo cuando se selecciona el tipo Cuantiles.</li>
+      <li><b>Elementos cuantílicos:</b> número de elementos recientes utilizados para calcular rangos de cuartiles para la característica seleccionada.</li>
+      <li>
+        <b>Secuencia de salida:</b> lista de salidas entre las que se distribuye la fruta. Tenga en cuenta que el orden de salida no importa;
+        las salidas se ordenarán en orden ascendente según su número.
+        <ul style="margin:6px 0 0; padding-left:18px;">
+          <li><b>Salida:</b> número de salida.</li>
+          <li><b>Cantidad:</b> requerida para los tipos Cantidad y Peso (significa cantidad o peso respectivamente).</li>
+          <li><b>Unidad:</b> requerida para el tipo Peso.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_131541_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p style="margin:14px 0 10px;">
+      Es importante tener en cuenta que:
+    </p>
+
+    <ul style="margin:0 0 12px; padding-left:18px;">
+      <li>La salida no se puede asignar a más de una distribución.</li>
+      <li>
+        Si una clase se asigna a una salida que pertenece a una de las distribuciones, todos los elementos calificados como esta
+        clase se redirigirán automáticamente al módulo de distribución para resolver el número de salida.
+      </li>
+    </ul>
+
+    <p>
+      Ejemplo: La clase 1 se asigna a las salidas 3 y 4. El operador ha definido una distribución para las salidas 1, 2 y 3.
+      Si un artículo se clasifica como Clase 1, se expulsará a la salida 1, 2 o 3 (según el estado actual del módulo de distribución).
+      Nunca se expulsará a la salida 4, ya que la Clase 1 está asignada a la salida 3, lo que resulta en que todos los artículos se
+      redirijan a la distribución de las salidas 1, 2 y 3.
+    </p>
+
+    <p>
+      Haga clic derecho en la tabla de distribución Salir para editar o eliminar la distribución:
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_131626_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+    <p style="margin:0 0 10px;"><b>10.3. Administrar funciones</b></p>
+
+    <p>
+      En esta ventana, el operador puede agregar o quitar características a/de la tabla de clasificación.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_131710_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p>
+      La tabla de la izquierda muestra las características añadidas a la tabla de clasificación. La tabla de la derecha muestra todas las
+      características disponibles. Haga doble clic o seleccione y use las flechas centrales para añadir o eliminar una característica
+      de la tabla de calificación.
+    </p>
+
+    <p style="margin:14px 0 10px;"><b>Características elegidas:</b></p>
+
+    <p>
+      Elija uno de los dos modos de visualización disponibles:
+    </p>
+
+    <ul style="margin:0 0 12px; padding-left:18px;">
+      <li><b>Estándar:</b> se muestra como una columna separada en la tabla de calificación.</li>
+      <li><b>Compacto:</b> se muestra en la última columna de la tabla de clasificación (Otro), visible solo si la condición de la característica está definida para la clase dada.</li>
+    </ul>
+
+    <p>
+      Utilice las flechas y el icono de edición para cambiar el orden o asignar un nombre personalizado.
+      También se pueden reordenar las características seleccionadas arrastrando y soltando el nombre. Este nombre
+      se mostrará en la tabla de clasificación. El orden también se aplicará a la tabla de clasificación.
+      El color rojo indica que la característica ya no existe (por ejemplo, debido a que se eliminó el espectro relacionado).
+    </p>
+
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+    <p style="margin:0 0 10px;"><b>10.4. Editar programa</b></p>
+
+    <p>
+      Cambie entre las pestañas para configurar el programa de calificación.
+    </p>
+
+    <p style="margin:14px 0 10px;"><b>10.4.1. Detección de frutas</b></p>
+
+    <p>
+      Todos los parámetros relacionados con la detección de fruta y tallo se pueden configurar en la pestaña de detección de fruta. Cargue
+      imágenes en el selector de fruta y ajuste los parámetros mientras observa la vista previa de la imagen. El borde verde indica que la fruta se
+      ha detectado correctamente.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_131756_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p>
+      Seleccione uno de los tipos de anotaciones disponibles (Fruta/Tallo) para ver diferentes anotaciones en la ventana de
+      vista previa. Es importante tener en cuenta que al editar los parámetros a la izquierda, el tipo de anotación cambiará
+      automáticamente (Fruta para los parámetros de detección de fruta, Tallo para los parámetros de detección de tallo).
+    </p>
+
+    <p>
+      Utilice Exportar/Importar para exportar e importar parámetros de detección de fruta (espectros de tallo y parámetros
+      relacionados). Tenga en cuenta que los distintos algoritmos de fruta pueden utilizar parámetros diferentes. Importar la
+      configuración de un programa con un algoritmo diferente conservará solo el conjunto de parámetros común a ambos
+      algoritmos.
+    </p>
+
+    <p>
+      A continuación puede encontrar un ejemplo de parametrización incorrecta:
+      Debido al bajo umbral de detección de fruta, algunos elementos del fondo podrían detectarse como fruta (fondo verde, sin
+      borde azul). En este ejemplo, la fruta se detecta correctamente, pero es muy probable que no funcione con otras
+      imágenes.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_131845_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p>
+      Si se reduce un poco el diámetro mínimo, el programa comienza a ver más frutas y el algoritmo de detección de
+      frutas devuelve falso porque parte de esa fruta está fuera de la imagen:
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_131959_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p>
+      Para configurar la detección del tallo se deben configurar los parámetros relacionados con el tallo y dos espectros:
+    </p>
+
+    <ul style="margin:0 0 12px; padding-left:18px;">
+      <li style="margin:6px 0;">
+        <b>Tallo externo e interno:</b> se utiliza para detectar el tallo fuera de la fruta (marca azul). También se utiliza para detectar el tallo dentro
+        de la fruta, pero solo si el área encontrada conecta con un tallo fuera de la fruta.
+      </li>
+      <li style="margin:6px 0;">
+        <b>Tallo interno:</b> se utiliza para detectar el color del tallo en el interior de la fruta (no se requiere conexión con el exterior). En general,
+        este espectro debería ser más restrictivo que los espectros de tallo externo e interno.
+      </li>
+    </ul>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_132048_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p>
+      Asegúrese de realizar la prueba en más de una imagen. Restablezca los valores predeterminados si es necesario. Consulte Spectra
+      para obtener más detalles sobre cómo funciona el selector de espectro.
+    </p>
+
+    <p style="margin:14px 0 10px;"><b>Detección de frutas para ostras</b></p>
+
+    <p>
+      El algoritmo de ostras separa el fondo por color. El color de fondo se selecciona mediante dos umbrales en el rango de tono. En el
+      ejemplo a continuación, el azul es el color de fondo (indicado por la ausencia de una línea blanca bajo el control de tono). En este
+      ejemplo, se utilizan colores distintos del azul para detectar el cuerpo del fruto (indicado por una línea blanca).
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_132134_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure s">
+
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+    <p style="margin:14px 0 10px;"><b>10.4.2. Espectros</b></p>
+
+    <p>
+      Un espectro en GP Vision Grader define un conjunto de rangos de valores de diferentes canales. Estos rangos se
+      utilizan para calcular el porcentaje de la superficie de la fruta dentro de dicho rango y los valores promedio de los
+      canales de color dentro de dicho rango. Estos valores calculados se presentan como características que pueden
+      utilizarse en la tabla de clasificación.
+    </p>
+
+    <p>
+      Agregue un nuevo espectro para abrir la ventana del editor de espectro.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_132246_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p>
+      Asígnele un nombre y, opcionalmente, una descripción. Cargue la imagen en el selector de frutas y seleccione una de
+      las imágenes cargadas para previsualizarla. Si la imagen cargada era una fruta real clasificada (la fruta se cargó en
+      modo de clasificación), sus valores característicos estarán disponibles en la parte superior izquierda de la ventana.
+    </p>
+
+    <p style="margin:14px 0 10px;"><b>Selector de rango</b></p>
+
+    <p>
+      De forma predeterminada, se crea un rango que cubre todo el espectro. Esto significa que toda la fruta debe estar
+      cubierta por el color del rango. Ajuste los selectores de rango arrastrando los bordes o las esquinas del selector de rango.
+      Mantenga presionada la tecla Ctrl para mover todo el rango. Haga clic para agregar o eliminar rango. Seleccione rangos haciendo
+      clic en los números. Se pueden agregar hasta cinco rangos para cada espectro. Se muestran los valores reales seleccionados por
+      el rango en cada canal junto al canal indicado. Use los botones copiar y pegar para copiar rangos entre espectros. Elimine primero
+      todos los rangos para pegar los rangos copiados en la memoria (el botón Pegar estará deshabilitado mientras exista un rango).
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_13245_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure s">
+
+    <p>
+      Ajuste las posiciones del selector de rango para cada canal disponible. Aquí está la lista de canales disponibles:
+    </p>
+
+    <ul style="margin:0 0 12px; padding-left:18px;">
+      <li><b>Tono, Sat, Val:</b> esos son los canales HSV de la imagen de la cámara a color.</li>
+      <li><b>NIR:</b> imagen NIR.</li>
+      <li>
+        <b>NIR Grad – Gradiente NIR:</b> detecta cambios en el valor de los píxeles en la imagen NIR, se puede utilizar para
+        detección de bordes (arrugas).
+      </li>
+      <li>
+        <b>NIR Equ – NIR Equalized – Versión ecualizada de la imagen NIR:</b> la ecualización debe hacer que el valor promedio de los píxeles
+        sea igual a 128 para cada imagen. Permite detectar los puntos más brillantes o más oscuros.
+      </li>
+    </ul>
+
+    <p style="margin:14px 0 10px;"><b>Visualización del valor de los píxeles</b></p>
+
+    <p>
+      Los valores de píxeles de la imagen previsualizada se pueden visualizar en el control Selector de rango, están disponibles las
+      siguientes herramientas:
+    </p>
+
+    <ul style="margin:0 0 12px; padding-left:18px;">
+      <li>activa el modo de arrastre</li>
+      <li>activa el modo de selección de color: cada píxel seleccionado se visualiza en el selector de rango</li>
+      <li>goma – elimina la selección de píxeles</li>
+      <li>deshacer – revierte la última selección</li>
+      <li>borra la selección</li>
+    </ul>
+
+    <p>
+      Los puntos en el selector de rango (a la izquierda, imagen inferior) representan los valores de los píxeles seleccionados (píxeles
+      naranja y azul claro en la vista previa de la imagen a la derecha). Los píxeles rosa (Rango) y azul claro (superpuestos) en la vista
+      previa de la imagen representan los rangos seleccionados. El color auxiliar define el color de las líneas de ayuda.
+      Use para mostrar/ocultar anotaciones y líneas de ayuda.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_132557_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p>
+      El operador puede cambiar los colores si es necesario.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_132820_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure ss">
+
+    <p>
+      Hay dos ventanas de vista previa de imágenes que permiten al operador comparar fácilmente diferentes tipos de imágenes.
+      Utilice el menú desplegable sobre la vista previa para cambiar el tipo de imagen.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_132857_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure ss">
+
+    <p style="margin:14px 0 10px;"><b>Conteo puntual</b></p>
+
+    <p>
+      Algunos rangos pueden provocar que se muestre una gran cantidad de puntos en la vista previa de la imagen. En algunos
+      casos, puede ser útil eliminar los puntos más pequeños o contarlos. Utilice la opción "Calcular puntos" para ello. Hay tres modos
+      posibles:
+    </p>
+
+    <ul style="margin:0 0 12px; padding-left:18px;">
+      <li><b>No hacer nada:</b> no se realiza ninguna eliminación ni recuento de manchas.</li>
+      <li>
+        <b>Eliminar puntos pequeños:</b> elimina los puntos menores que el umbral establecido (en unidades cuadradas o porcentaje). Los
+        puntos eliminados no se tendrán en cuenta al calcular los valores porcentuales del espectro cubierto ni los valores promedio.
+      </li>
+      <li>
+        <b>Tres clases:</b> divide los puntos en tres clases: pequeño, mediano y grande. Al habilitar este modo, se crean características
+        adicionales que representan el número de puntos en cada una de las tres clases.
+      </li>
+    </ul>
+
+    <p style="margin:14px 0 10px;"><b>Parámetros del espectro</b></p>
+
+    <p>
+      Se pueden configurar los siguientes parámetros del espectro:
+    </p>
+
+    <ul style="margin:0 0 12px; padding-left:18px;">
+      <li>
+        <b>Margen de seguridad corporal ignorado:</b> en la unidad del sistema (mm por defecto): define el ancho del área ignorada en el borde de la fruta.
+      </li>
+      <li>
+        <b>Margen de seguridad del tallo ignorado:</b> en unidades del sistema (mm por defecto): define el ancho del área ignorada cerca del tallo (si existe tallo).
+      </li>
+      <li>
+        <b>Distancia mínima al tallo:</b> en unidades del sistema (mm por defecto). Puede activarse o desactivarse (casilla de verificación).
+        Define la distancia mínima al tallo. Si alguna parte de un foco se encuentra dentro de esa distancia, se ignorará todo el foco.
+      </li>
+      <li>
+        <b>Omitir imágenes sin tallo:</b> las imágenes sin tallo no se tienen en cuenta al calcular características del espectro.
+      </li>
+      <li>
+        <b>Mínimo de imágenes presentes:</b> si no se encuentra el espectro en la cantidad dada de imágenes, las características del
+        espectro agregado (como: porcentaje promedio cubierto, etc.) devolverán 0. Los valores específicos de la imagen devolverán los valores reales.
+      </li>
+      <li>
+        <b>Mínimo de imágenes presentes consecutivas:</b> el mínimo de imágenes presentes cuenta las imágenes consecutivas solo.
+      </li>
+      <li>
+        <b>Posición de la cámara:</b> seleccione para qué fuentes de fotos (posiciones de cámara) se calcularán las características relacionadas con el espectro dado.
+        Por razones de rendimiento, no se recomienda seleccionar posiciones de cámara que generen características no utilizadas en la tabla de clasificación.
+      </li>
+    </ul>
+
+    <p style="margin:14px 0 10px;"><b>Eliminar/editar espectro</b></p>
+
+    <p>
+      Cierre la ventana del editor de espectro para volver a la lista de espectro. Utilice el menú contextual para exportar,
+      editar o eliminar un espectro existente. También se puede hacer doble clic para abrir el editor de espectro. Es importante
+      tener en cuenta que al eliminar el espectro también se eliminarán las características relacionadas.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_133022_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+    <p style="margin:14px 0 10px;"><b>10.4.3. Puntos blandos</b></p>
+
+    <p>
+      Todos los parámetros relacionados con los puntos suaves se pueden ajustar en la pestaña Puntos suaves. Cargue las
+      imágenes en el selector de frutas y ajuste los parámetros mientras observa la visualización en la vista previa de la imagen.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_133134_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+    <p>
+      Margen de seguridad corporal en puntos blandos: representado por la línea azul en la vista previa.
+      Los puntos blandos constituyen el margen de seguridad, representado por la línea roja en la vista previa.
+    </p>
+
+    <p>
+      Eliminar puntos largos con una relación de rectángulo delimitador menor que: ignora los puntos suaves largos según la relación
+      del rectángulo delimitador: 0: no se produce ninguna eliminación; 1: se ignoran todos los puntos suaves, excepto aquellos con
+      rectángulos delimitadores cuadrados.
+    </p>
+
+    <p>
+      Eliminar el punto blando más grande en imágenes sin tallo: ignora el punto blando más grande si no se encuentra el tallo; se aplica
+      por imagen.
+    </p>
+
+    <p style="margin:14px 0 10px;">
+      Los siguientes parámetros se refieren a puntos blandos pequeños y grandes:
+    </p>
+
+    <ul style="margin:0 0 12px; padding-left:18px;">
+      <li><b>Área mínima:</b> área mínima del punto en mm2.</li>
+      <li>
+        <b>Umbral bajo:</b> un valor entre 0 y 100, la probabilidad de un punto suave de todos los píxeles que tengan un valor inferior al umbral
+        dado será del 100% (los píxeles más oscuros tienen valores más bajos y una mayor probabilidad de un punto suave).
+      </li>
+      <li>
+        <b>Umbral alto:</b> un valor entre 0 y 100, debe ser mayor que el Umbral bajo, la probabilidad de punto suave de todos los píxeles
+        que tienen un valor mayor que el umbral dado será 0%, la probabilidad de valores de píxeles entre umbrales inferiores y superiores
+        se escalará linealmente.
+      </li>
+      <li>
+        <b>Umbral de probabilidad:</b> todos los píxeles que tengan una probabilidad de punto blando superior al umbral dado se considerarán un
+        punto blando.
+      </li>
+      <li>
+        <b>Umbral de punto débil profundo:</b> los valores de todos los píxeles que constituyen un punto débil (según el umbral de probabilidad)
+        se comparan con este umbral. Si el valor es inferior, el píxel también se considera un punto débil profundo.
+      </li>
+      <li>
+        <b>Radio de ecualización (en píxeles):</b> cuanto mayor sea el radio, más grandes serán los puntos suaves que se detectarán.
+      </li>
+      <li>
+        <b>Porcentaje más brillante ignorado en ecualización:</b> el porcentaje de los valores de píxeles más brillantes que no se tendrán en cuenta al ecualizar la imagen.
+      </li>
+    </ul>
+
+    <p>
+      Utilice las pestañas para cambiar entre las posiciones de la cámara; cada posición tiene su propio conjunto de ajustes.
+      Las pestañas de posición de la cámara solo aparecen si la posición de la cámara está habilitada en los parámetros
+      avanzados.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_133242_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+    <p style="margin:14px 0 10px;"><b>10.4.4. Funciones personalizadas</b></p>
+
+    <p>
+      GP Vision Grader permite al operador crear funciones personalizadas a partir de las existentes. Abra la ventana de
+      funciones personalizadas añadiendo una nueva o editando una existente. Asígnele un nombre y seleccione las dos
+      funciones que la conformarán. Elija una de las operaciones disponibles y multiplíquelo por cualquier valor si es necesario.
+      La nueva función puede usarse posteriormente para crear otras funciones. Las funciones dependientes de la función
+      editada se listan en la parte inferior de la ventana. Es importante recordar que cambiar la definición de la función afectará
+      a todas las funciones dependientes.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_133331_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+    <p style="margin:14px 0 10px;"><b>10.4.5. Parámetros avanzados</b></p>
+
+    <p>
+      Esta ventana muestra la lista de todos los parámetros disponibles del programa de calificación editado.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_133414_127.0.0.1.jpeg" alt="Pruebas de salida del sistema" class="img-figure sm">
+
+  </div>
+</div>
+
+<!-- ===================== -->
+<!-- 11. FRUTA RECIENTE -->
+<!-- ===================== -->
+<div class="figure" id="fruta-reciente">
+  <div class="figure-h">
+    <h3>11. Fruta reciente</h3>
+    <div class="hint">Previsualización de fruta recientemente clasificada</div>
+  </div>
+
+  <div class="figure-b">
+
+    <p>
+      En esta ventana, el operador puede previsualizar la fruta recientemente clasificada. La fruta puede cargarse
+      directamente desde el carril (unidad de visión) o desde el archivo exportado (.vgexp).
+    </p>
+
+    <p>
+      En la sección uno (1), seleccione el programa de clasificación que se utilizará para calcular las características
+      (pestaña 5 Programa seleccionado) y genere una vista previa (6). Utilice los controles de la sección dos (2) para
+      cargar la fruta clasificada. El botón Cargar recupera los últimos N elementos del carril seleccionado. Solo se puede
+      cargar la fruta de una clase seleccionada. Cambie el número de elementos cargados editando el valor de Resultados.
+    </p>
+
+    <p>
+      La carga automática permite al operador cargar periódicamente fruta del carril seleccionado. Carga las últimas N
+      imágenes cada 5 segundos. Si se clasificaron menos de N frutas nuevas en los últimos 5 segundos, no se volverá a
+      cargar la misma fruta. La fruta cargada se muestra a la izquierda (3).
+    </p>
+
+    <p style="margin:14px 0 10px;"><b>La sección de características (5) contiene dos pestañas:</b></p>
+
+    <ul style="margin:0 0 12px; padding-left:18px;">
+      <li>
+        <b>Programa seleccionado:</b> muestra los valores de las características calculados por el programa de
+        clasificación seleccionado (1) y permite obtener una vista previa de las características (6).
+      </li>
+      <li>
+        <b>Calificado:</b> muestra los valores de las características calculados por el programa de calificación que ha sido
+        utilizado por la Unidad de Visión para calificar la fruta dada.
+      </li>
+    </ul>
+
+    <p>
+      Seleccione la fruta para ver sus imágenes (4) y valores de características (5). Haga clic en la imagen (4) para ver
+      su vista previa en la sección de vista previa (6). Por defecto, solo se muestran las características seleccionadas
+      del programa de clasificación seleccionado en la lista de características (5). Marque la opción
+      <b>"Mostrar todas las características"</b> para verlas todas.
+    </p>
+
+    <p>
+      Haga clic en el icono del ojo junto a la función para mostrar su visualización en la sección de vista previa (6).
+      Esto solo está disponible en la pestaña <b>"Programa seleccionado"</b>. Si es posible, la imagen cambiará
+      automáticamente a la que representa la característica anotada (funciona con características mínimas y máximas,
+      no con características de tipo promedio). Vaya a la pestaña <b>"Imágenes"</b> en la sección 5 para ver los valores
+      de las características de cada imagen.
+    </p>
+
+    <p>
+      La línea verde bajo las imágenes de la sección 4 indica que se ha detectado la fruta. Hay dos líneas que indican la
+      detección de la fruta por el programa seleccionado (la línea superior, verde claro) y el programa utilizado por la
+      Unidad de Visión para clasificar la fruta (la línea inferior, verde oscuro).
+    </p>
+
+    <p>
+      Las líneas verdes pueden volverse rojas, lo que significa que no se detecta ninguna fruta en la imagen dada.
+      La línea roja también puede indicar que se detectaron varias frutas o que la fruta no se reconoció debido a otros
+      factores. El color naranja indica que se ha detectado un cuerpo fructífero, pero no se considera una fruta válida.
+      Esto puede ocurrir si la división de cuerpos fructíferos está desactivada (mediante el parámetro avanzado del
+      programa de clasificación).
+    </p>
+
+    <p>
+      En este caso, algunos pares pueden considerarse un solo cuerpo (cuerpo válido), pero no una fruta válida. Esto
+      permite al operador clasificar dichos pares por color (espectro), mientras que otras características (como tamaño,
+      peso, cavidades, etc.) no están disponibles.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_134014_127.0.0.1.jpeg"
+         alt="Pruebas de salida del sistema"
+         class="img-figure sm">
+
+    <p>
+      La pestaña Imágenes de la sección 5 permite al operador previsualizar instantáneamente las anotaciones de
+      características (solo en la pestaña Programa seleccionado). Haga clic en la celda de la tabla para seleccionar
+      automáticamente la imagen relacionada en la sección 4 y (si está disponible) mostrar la anotación en la sección 6.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_13419_127.0.0.1.jpeg"
+         alt="Pruebas de salida del sistema"
+         class="img-figure sm">
+
+  </div>
+</div>
+
+<!-- ===================== -->
+<!-- 12. ANÁLISIS DE DATOS -->
+<!-- ===================== -->
+<div class="figure" id="analisis-datos">
+  <div class="figure-h">
+    <h3>12. Análisis de datos</h3>
+    <div class="hint">Estadísticas y comparación de características</div>
+  </div>
+
+  <div class="figure-b">
+
+    <p style="margin:0 0 10px;"><b>12.1. General</b></p>
+
+    <p>
+      El análisis general de datos permite al operador analizar las características de grandes cantidades de fruta.
+      Algunas de las estadísticas posibles son: promedio, mínimo, máximo, mediana y cuantiles. Por defecto, solo se
+      analizan las características utilizadas en el programa de clasificación actual. Utilice "Añadir características"
+      para ver las estadísticas de otras características.
+    </p>
+
+    <p>
+      La tabla superior muestra la lista de elementos cargados y filtrados. Añada filtros seleccionando la clase,
+      la salida o una característica y su rango deseado (haga clic para añadir un filtro de características). Aplique
+      filtros para actualizar la lista de elementos clasificados y las estadísticas en la tabla inferior.
+    </p>
+
+    <p>
+      Solo se tienen en cuenta los elementos con un número de imágenes utilizadas mayor que cero al calcular las
+      estadísticas. El botón de Excel exporta la lista de elementos a un archivo de Excel.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_183721_127.0.0.1.jpeg"
+         alt="Pruebas de salida del sistema"
+         class="img-figure sm">
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+    <p style="margin:0 0 10px;"><b>12.2. Valores promedio</b></p>
+
+    <p>
+      Los valores promedio permiten al operador comparar fácilmente los valores de las características promedio entre
+      los carriles. Las irregularidades pueden indicar problemas de hardware, como luz o polarización incorrecta de la
+      cámara, iluminación deficiente o problemas de singularización.
+    </p>
+
+    <p>
+      Los promedios se basan en los artículos con un número de imágenes utilizadas mayor que cero (excepto
+      "Múltiples frutas", que considera todos los artículos).
+    </p>
+
+  </div>
+</div>
+
+<!-- ===================== -->
+<!-- 13. DESCRIPCIÓN GENERAL -->
+<!-- ===================== -->
+<div class="figure" id="descripcion-general">
+  <div class="figure-h">
+    <h3>13. Descripción general</h3>
+    <div class="hint">Gráficos y métricas principales de calificación</div>
+  </div>
+
+  <div class="figure-b">
+
+    <p>
+      La pantalla de descripción general consta de varios gráficos que representan las métricas de
+      calificación más importantes.
+    </p>
+
+    <ul style="padding-left:18px; margin:0 0 14px;">
+      <li>
+        <b>Llenado de vasos:</b> el primer gráfico muestra el promedio de llenado de vasos de todos los
+        carriles durante las últimas ocho horas. El gráfico de barras muestra el llenado actual de
+        vasos de cada carril. Este llenado se actualiza aproximadamente cada 10 segundos.
+      </li>
+
+      <li>
+        <b>Velocidad de carril:</b> muestra la velocidad actual del carril en tazas por segundo.
+        Si el valor parece inexacto, revise los parámetros
+        <b>lane_cupsPerEncoderRevolution</b> y
+        <b>lane_pulsesPerEncoderRevolution</b> en
+        <b>Configuración del sistema &gt; Ajustes globales</b>.
+      </li>
+
+      <li>
+        <b>Promedio de llenado de vasos:</b> muestra el promedio actual de llenado de vasos de todos
+        los carriles. Se actualiza cada 2 segundos y se basa en el llenado actual de cada carril
+        (actualizado cada ~10 s).
+      </li>
+
+      <li>
+        <b>Sin clasificar:</b> muestra el porcentaje actual de fruta sin clasificar. Un valor superior
+        al 0 % indica que el programa de clasificación actual no está configurado correctamente.
+      </li>
+
+      <li>
+        <b>Sin procesar:</b> muestra el porcentaje de fruta no procesada debido a una potencia de
+        procesamiento insuficiente. Esto puede ocurrir si el programa de clasificación es demasiado
+        complejo. Intente eliminar algunos espectros del programa actual o limite el número de
+        imágenes utilizadas en el perfil.
+      </li>
+
+      <li>
+        <b>Peso promedio de la fruta:</b> muestra el peso promedio de la fruta de los últimos ~10 segundos,
+        basado en el peso estimado o el peso real si la clasificación por peso está habilitada.
+      </li>
+
+      <li>
+        <b>Recuento diario:</b> muestra la cantidad de elementos calificados en el día actual.
+      </li>
+    </ul>
+
+    <p>
+      <b>Distribución:</b> el primer gráfico muestra la distribución actual de la fruta entre todas las
+      clases. El segundo gráfico muestra la distribución de la fruta en la última hora. Los gráficos
+      se actualizan aproximadamente una vez por minuto.
+    </p>
+
+    <p>
+      Ambos gráficos pueden mostrar la distribución por clase o por grupo (marque o desmarque la
+      casilla <b>"por grupo"</b>).
+    </p>
+
+    <p>
+      El período de tiempo del gráfico de distribución actual se puede ajustar seleccionando uno de
+      los valores predefinidos. También se puede forzar que el gráfico solo incluya estadísticas
+      tomadas después de un tiempo determinado.
+    </p>
+
+    <p>
+      Haga clic en el icono <b>"Restablecer ahora"</b> (icono del reloj) para establecer la restricción
+      de tiempo a la hora actual. La restricción se puede eliminar haciendo clic en el icono de la
+      papelera.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_184010_127.0.0.1.jpeg"
+         alt="Gráficos de distribución de fruta"
+         class="img-figure sm">
+    
+    <p>
+      El gráfico de distribución de la última hora se puede ajustar para mostrar solo las
+      clases/grupos seleccionados. Haga clic en <b>Configuración</b> para seleccionar clases/grupos
+      y asignar colores.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_183832_127.0.0.1.jpeg"
+         alt="Gráficos de distribución de fruta"
+         class="img-figure ss">
+
+    <p style="margin-top:14px;">
+      <b>Desperdicio:</b> muestra la proporción actual de desperdicio/no desperdicio. Esta se basa en
+      la salida por la que se expulsó la fruta. Vaya a
+      <b>Configuración &gt; Salidas</b> para configurar qué salidas se considerarán desperdicio.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_183926_127.0.0.1.jpeg"
+         alt="Indicador de desperdicio"
+         class="img-figure sm">
+
+  </div>
+</div>
+
+<!-- ===================== -->
+<!-- 14. GRUPOS DE CLASE -->
+<!-- ===================== -->
+<div class="figure" id="grupos-clase">
+  <div class="figure-h">
+    <h3>14. Grupos de clase</h3>
+    <div class="hint">Organización de clases para informes y estadísticas</div>
+  </div>
+
+  <div class="figure-b">
+
+    <p>
+      Los grupos se utilizan para generar informes (ver Estadísticas). Abra el editor de grupos de
+      clase desde el menú de la izquierda para agregar, editar, eliminar y cambiar el orden de los
+      grupos creados.
+    </p>
+
+    <p>
+      Haga clic en la columna <b>Nombre</b> para cambiar el nombre del grupo. Es importante tener en
+      cuenta que al eliminar un grupo, se eliminan automáticamente todas las tareas de clase
+      vinculadas.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_184123_127.0.0.1.jpeg"
+         alt="Editor de grupos de clase"
+         class="img-figure ss">
+
+  </div>
+</div>
+
+<!-- ===================== -->
+<!-- 15. ESTADÍSTICAS -->
+<!-- ===================== -->
+<div class="figure" id="estadisticas">
+  <div class="figure-h">
+    <h3>15. Estadísticas</h3>
+    <div class="hint">Histórico de cantidades, peso y distribución</div>
+  </div>
+
+  <div class="figure-b">
+
+    <p>
+      GP Vision Grader guarda la cantidad y el peso estimado/medido de la fruta clasificada en cada
+      clase/grupo una vez por minuto. Los datos históricos se pueden visualizar en el módulo de
+      estadísticas. Seleccione el período deseado y cargue los datos. Guárdelos como un nuevo lote
+      para poder acceder fácilmente a las estadísticas en el futuro.
+    </p>
+
+    <p>
+      El peso significa peso estimado o medido, dependiendo de si el módulo de clasificación por peso
+      está habilitado o no.
+    </p>
+
+    <p>
+      Los grupos se pueden administrar en el editor de grupos de clases y luego asignarlos a clases
+      en la tabla de calificaciones. Eliminar un lote no elimina los datos subyacentes.
+    </p>
+
+    <p>
+      Aunque los datos se guardan en la base de datos cada minuto, es posible que las cantidades no
+      representen las cantidades reales clasificadas en un minuto determinado. Esto se debe a
+      limitaciones de almacenamiento y al mecanismo de agregación de datos, que pueden provocar una
+      variación en las cantidades reportadas entre unidades de tiempo adyacentes (minutos).
+      No obstante, la cantidad total de fruta clasificada en un período más largo representa las
+      cantidades reales.
+    </p>
+
+    <p>
+      El gráfico de barras muestra la distribución en porcentaje (%) por clase o grupo, en función
+      de las cantidades o el peso. Algunas clases pueden no tener un peso estimado, ya que la fruta
+      no se puede procesar para estas clases. Un buen ejemplo de dicha clase sería <b>Pair</b>.
+    </p>
+
+    <p>
+      El gráfico circular de la derecha muestra la distribución entre fruta y desperdicio según el
+      peso o la cantidad y la configuración de salida. Vaya a
+      <b>Configuración del sistema &gt; Salidas</b> para definir qué salidas se consideran como residuo.
+    </p>
+
+    <p>
+      La columna de secuencia de la tabla que muestra la lista de grupos se basa en el número de
+      secuencia definido en el editor de grupos de clases. Un número de secuencia vacío significa que
+      el grupo no existe (se ha eliminado) o que la clase nunca se asignó a un grupo.
+    </p>
+
+    <p>
+      En ese caso, las cantidades/pesos se asignan a una clase integrada llamada <b>"Otro"</b>,
+      lo cual también se indica mediante el signo de advertencia junto al nombre del grupo.
+    </p>
+
+    <p>
+      El peso estimado se basa en el volumen y la densidad estimados de la fruta. La densidad se puede
+      ajustar para cada programa de clasificación en
+      <b>Parámetros avanzados &gt; Gramos por cm cúbico</b>.
+    </p>
+
+    <p>
+      Los datos se pueden exportar como informe PDF o archivo Excel. Haga clic en el icono de
+      engranaje junto al botón PDF para configurar el contenido del informe PDF.
+    </p>
+
+    <p>
+      El botón desplegable de período de tiempo permite seleccionar uno de los intervalos de tiempo
+      predefinidos. Los datos deben recargarse manualmente después de cambiar el período de tiempo
+      seleccionado.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_18428_127.0.0.1.jpeg"
+         alt="Módulo de estadísticas - vista general"
+         class="img-figure s">
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_184244_127.0.0.1.jpeg"
+         alt="Gráfico de barras de distribución"
+         class="img-figure sm">
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_18437_127.0.0.1.jpeg"
+         alt="Gráfico circular fruta vs desperdicio"
+         class="img-figure sm">
+
+  </div>
+</div>
+
+<!-- ===================== -->
+<!-- 16. REGISTROS -->
+<!-- ===================== -->
+<div class="figure" id="registros">
+  <div class="figure-h">
+    <h3>16. Registros</h3>
+    <div class="hint">Registros de carriles y de la PC del operador</div>
+  </div>
+
+  <div class="figure-b">
+
+    <p>
+      Hay dos tipos de registros en GP Vision Grader:
+    </p>
+
+    <p><b>Registros de carriles</b></p>
+
+    <p>
+      Los registros de carriles se generan a partir de los carriles y no se guardan en la base de
+      datos ni en el disco duro. Estos registros están disponibles mientras la unidad de visión
+      esté activada.
+    </p>
+
+    <p>
+      Utilice <b>"Cargar"</b> para cargar los registros de todos los carriles en el período indicado.
+      Utilice las opciones de filtrado de la izquierda para filtrar por nivel de registro o carril.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_185634_127.0.0.1.jpeg"
+         alt="Registros de carriles"
+         class="img-figure lg">
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+    <p><b>Registros de la PC del operador</b></p>
+
+    <p>
+      GP Vision Grader guarda los registros en un archivo de texto en el directorio de datos del
+      programa. Los registros actuales (desde el último reinicio del programa) también se pueden
+      ver en la pestaña <b>Registros &gt; PC del operador</b>.
+    </p>
+
+    <p>
+      Utilice las opciones de filtrado para filtrar por nivel de registro o tiempo (no es necesario
+      recargar). Utilice <b>"Recargar"</b> para cargar los registros más recientes.
+    </p>
+
+    <p>
+      Seleccione la entrada del registro para ver los detalles.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_18592_127.0.0.1.jpeg"
+         alt="Registros de la PC del operador"
+         class="img-figure lg">
+
+  </div>
+</div>
+
+<!-- ===================== -->
+<!-- 17. CONFIGURACIÓN DE LA APLICACIÓN -->
+<!-- ===================== -->
+<div class="figure" id="configuracion-aplicacion">
+  <div class="figure-h">
+    <h3>17. Configuración de la aplicación</h3>
+    <div class="hint">Opciones generales, rendimiento, red, depuración y API</div>
+  </div>
+
+  <div class="figure-b">
+
+    <p>
+      La configuración de la aplicación se puede acceder desde el menú principal. Todas las opciones,
+      excepto la de idioma, solo se pueden editar en el modo Administrador. Aquí se muestra la lista
+      de opciones y su significado:
+    </p>
+
+    <ul style="margin:0; padding-left:18px;">
+      <li style="margin:6px 0;"><b>Idioma:</b> el idioma de la interfaz de usuario de la aplicación.</li>
+      <li style="margin:6px 0;"><b>Unidad de peso:</b> la unidad de peso utilizada en las estadísticas y en el indicador de rendimiento.</li>
+      <li style="margin:6px 0;">
+        <b>Rendimiento máximo:</b> el rendimiento máximo estimado; este valor se utiliza solo para configurar
+        la escala del indicador de rendimiento.
+      </li>
+      <li style="margin:6px 0;">
+        <b>Velocidad máxima del carril [tazas/s]:</b> velocidad máxima del carril del indicador de velocidad del carril.
+      </li>
+      <li style="margin:6px 0;">
+        <b>Virtualización de filas de la tabla de calificación:</b> mejora los tiempos de carga y actualización de la
+        tabla de calificación al representar solo las filas visibles. Las filas que no se ven se representan al
+        desplazarse el usuario hacia arriba o hacia abajo. Esto puede causar vibraciones al desplazarse.
+      </li>
+      <li style="margin:6px 0;">
+        <b>Virtualización de columnas de la tabla de calificación:</b> mejora los tiempos de carga y actualización de la
+        tabla de calificación al representar solo las columnas visibles. Las columnas que no se ven se representan
+        al desplazarse el usuario a la izquierda o a la derecha. Esto puede causar vibraciones al desplazarse.
+      </li>
+      <li style="margin:6px 0;">
+        <b>Usar fruta reciente en formato binario:</b> habilita el formato binario para transferir imágenes recientes
+        de fruta desde la Unidad de Visión a la estación del operador. El formato binario se comprime mucho más rápido,
+        pero genera un volumen de datos ligeramente mayor. Debe estar habilitado por defecto. En general, el formato
+        binario es mucho más rápido y solo debe desactivarse si experimenta problemas de transferencia de datos
+        (red lenta, etc.).
+      </li>
+      <li style="margin:6px 0;"><b>Intervalo de cuadros [ms]:</b> este es el intervalo entre cuadros en la vista previa de la cámara en vivo.</li>
+      <li style="margin:6px 0;"><b>Tiempo de espera de conexión [ms]:</b> durante cuánto tiempo el GP Vision Grader intenta conectarse a la unidad Vision.</li>
+      <li style="margin:6px 0;">
+        <b>Tiempo de espera del temporizador de sondeo [ms]:</b> este es el intervalo entre actualizaciones del estado
+        de la conexión. Si el host remoto (unidad de visión) cierra la conexión, la aplicación lo detectará después
+        de un tiempo determinado o antes.
+      </li>
+      <li style="margin:6px 0;">
+        <b>Tiempo de espera del comando [ms]:</b> cuánto tiempo espera el GP Vision Grader el resultado del comando
+        de la Unidad de Visión.
+      </li>
+      <li style="margin:6px 0;">
+        <b>Puerto maestro de distribución de salida:</b> define el número de puerto que utiliza el carril maestro de
+        distribución de salida para fines de comunicación cuando se utiliza el modo global de distribución de salida.
+      </li>
+      <li style="margin:6px 0;">
+        <b>Modo de depuración:</b> activa o desactiva el modo de depuración, en el que se guarda más información en
+        los archivos de registro de la aplicación o se informa al usuario. Este modo no debe usarse con frecuencia,
+        ya que puede afectar negativamente al rendimiento de la aplicación.
+      </li>
+    </ul>
+
+    <p style="margin:14px 0 6px;"><b>API</b></p>
+
+    <ul style="margin:0; padding-left:18px;">
+      <li style="margin:6px 0;">
+        <b>API:</b> activa o desactiva la API local. Consulte la sección API local y la documentación de la API para obtener
+        más información sobre la lista de funciones disponibles a través de API.
+      </li>
+      <li style="margin:6px 0;"><b>Puerto:</b> puerto utilizado por el servidor API.</li>
+      <li style="margin:6px 0;">
+        <b>Acceso remoto:</b> habilita o deshabilita el acceso a través de direcciones distintas a localhost/127.0.0.1.
+      </li>
+      <li style="margin:6px 0;">
+        <b>Lista segura de IP:</b> lista de direcciones permitidas para conectarse a API, IPv4 o IPv6; use 127.0.0.1 para host local.
+      </li>
+      <li style="margin:6px 0;">
+        <b>Actualizaciones del programa de calificación de API:</b> habilita o deshabilita globalmente las modificaciones del programa a través
+        de API; debe habilitarse para mostrar el interruptor de alternancia <b>"Actualizaciones de API"</b> sobre la tabla de calificación y permitir
+        que el operador habilite actualizaciones a través de la API para programas individuales.
+      </li>
+    </ul>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_185950_127.0.0.1.jpeg"
+         alt="Configuración de la aplicación y parámetros de API"
+         class="img-figure s">
+
+  </div>
+</div>
+
+<!-- ===================== -->
+<!-- 18. API LOCAL -->
+<!-- ===================== -->
+<div class="figure" id="api-local">
+  <div class="figure-h">
+    <h3>18. API local</h3>
+    <div class="hint">Integración con software de terceros y acceso remoto</div>
+  </div>
+
+  <div class="figure-b">
+
+    <p>
+      La API local proporciona un conjunto de funciones que permiten que software de terceros
+      interactúe con GP Vision Grader. Se diseñó principalmente para facilitar el acceso remoto a
+      estadísticas e informes, así como para realizar modificaciones básicas del programa de
+      calificación.
+    </p>
+
+    <p>
+      Consulte la documentación de la API local para obtener más información sobre las funciones
+      disponibles a través de la API.
+    </p>
+
+    <p>
+      Configurar la API local puede requerir una configuración de red avanzada de Windows. A
+      continuación se muestra un conjunto de comandos de Windows útiles para ello:
+    </p>
+
+    <pre><code>// mostrar lista de entradas ACL de URL actuales
+netsh http mostrar urlacl
+
+// añadir entrada ACL de URL
+netsh http agregar urlacl url=http://+:9000/ usuario=wszyscy
+netsh http agregar urlacl url=http://127.0.0.1:9000/ usuario=wszyscy
+
+// eliminar la entrada ACL de la URL
+netsh http eliminar urlacl http://127.0.0.1:9000/
+
+// mostrar entradas de iplisten
+netsh http mostrar iplisten
+
+// añadir dirección iplisten
+netsh http add iplisten 127.0.0.1 // agregar para habilitar el acceso a la API del host local
+</code></pre>
+
+    <p>
+      Agregue entradas ACL de URL para el host local o para todos los hosts (use "+") para habilitar
+      el acceso a la API local a través de la dirección IP y el puerto seleccionados. Agregue la
+      entrada <b>iplisten</b> correspondiente.
+    </p>
+
+    <p>
+      Al habilitar la API en la configuración de la aplicación, la pestaña de control del estado del
+      sistema debería mostrar un estado de API en verde. Busque errores en los registros del PC del
+      operador si el servicio API no se inicia correctamente.
+    </p>
+
+    <p>
+      Los errores de acceso denegado probablemente se deban a una configuración incorrecta de
+      <b>urlacl</b> o <b>iplisten</b>. Asegúrese de que el puerto del firewall de Windows esté abierto
+      para la comunicación TCP. Agregue una regla de puerto de firewall en lugar de una regla de
+      aplicación.
+    </p>
+
+  </div>
+</div>
+
+<!-- ===================== -->
+<!-- 19. COPIAS DE SEGURIDAD -->
+<!-- ===================== -->
+<div class="figure" id="copias-seguridad">
+  <div class="figure-h">
+    <h3>19. Copias de seguridad</h3>
+    <div class="hint">Respaldo de base de datos y protección de datos</div>
+  </div>
+
+  <div class="figure-b">
+
+    <p>
+      GP Vision Grader almacena casi toda la configuración y los datos en la base de datos de
+      MS SQL Server. Las herramientas de copia de seguridad de MS SQL Server y el Programador
+      de tareas de Windows permiten configurar las copias de seguridad.
+    </p>
+
+    <p>
+      A continuación se muestra un ejemplo de un script de copia de seguridad de SQL y un comando
+      de Windows que se puede utilizar para guardar periódicamente la copia de seguridad en un
+      directorio personalizado:
+    </p>
+
+    <pre><code>// script de copia de seguridad MSSQL: schedule.sql
+DECLARE @pathName NVARCHAR(512)
+SET @pathName = 'C:\Backup\db_backup_' + CONVERT(varchar(8), GETDATE(), 112) + '.bak'
+
+BACKUP DATABASE [MyDataBase]
+TO DISK = @pathName
+WITH NOFORMAT, NOINIT, NAME = N'db_backup',
+     SKIP, NOREWIND, NOUNLOAD, STATS = 10
+</code></pre>
+
+    <pre><code>// script de copia de seguridad del Programador de tareas de Windows
+sqlcmd -S NOMBREDESERVIDOR -U Nombredeusuario -P Contraseña -i schedule.sql
+</code></pre>
+
+    <p>
+      Para una mejor protección contra la pérdida de datos, la copia de seguridad debe guardarse
+      en una ubicación remota (una carpeta compartida, por ejemplo) y no debe almacenarse en la
+      misma computadora que la base de datos.
+    </p>
+
+    <p style="margin:14px 0 6px;"><b>Copia de seguridad manual</b></p>
+
+    <p>
+      Utilice SQL Server Management Studio para realizar copias de seguridad manualmente.
+      Conéctese al servidor, seleccione la base de datos y haga clic derecho en
+      <b>Tareas &gt; Copia de seguridad…</b>
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_19030_127.0.0.1.jpeg"
+         alt="Copia de seguridad manual en SQL Server Management Studio"
+         class="img-figure ss">
+
+    <p>
+      Utilice las opciones predeterminadas; opcionalmente cambie o agregue el archivo de destino:
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_19130_127.0.0.1.jpeg"
+         alt="Opciones de copia de seguridad en SQL Server"
+         class="img-figure sm">
+
+  </div>
+</div>
+
+<!-- ===================== -->
+<!-- 20. ACERCA DE -->
+<!-- ===================== -->
+<div class="figure" id="acerca-de">
+  <div class="figure-h">
+    <h3>20. Acerca de</h3>
+    <div class="hint">Información de la aplicación y licencias</div>
+  </div>
+
+  <div class="figure-b">
+
+    <p>
+      La ventana <b>"Acerca de"</b> se puede abrir haciendo clic en el botón <b>"Acerca de"</b> en la
+      barra de título de la ventana principal de la aplicación o en el botón <b>"Acerca de"</b> del
+      menú principal.
+    </p>
+
+    <p>
+      Esta ventana permite al operador abrir el Administrador de licencias o ver el archivo
+      <b>Notice.txt</b>, que contiene avisos de software de terceros y términos y condiciones de los
+      componentes de software de terceros con licencia utilizados por GP Vision Grader.
+    </p>
+
+    <img src="Imagenes/Captura de pantalla_26-12-2025_1920_127.0.0.1.jpeg"
+         alt="Ventana Acerca de y administrador de licencias"
+         class="img-figure s">
+
+  </div>
+</div>
+
+<!-- ===================== -->
+<!-- 21. SOLUCIÓN DE PROBLEMAS -->
+<!-- ===================== -->
+<div class="figure" id="solucion-problemas">
+  <div class="figure-h">
+    <h3>21. Solución de problemas</h3>
+    <div class="hint">Registros, errores comunes y novedades de versión</div>
+  </div>
+
+  <div class="figure-b">
+
+    <p style="margin:0 0 10px;"><b>¿Dónde se puede encontrar el registro de errores del software del operador GP Vision Grader?</b></p>
+
+    <p>
+      Los registros actuales de GP Vision Grader se almacenan en un archivo de texto:
+    </p>
+
+    <pre><code>C:\ProgramData\GP Graders\GP Vision Grader\logs.txt</code></pre>
+
+    <p>
+      Los archivos de registro más antiguos guardados como <b>*.txt.gz</b> se pueden encontrar en el
+      mismo directorio.
+    </p>
+
+    <p>
+      Algunas acciones desconectan la unidad de visión, que luego se vuelve a conectar después de
+      un tiempo. Lo más probable es que la acción intente ejecutar un comando que requiera el envío
+      de una gran cantidad de datos a través de la red o que requiera un uso intensivo de recursos.
+    </p>
+
+    <p>
+      Ambos factores pueden provocar que la ejecución del comando supere el tiempo de espera
+      establecido. Aumente el valor de <b>"Tiempo de espera del comando"</b> en la configuración de
+      la aplicación.
+    </p>
+
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,.10); margin:18px 0;">
+
+    <p style="margin:0 0 10px;"><b>¿Qué hay de nuevo? (en comparación con la versión 2.20.0)</b></p>
+
+    <ul style="padding-left:18px; margin:0;">
+      <li>
+        <b>4 – Interfaz de usuario – Controles comunes – Selector de frutas:</b>
+        Portapapeles para almacenar múltiples elementos.
+      </li>
+      <li>
+        <b>8.3 – Configuración global:</b> se agregaron ajustes de tamaño.
+      </li>
+      <li>
+        <b>8.6 – Calibración de tamaño:</b> la cantidad de bolas de calibración depende de que el
+        ajuste de tamaño esté habilitado o deshabilitado.
+      </li>
+      <li>
+        <b>10.1 – Tabla de clasificación:</b> cambios en la distribución.
+      </li>
+      <li>
+        <b>10.3 – Administrar funciones:</b> arrastrar y soltar habilitado.
+      </li>
+      <li>
+        <b>10.4.1 – Programas de clasificación – Editar programa – Detección de frutas:</b>
+        importación/exportación y separación de fondo de dos umbrales (algoritmo de ostras).
+      </li>
+      <li>
+        <b>10.4.2 – Calificación de programas – Editar programa – Espectros:</b>
+        importar/exportar.
+      </li>
+      <li>
+        <b>12.1 – Análisis de datos – General:</b> se agregó exportación a Excel.
+      </li>
+      <li>
+        <b>10.1 – Programas de calificación – Tabla de calificación:</b>
+        se añadió <b>Agregar</b> al menú contextual para insertar la nueva clase directamente debajo
+        de la clase seleccionada.
+      </li>
+      <li>
+        <b>15 – Estadísticas:</b> se agregó un botón desplegable de intervalo de tiempo.
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+
+</main>
+<footer>
+  gpVision™ · Manual técnico · Uso interno
+</footer>
+
+<script>
+  // ====== BUSCADOR + AUTOCOMPLETE ======
+  const searchInput = document.getElementById("searchInput");
+  const suggestList = document.getElementById("suggestList");
+  const searchBtn = document.getElementById("searchBtn");
+  const clearBtn = document.getElementById("clearSearchBtn");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const meta = document.getElementById("searchMeta");
+
+  let hits = [];
+  let activeIndex = -1;
+
+  // Autocomplete index
+  let indexItems = []; // { id, text, el }
+  let suggestActive = -1;
+  const MAX_SUGGEST = 8;
+
+  const SKIP_TAGS = new Set(["SCRIPT","STYLE","INPUT","TEXTAREA","BUTTON","IFRAME","MARK"]);
+
+  function escapeRegExp(str){
+    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function clearMarks(){
+    document.querySelectorAll("mark.gp-hit").forEach(m => {
+      const t = document.createTextNode(m.textContent);
+      m.replaceWith(t);
+    });
+    hits = [];
+    activeIndex = -1;
+  }
+
+  function setActive(idx){
+    if(!hits.length) return;
+    hits.forEach(h => h.classList.remove("active"));
+    activeIndex = (idx + hits.length) % hits.length;
+    hits[activeIndex].classList.add("active");
+    hits[activeIndex].scrollIntoView({ behavior:"smooth", block:"center" });
+    meta.textContent = `Coincidencias: ${hits.length} · Mostrando ${activeIndex + 1}/${hits.length}`;
+  }
+
+  function highlight(term){
+    clearMarks();
+    if(!term) {
+      meta.textContent = "Sin búsqueda activa.";
+      return;
+    }
+
+    const root = document.querySelector("main");
+    const rx = new RegExp(escapeRegExp(term), "gi");
+
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node){
+        if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        const p = node.parentElement;
+        if(!p) return NodeFilter.FILTER_REJECT;
+        if(SKIP_TAGS.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    const nodes = [];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+
+    nodes.forEach(node => {
+      const txt = node.nodeValue;
+      if(!rx.test(txt)) return;
+
+      rx.lastIndex = 0;
+      const frag = document.createDocumentFragment();
+      let last = 0;
+      let m;
+
+      while((m = rx.exec(txt)) !== null){
+        const start = m.index;
+        const end = start + m[0].length;
+
+        if(start > last) frag.appendChild(document.createTextNode(txt.slice(last, start)));
+
+        const mark = document.createElement("mark");
+        mark.className = "gp-hit";
+        mark.textContent = txt.slice(start, end);
+        frag.appendChild(mark);
+
+        last = end;
+      }
+
+      if(last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
+
+      node.parentNode.replaceChild(frag, node);
+    });
+
+    hits = Array.from(document.querySelectorAll("mark.gp-hit"));
+    if(hits.length){
+      setActive(0);
+    }else{
+      meta.textContent = "No se encontraron coincidencias.";
+    }
+  }
+
+  // ====== AUTOCOMPLETE: construir índice del manual ======
+  function buildIndex(){
+    const root = document.querySelector("main");
+    indexItems = [];
+
+    // 1) Títulos y subtítulos (prioridad alta)
+    root.querySelectorAll("h1,h2,h3,h4").forEach((el, i) => {
+      const t = (el.innerText || "").trim();
+      if(t.length >= 3) indexItems.push({ id: `h-${i}`, text: t, el });
+    });
+
+    // 2) List items (li) (útiles para pasos)
+    root.querySelectorAll("li").forEach((el, i) => {
+      const t = (el.innerText || "").trim();
+      if(t.length >= 12) indexItems.push({ id: `li-${i}`, text: t.slice(0, 220), el });
+    });
+
+    // 3) Párrafos importantes (opcional: recorta)
+    root.querySelectorAll(".figure-b p").forEach((el, i) => {
+      const t = (el.innerText || "").trim();
+      if(t.length >= 18) indexItems.push({ id: `p-${i}`, text: t.slice(0, 220), el });
+    });
+  }
+
+  // Normaliza para comparar
+  function norm(s){
+    return (s || "")
+      .toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,""); // quita tildes
+  }
+
+  function scoreMatch(query, text){
+    // scoring simple: incluye, empieza, proximidad
+    const q = norm(query);
+    const t = norm(text);
+    if(!q) return -1;
+    const idx = t.indexOf(q);
+    if(idx === -1) return -1;
+
+    let score = 0;
+    if(idx === 0) score += 6;          // empieza con
+    score += Math.max(0, 5 - Math.min(idx, 5)); // mientras más cerca del inicio mejor
+    score += Math.min(q.length / 4, 4); // query más larga, mejor
+    return score;
+  }
+
+  function hiText(text, query){
+    const q = query.trim();
+    if(!q) return text;
+    const rx = new RegExp(escapeRegExp(q), "ig");
+    return text.replace(rx, (m)=>`<span class="suggest-hi">${m}</span>`);
+  }
+
+  function hideSuggest(){
+    suggestList.style.display = "none";
+    suggestList.innerHTML = "";
+    suggestActive = -1;
+  }
+
+function showSuggest(items, query){
+  if(!items.length){
+    hideSuggest();
+    return;
+  }
+  suggestList.innerHTML = items.map((it, idx) => {
+    const line = it.text.length > 120 ? it.text.slice(0, 120) + "…" : it.text;
+    return `
+      <div class="suggest-item" data-idx="${idx}">
+        <div class="suggest-title">${hiText(line, query)}</div>
+      </div>
+    `;
+  }).join("");
+  suggestList.style.display = "block";
+}
+
+  function getSuggestions(query){
+    const q = query.trim();
+    if(q.length < 1) return [];
+
+    // filtra y rankea
+    const ranked = indexItems
+      .map(it => ({ it, s: scoreMatch(q, it.text) }))
+      .filter(x => x.s >= 0)
+      .sort((a,b) => b.s - a.s)
+      .slice(0, MAX_SUGGEST)
+      .map(x => x.it);
+
+    return ranked;
+  }
+
+  function jumpToElement(el, query){
+    if(!el) return;
+    // Lleva al elemento
+    el.scrollIntoView({ behavior:"smooth", block:"center" });
+    // Resalta el término en el documento
+    highlight(query);
+    // y activa la primera coincidencia visible
+    if(hits.length) setActive(0);
+    hideSuggest();
+  }
+
+  // ====== EVENTOS ======
+  buildIndex();
+
+  searchInput?.addEventListener("input", () => {
+    const q = searchInput.value;
+    const suggestions = getSuggestions(q);
+    showSuggest(suggestions, q);
+  });
+
+  // click en sugerencias
+  suggestList?.addEventListener("click", (e) => {
+    const item = e.target.closest(".suggest-item");
+    if(!item) return;
+    const q = searchInput.value.trim();
+    const suggestions = getSuggestions(q);
+    const idx = Number(item.dataset.idx);
+    const it = suggestions[idx];
+    if(it) jumpToElement(it.el, q);
+  });
+
+  // navegación teclado (flechas + enter)
+  searchInput?.addEventListener("keydown", (e)=>{
+    const q = searchInput.value.trim();
+    const suggestions = getSuggestions(q);
+    if(!suggestions.length) return;
+
+    const items = Array.from(suggestList.querySelectorAll(".suggest-item"));
+
+    if(e.key === "ArrowDown"){
+      e.preventDefault();
+      suggestActive = (suggestActive + 1) % items.length;
+      items.forEach(x => x.classList.remove("active"));
+      items[suggestActive].classList.add("active");
+      items[suggestActive].scrollIntoView({ block:"nearest" });
+    }
+    if(e.key === "ArrowUp"){
+      e.preventDefault();
+      suggestActive = (suggestActive - 1 + items.length) % items.length;
+      items.forEach(x => x.classList.remove("active"));
+      items[suggestActive].classList.add("active");
+      items[suggestActive].scrollIntoView({ block:"nearest" });
+    }
+    if(e.key === "Enter"){
+      // Si hay item activo, salta a ese
+      if(suggestActive >= 0 && suggestions[suggestActive]){
+        e.preventDefault();
+        jumpToElement(suggestions[suggestActive].el, q);
+      }else{
+        // si no, hace búsqueda normal
+        highlight(q);
+        hideSuggest();
+      }
+    }
+    if(e.key === "Escape"){
+      hideSuggest();
+    }
+  });
+
+  // click fuera: cerrar lista
+  document.addEventListener("click", (e)=>{
+    const wrap = e.target.closest(".search-wrap");
+    if(!wrap) hideSuggest();
+  });
+
+  searchBtn?.addEventListener("click", () => {
+    const q = searchInput.value.trim();
+    highlight(q);
+    hideSuggest();
+  });
+
+  nextBtn?.addEventListener("click", ()=> setActive(activeIndex + 1));
+  prevBtn?.addEventListener("click", ()=> setActive(activeIndex - 1));
+
+  clearBtn?.addEventListener("click", ()=>{
+    searchInput.value = "";
+    clearMarks();
+    meta.textContent = "Sin búsqueda activa.";
+    hideSuggest();
+  });
+
+  // ===== Reveal al aparecer en pantalla =====
+  (function(){
+    const targets = [
+      ...document.querySelectorAll(".section"),
+      ...document.querySelectorAll(".figure"),
+      ...document.querySelectorAll(".search-wrap")
+    ];
+
+    targets.forEach(el => el.classList.add("gp-reveal"));
+
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add("is-in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    targets.forEach(el => io.observe(el));
+  })();
+
+</script>
+
+
+</body>
+</html>

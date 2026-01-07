@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Acceso | Informe gpVision™</title>
+  <style>
+    :root{
+      --bg1:#081726; --bg2:#0b2a44;
+      --card: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.14);
+      --text:#eaf2ff; --muted: rgba(234,242,255,.75);
+      --accent:#2aa7ff; --danger:#ff4d4d;
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --r:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh; display:grid; place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 15% 15%, rgba(42,167,255,.18), transparent 60%),
+        radial-gradient(800px 400px at 85% 85%, rgba(42,167,255,.12), transparent 55%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      padding:24px;
+    }
+    .card{
+      width:min(420px, 100%);
+      background:var(--card);
+      border:1px solid var(--stroke);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+      padding:22px;
+      backdrop-filter: blur(10px);
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; margin-bottom:16px;
+    }
+    .logo{
+      width:40px; height:40px; border-radius:12px;
+      background: linear-gradient(135deg, rgba(42,167,255,.85), rgba(42,167,255,.25));
+      border:1px solid rgba(255,255,255,.18);
+      display:grid; place-items:center;
+      box-shadow: 0 10px 24px rgba(42,167,255,.18);
+      font-weight:800;
+    }
+
+    /* Logo GP Graders */
+.logoWrap{
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: rgba(0,0,0,.18);
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 10px 22px rgba(0,0,0,.25);
+  overflow: hidden;
+}
+
+.logoWrap img{
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+    h1{font-size:18px; margin:0}
+    p{margin:4px 0 0; color:var(--muted); font-size:13px; line-height:1.35}
+    .field{margin-top:14px}
+    label{display:block; font-size:12px; color:var(--muted); margin:0 0 6px}
+    input{
+      width:100%;
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:12px;
+      padding:12px 12px;
+      color:var(--text);
+      outline:none;
+    }
+    input:focus{
+      border-color: rgba(42,167,255,.6);
+      box-shadow: 0 0 0 4px rgba(42,167,255,.14);
+    }
+    .row{
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+      margin-top:10px;
+    }
+    .hint{font-size:12px; color:var(--muted)}
+    button{
+      width:100%;
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.18);
+      background: linear-gradient(135deg, rgba(42,167,255,.95), rgba(42,167,255,.55));
+      color:#03101a;
+      font-weight:800;
+      cursor:pointer;
+    }
+    button:hover{filter:brightness(1.05)}
+    .msg{
+      margin-top:12px;
+      font-size:13px;
+      padding:10px 12px;
+      border-radius:12px;
+      display:none;
+      border:1px solid rgba(255,77,77,.35);
+      background: rgba(255,77,77,.10);
+      color: #ffd0d0;
+    }
+    .footer{
+      margin-top:14px;
+      font-size:11px;
+      color: rgba(234,242,255,.55);
+      text-align:center;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+<div class="brand">
+  <div class="logoWrap">
+    <img src="Imagenes/image-removebg-preview.ico" alt="GP Graders">
+  </div>
+  <div>
+        <h1>Acceso restringido</h1>
+        <p>Ingrese credenciales para visualizar el informe técnico.</p>
+      </div>
+    </div>
+
+    <form id="loginForm" autocomplete="off">
+      <div class="field">
+        <label for="user">Usuario</label>
+        <input id="user" name="user" type="text" placeholder="admin" required />
+      </div>
+
+      <div class="field">
+        <label for="pass">Contraseña</label>
+        <input id="pass" name="pass" type="password" placeholder="••••••••" required />
+      </div>
+
+      <div class="row">
+        <span class="hint">Solo acceso autorizado.</span>
+        <label class="hint" style="display:flex;align-items:center;gap:8px;">
+          <input id="show" type="checkbox" style="width:auto;margin:0;" />
+          Ver clave
+        </label>
+      </div>
+
+      <button type="submit">Ingresar</button>
+      <div id="msg" class="msg"></div>
+    </form>
+
+    <div class="footer">gpVision™ | Documentación interna</div>
+  </main>
+
+  <script>
+    // === Credenciales (cámbialas cuando quieras) ===
+    const ALLOWED_USER = "admin";
+    const ALLOWED_PASS = "1234";
+
+    // Si ya inició sesión, manda directo al menú
+    if (sessionStorage.getItem("auth") === "ok") {
+      window.location.href = "menu.html";
+    }
+
+    const form = document.getElementById("loginForm");
+    const msg  = document.getElementById("msg");
+    const show = document.getElementById("show");
+    const pass = document.getElementById("pass");
+
+    show.addEventListener("change", () => {
+      pass.type = show.checked ? "text" : "password";
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const user = document.getElementById("user").value.trim();
+      const pwd  = pass.value;
+
+      if (user === ALLOWED_USER && pwd === ALLOWED_PASS) {
+        sessionStorage.setItem("auth", "ok");
+        window.location.href = "menu.html";
+        return;
+      }
+
+      msg.textContent = "Usuario o contraseña incorrectos.";
+      msg.style.display = "block";
+    });
+  </script>
+</body>
+</html>
