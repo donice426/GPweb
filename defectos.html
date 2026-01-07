@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Defectos | GP Graders</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     :root{
       --bg0:#070e18;
       --bg2:#0f1e33;
-      --panel: rgba(255,255,255,.04);
-      --stroke: rgba(255,255,255,.10);
       --text:#eaf1ff;
       --muted:#b9c6e3;
+
+      --panel: rgba(255,255,255,.05);
+      --stroke: rgba(255,255,255,.12);
+
       --brand:#4da3ff;
       --brand2:#38d4ff;
-      --shadow: 0 16px 50px rgba(0,0,0,.45);
+
+      --shadow: 0 18px 60px rgba(0,0,0,.52);
+      --shadow2: 0 28px 90px rgba(0,0,0,.68);
+
+      --r:16px;
       --r20:20px;
-      --card: rgba(255,255,255,.04);
-      --r: 16px;
+
+      --easeOut: cubic-bezier(.16,.84,.44,1);
+      --easeIn: cubic-bezier(.6,0,.4,1);
+
+      --max: 1100px;
     }
 
-    *{ box-sizing:border-box; }
+    *{ box-sizing: border-box; }
 
+    html, body{ height: 100%; }
     body{
       margin:0;
       font-family:"Segoe UI", Tahoma, sans-serif;
@@ -34,7 +44,7 @@
       overflow-x:hidden;
     }
 
-    /* ===== animated ambient glow (same palette) ===== */
+    /* Ambient glow */
     body::before{
       content:"";
       position:fixed;
@@ -52,52 +62,44 @@
       to  { transform: translate3d(10px,8px,0) scale(1.02); }
     }
 
+    /* Sticky header */
     header{
       position:sticky;
       top:0;
-      background:rgba(8,14,24,.9);
+      background:rgba(8,14,24,.90);
       border-bottom:1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
       z-index:10;
       transform: translateY(-6px);
       opacity:0;
-      animation: fadeDown .45s ease forwards;
-      backdrop-filter: blur(10px);
+      animation: fadeDown .45s var(--easeOut) forwards;
     }
-    @keyframes fadeDown{
-      to{ transform: translateY(0); opacity:1; }
-    }
+    @keyframes fadeDown{ to{ transform: translateY(0); opacity:1; } }
 
     header .wrap{
-      max-width:1100px;
+      max-width:var(--max);
       margin:auto;
       padding:14px 18px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 12px;
+      gap:12px;
     }
-
-    header h1{
-      margin:0;
-      font-size:16px;
-    }
-
-    header span{
-      font-size:12px;
-      color:var(--muted);
-    }
+    header h1{ margin:0; font-size:16px; }
+    header span{ font-size:12px; color:var(--muted); }
 
     .btn{
       padding:9px 14px;
       border-radius:12px;
       text-decoration:none;
       font-weight:700;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.05);
       color:var(--text);
       cursor:pointer;
-      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
-      position: relative;
+      transition: transform .15s var(--easeOut), border-color .15s var(--easeOut),
+                  box-shadow .15s var(--easeOut), background .15s var(--easeOut);
+      position:relative;
       overflow:hidden;
       will-change: transform;
     }
@@ -107,7 +109,7 @@
       inset:0;
       background: radial-gradient(420px 140px at 10% 10%, rgba(77,163,255,.18), transparent 65%);
       opacity:0;
-      transition: opacity .2s ease;
+      transition: opacity .2s var(--easeOut);
       pointer-events:none;
     }
     .btn:hover{
@@ -118,7 +120,6 @@
     }
     .btn:hover::after{ opacity:1; }
     .btn:active{ transform: translateY(0) scale(.99); }
-
     .btn.primary{
       border-color: rgba(77,163,255,.55);
       background: linear-gradient(180deg, rgba(77,163,255,.18), rgba(56,212,255,.12));
@@ -126,22 +127,20 @@
     .btn.primary:hover{ border-color: rgba(77,163,255,.85); }
 
     main{
-      max-width:1100px;
+      max-width:var(--max);
       margin:auto;
       padding:26px 18px 50px;
-      position: relative;
+      position:relative;
       z-index:1;
     }
 
     .section{ margin-top:40px; }
-
     .section-title{
       display:flex;
       align-items:center;
       gap:12px;
       margin-bottom:8px;
     }
-
     .bar{
       width:10px;
       height:22px;
@@ -149,74 +148,70 @@
       background:linear-gradient(180deg,var(--brand),var(--brand2));
       box-shadow: 0 10px 26px rgba(77,163,255,.10);
     }
-
-    .section-title h2{
-      margin:0;
-      font-size:18px;
-    }
-
+    .section-title h2{ margin:0; font-size:18px; }
     .section-sub{
       font-size:13px;
       color:var(--muted);
       margin-bottom:18px;
       max-width:850px;
-      line-height: 1.6;
+      line-height:1.6;
     }
 
     footer{
       text-align:center;
       font-size:12px;
-      color:rgba(255,255,255,.4);
+      color:rgba(255,255,255,.42);
       padding:20px;
-      position: relative;
-      z-index: 1;
+      position:relative;
+      z-index:1;
     }
 
     /* ===== BUSCADOR ===== */
     .search-wrap{
-      margin-top: 14px;
-      background: var(--card);
+      margin-top:14px;
+      background: var(--panel);
       border: 1px solid var(--stroke);
       border-radius: var(--r);
       box-shadow: var(--shadow);
-      overflow: visible; /* para autocomplete */
+      overflow: visible; /* autocomplete */
       transform: translateY(10px);
       opacity:0;
-      transition: transform .55s ease, opacity .55s ease;
+      transition: transform .55s var(--easeOut), opacity .55s var(--easeOut);
     }
     .search-wrap.reveal{ transform: translateY(0); opacity:1; }
 
     .search-head{
-      padding: 14px 16px;
+      padding:14px 16px;
       border-bottom: 1px solid rgba(255,255,255,.10);
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 10px;
+      gap:10px;
     }
-    .search-head h3{ margin:0; font-size: 14px; }
-    .search-head .hint{
-      margin-top: 4px;
-      font-size: 12px;
-      color: var(--muted);
-    }
+    .search-head h3{ margin:0; font-size:14px; }
+    .search-head .hint{ margin-top:4px; font-size:12px; color:var(--muted); }
+
     .search-body{ padding: 14px 16px 16px; }
     .search-row{
       display:flex;
       gap:10px;
       align-items:center;
-      flex-wrap: wrap;
+      flex-wrap:wrap;
     }
-    .search-input{
+    .search-suggest{
+      position: relative;
       flex: 1;
       min-width: 220px;
-      padding: 12px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.16);
+    }
+    .search-input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.16);
       background: rgba(0,0,0,.22);
-      color: var(--text);
-      outline: none;
-      transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+      color:var(--text);
+      outline:none;
+      transition: border-color .15s var(--easeOut), box-shadow .15s var(--easeOut), transform .15s var(--easeOut);
     }
     .search-input:focus{
       border-color: rgba(77,163,255,.55);
@@ -224,8 +219,8 @@
       transform: translateY(-1px);
     }
     .search-meta{
-      margin-top: 10px;
-      font-size: 12px;
+      margin-top:10px;
+      font-size:12px;
       color: rgba(230,237,245,.60);
     }
 
@@ -235,109 +230,94 @@
       color: var(--text);
       padding: 0 2px;
       border-radius: 6px;
-      transition: box-shadow .2s ease, background .2s ease, border-color .2s ease;
+      transition: box-shadow .2s var(--easeOut), background .2s var(--easeOut), border-color .2s var(--easeOut);
     }
     mark.gp-hit.active{
       background: rgba(77,163,255,.45);
       border-color: rgba(77,163,255,.75);
       box-shadow: 0 0 0 6px rgba(77,163,255,.14);
-      animation: popHit .28s ease;
+      animation: popHit .28s var(--easeOut);
     }
-    @keyframes popHit{
-      from{ transform: scale(.98); }
-      to{ transform: scale(1); }
-    }
+    @keyframes popHit{ from{ transform: scale(.98); } to{ transform: scale(1); } }
 
-    /* ===== AUTOCOMPLETE ===== */
-    .search-suggest{
-      position: relative;
-      flex: 1;
-      min-width: 220px;
-    }
-    .search-suggest .search-input{ width: 100%; }
-
+    /* Autocomplete */
     .suggest-list{
-      position: absolute;
+      position:absolute;
       top: calc(100% + 8px);
-      left: 0;
-      right: 0;
+      left:0; right:0;
       background: rgba(10,20,34,.98);
       border: 1px solid rgba(255,255,255,.14);
       border-radius: 14px;
       box-shadow: 0 18px 60px rgba(0,0,0,.55);
-      overflow: hidden;
-      z-index: 999;
-      max-height: 280px;
-      overflow-y: auto;
-      display: none;
+      overflow:hidden;
+      z-index:999;
+      max-height:280px;
+      overflow-y:auto;
+      display:none;
       transform-origin: top;
-      animation: drop .16s ease;
+      animation: drop .16s var(--easeOut);
     }
     @keyframes drop{
       from{ transform: translateY(-6px) scale(.98); opacity:.4; }
       to{ transform: translateY(0) scale(1); opacity:1; }
     }
-
     .suggest-item{
-      padding: 10px 12px;
-      cursor: pointer;
+      padding:10px 12px;
+      cursor:pointer;
       border-top: 1px solid rgba(255,255,255,.08);
-      transition: background .12s ease, transform .12s ease;
+      transition: background .12s var(--easeOut), transform .12s var(--easeOut);
     }
-    .suggest-item:first-child{ border-top: none; }
+    .suggest-item:first-child{ border-top:none; }
     .suggest-item:hover,
     .suggest-item.active{ background: rgba(77,163,255,.12); transform: translateX(2px); }
-
     .suggest-title{
-      font-size: 13px;
+      font-size:13px;
       color: rgba(230,237,245,.92);
-      line-height: 1.35;
+      line-height:1.35;
     }
-
     .suggest-hi{
       background: rgba(77,163,255,.22);
       border: 1px solid rgba(77,163,255,.35);
-      padding: 0 2px;
-      border-radius: 6px;
+      padding:0 2px;
+      border-radius:6px;
     }
 
-    /* ===== SELECTOR DE DEFECTOS ===== */
+    /* Selector */
     .defect-selector{
       display:flex;
       gap:14px;
-      flex-wrap: wrap;
-      margin-top: 10px;
+      flex-wrap:wrap;
+      margin-top:10px;
       transform: translateY(10px);
       opacity:0;
-      transition: transform .55s ease, opacity .55s ease;
+      transition: transform .55s var(--easeOut), opacity .55s var(--easeOut);
     }
     .defect-selector.reveal{ transform: translateY(0); opacity:1; }
 
     .defect-btn{
       flex:1;
-      min-width: 220px;
+      min-width:220px;
       padding:14px 16px;
       border-radius:16px;
       border:1px solid rgba(255,255,255,.16);
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      color: var(--text);
-      font-weight:700;
+      color:var(--text);
+      font-weight:800;
       cursor:pointer;
       text-align:left;
-      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
-      position: relative;
+      transition: transform .15s var(--easeOut), border-color .15s var(--easeOut), box-shadow .15s var(--easeOut);
+      position:relative;
       overflow:hidden;
       will-change: transform;
     }
-
     .defect-btn span{
       display:block;
       font-size:12px;
       font-weight:400;
-      color: var(--muted);
+      color:var(--muted);
       margin-top:4px;
+      line-height:1.45;
     }
-
     .defect-btn::before{
       content:"";
       position:absolute;
@@ -345,12 +325,11 @@
       border-radius:16px;
       background: radial-gradient(520px 220px at 10% 0%, rgba(77,163,255,.14), transparent 60%);
       opacity:0;
-      transition: opacity .18s ease;
+      transition: opacity .18s var(--easeOut);
       pointer-events:none;
     }
     .defect-btn:hover{ transform: translateY(-2px); }
     .defect-btn:hover::before{ opacity:1; }
-
     .defect-btn.color:hover{
       border-color: rgba(77,163,255,.75);
       box-shadow: 0 0 0 6px rgba(77,163,255,.12);
@@ -361,24 +340,18 @@
     }
     .defect-btn:active{ transform: translateY(-1px) scale(.99); }
 
-    /* ===== GRID (mantienes 4 por fila) ===== */
+    /* Grid */
     .defects-grid{
-      display: grid;
+      display:grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-top: 16px;
+      gap:16px;
+      margin-top:16px;
     }
-    @media (max-width: 1100px){
-      .defects-grid{ grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (max-width: 800px){
-      .defects-grid{ grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 480px){
-      .defects-grid{ grid-template-columns: 1fr; }
-    }
+    @media (max-width: 1100px){ .defects-grid{ grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 800px){ .defects-grid{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px){ .defects-grid{ grid-template-columns: 1fr; } }
 
-    /* ===== CARD ===== */
+    /* Card */
     .defect-card{
       background: var(--panel);
       border: 1px solid var(--stroke);
@@ -388,20 +361,19 @@
       cursor:pointer;
       display:flex;
       flex-direction:column;
-      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, filter .15s ease;
-      max-width: 260px;
-      margin: 0 auto;
-      position: relative;
+      max-width:260px;
+      margin:0 auto;
+      position:relative;
       will-change: transform;
+
       transform: translateY(10px);
       opacity:0;
     }
     .defect-card.reveal{
       transform: translateY(0);
       opacity:1;
-      transition: transform .55s ease, opacity .55s ease, border-color .15s ease, box-shadow .15s ease, filter .15s ease;
+      transition: transform .55s var(--easeOut), opacity .55s var(--easeOut), border-color .15s var(--easeOut), box-shadow .15s var(--easeOut);
     }
-
     .defect-card::before{
       content:"";
       position:absolute;
@@ -409,14 +381,13 @@
       border-radius: 18px;
       background: radial-gradient(520px 220px at 10% 0%, rgba(77,163,255,.10), transparent 60%);
       opacity:0;
-      transition: opacity .18s ease;
+      transition: opacity .18s var(--easeOut);
       pointer-events:none;
     }
     .defect-card:hover{
       transform: translateY(-2px);
       border-color: rgba(77,163,255,.30);
       box-shadow: 0 22px 70px rgba(0,0,0,.45);
-      filter: saturate(1.04);
     }
     .defect-card:hover::before{ opacity:1; }
     .defect-card:active{ transform: translateY(-1px) scale(.995); }
@@ -429,322 +400,276 @@
       align-items:center;
       justify-content:center;
       overflow:hidden;
-      padding: 12px;
+      padding:12px;
     }
-
     .defect-thumb img{
-      width: 100%;
-      height: 100%;
+      width:100%;
+      height:100%;
       object-fit: contain;
       display:block;
       transform: translateZ(0);
-      transition: transform .18s ease, filter .18s ease;
+      transition: transform .18s var(--easeOut), filter .18s var(--easeOut);
     }
     .defect-card:hover .defect-thumb img{
       transform: scale(1.02);
       filter: contrast(1.02);
     }
+    .defect-names{ padding:10px 12px 12px; }
+    .defect-names .es{ font-size:13px; font-weight:900; letter-spacing:.2px; }
+    .defect-names .en{ font-size:11.5px; color: rgba(234,241,255,.78); margin-top:3px; }
 
-    .defect-names{
-      padding: 10px 12px 12px;
-    }
-    .defect-names .es{ font-size: 13px; font-weight:900; letter-spacing:.2px; }
-    .defect-names .en{ font-size: 11.5px; color: rgba(234,241,255,.78); margin-top:3px; }
+    /* =========================================================
+       MODAL NUEVO (desde 0) — scroll perfecto en móvil
+       ========================================================= */
 
-    /* ===== MODAL ===== */
-    .modalOverlay{
-      position: fixed;
-      inset: 0;
+    /* overlay */
+    .gpModalOverlay{
+      position:fixed;
+      inset:0;
+      z-index:6000;
+      display:none;
       background: rgba(0,0,0,.62);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      display:none;
-      z-index: 5000;
-      padding: 16px;
+      padding: 14px;
     }
-    .modalOverlay.open{
+    .gpModalOverlay.is-open{
       display:flex;
       align-items:center;
       justify-content:center;
-      animation: overlayIn .18s ease-out;
+      animation: gpOverlayIn .18s var(--easeOut);
     }
-    @keyframes overlayIn{
-      from{ opacity: 0; }
-      to{ opacity: 1; }
-    }
+    @keyframes gpOverlayIn{ from{ opacity:0; } to{ opacity:1; } }
 
-    .modal{
-      width: min(920px, 100%);
-      max-height: 92vh;
-      overflow: hidden;
+    /* panel */
+    .gpModal{
+      width: min(980px, 100%);
+      height: min(92dvh, 920px);       /* ✅ usa dvh (iOS/Android) */
+      max-height: 92dvh;
       background: rgba(8,14,24,.96);
       border: 1px solid rgba(255,255,255,.14);
-      border-radius: 20px;
-      box-shadow: 0 24px 80px rgba(0,0,0,.65);
+      border-radius: 22px;
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+
       display:flex;
       flex-direction:column;
 
-      transform: translateY(10px) scale(.98);
-      opacity: 0;
-      animation: modalIn .18s ease-out forwards;
+      transform: translateY(12px) scale(.985);
+      opacity:0;
+      animation: gpModalIn .20s var(--easeOut) forwards;
     }
-    @keyframes modalIn{
-      to{ transform: translateY(0) scale(1); opacity: 1; }
+    @keyframes gpModalIn{
+      to{ transform: translateY(0) scale(1); opacity:1; }
     }
 
-    .modalHandle{
+    /* handle (móvil) */
+    .gpModalHandle{
       display:none;
       width: 44px;
       height: 5px;
-      border-radius: 999px;
+      border-radius:999px;
       background: rgba(255,255,255,.18);
       margin: 10px auto 0;
+      flex: 0 0 auto;
     }
 
-    .modalHead{
+    /* header sticky */
+    .gpModalHead{
       position: sticky;
       top: 0;
-      z-index: 5;
-      padding: 12px 14px;
+      z-index: 4;
+      padding: 14px 14px 12px;
+      background: rgba(8,14,24,.96);
+      border-bottom: 1px solid rgba(255,255,255,.10);
+
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
-      gap: 12px;
-      background: rgba(8,14,24,.94);
-      border-bottom: 1px solid rgba(255,255,255,.10);
+      gap:12px;
     }
+    .gpModalTitle{ margin:0; font-size:16px; letter-spacing:.2px; }
+    .gpModalSub{ margin:4px 0 0; font-size:12px; color: var(--muted); line-height:1.35; }
 
-    .modalTitle{ margin:0; font-size:16px; letter-spacing:.2px; }
-    .modalSub{ margin-top:4px; font-size:12px; color: var(--muted); line-height:1.35; }
-
-    .modalClose{
-      border-radius: 12px;
-      padding: 8px 12px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
+    .gpClose{
+      width: 44px;
+      height: 40px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
       color: var(--text);
       cursor:pointer;
-      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
+      font-weight:900;
+      transition: transform .14s var(--easeOut), border-color .14s var(--easeOut), box-shadow .14s var(--easeOut);
+      flex: 0 0 auto;
     }
-    .modalClose:hover{
+    .gpClose:hover{
       border-color: rgba(77,163,255,.55);
+      box-shadow: 0 14px 36px rgba(0,0,0,.35);
       transform: translateY(-1px);
-      box-shadow: 0 12px 30px rgba(0,0,0,.28);
-      background: rgba(0,0,0,.10);
     }
-    .modalClose:active{ transform: translateY(0) scale(.99); }
+    .gpClose:active{ transform: translateY(0) scale(.99); }
 
-    .modalBody{
+    /* badge */
+    .gpBadge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-top:10px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      font-size:12px;
+      color: rgba(230,237,245,.90);
+      width: fit-content;
+    }
+    .gpDot{ width: 8px; height: 8px; border-radius:999px; background: rgba(77,163,255,.9); }
+    .gpBadge.nir .gpDot{ background: rgba(56,212,255,.9); }
+
+    /* body scrolleable REAL (no se corta) */
+    .gpModalBody{
+      flex:1;
+      min-height:0;                  /* ✅ CRÍTICO para scroll en flex */
+      overflow:auto;                 /* ✅ scroll aquí */
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
       padding: 14px;
-      overflow:auto;
+      padding-bottom: calc(18px + env(safe-area-inset-bottom)); /* ✅ iPhone */
+    }
 
+    /* layout interno */
+    .gpGrid{
       display:grid;
       grid-template-columns: 1.1fr 1fr;
-      grid-template-areas:
-        "fig pasos"
-        "info info";
       gap: 12px;
       align-items:start;
     }
+    .gpFigure{ grid-column: 1 / 2; }
+    .gpInfo{ grid-column: 2 / 3; }
+    .gpSteps{ grid-column: 1 / 3; }
 
-    .modalFigure{ grid-area: fig; }
-    .modalPanel.pasos{ grid-area: pasos; }
-    .modalPanel.info{ grid-area: info; }
-
-    .modalFigure{
+    .gpCard{
       background: rgba(255,255,255,.04);
       border: 1px solid rgba(255,255,255,.10);
-      border-radius: 16px;
+      border-radius: 18px;
+      box-shadow: 0 10px 34px rgba(0,0,0,.22);
       overflow:hidden;
+      position:relative;
     }
 
-    #modalImg{ cursor: zoom-in; }
+    .gpCardHead{
+      padding: 12px 12px 0;
+    }
+    .gpCardTitle{
+      margin:0;
+      font-size: 13px;
+      letter-spacing:.15px;
+    }
+    .gpText{
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 10px 0 0;
+    }
+    .gpPad{ padding: 12px; }
 
-    .modalFigure .img{
+    /* figure */
+    .gpFigureImg{
       width:100%;
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 16/10;
       background: rgba(0,0,0,.18);
       display:flex;
       align-items:center;
       justify-content:center;
       padding: 10px;
     }
-
-    .modalFigure .img img{
-      width: 100%;
-      height: 100%;
+    .gpFigureImg img{
+      width:100%;
+      height:100%;
       object-fit: contain;
       display:block;
+      cursor: zoom-in;
+      transform: translateZ(0);
+      transition: transform .18s var(--easeOut), filter .18s var(--easeOut);
     }
-
-    .modalFigure .cap{
+    .gpFigureImg img:hover{
+      transform: scale(1.01);
+      filter: contrast(1.02);
+    }
+    .gpCaption{
       padding: 10px 12px 12px;
-      font-size: 12px;
+      font-size:12px;
       color: var(--muted);
       border-top: 1px solid rgba(255,255,255,.08);
     }
 
-    .modalPanel{
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 16px;
-      padding: 12px 12px;
-      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
-      position: relative;
-      overflow:hidden;
+    /* info list */
+    .gpList{
+      margin: 10px 0 0 18px;
+      padding: 0 0 4px 0;
     }
-    .modalPanel::before{
-      content:"";
-      position:absolute;
-      inset:-1px;
-      border-radius: 16px;
-      background: radial-gradient(520px 180px at 10% 0%, rgba(77,163,255,.10), transparent 60%);
-      opacity:0;
-      transition: opacity .18s ease;
-      pointer-events:none;
-    }
-    .modalPanel:hover{
-      transform: translateY(-1px);
-      border-color: rgba(77,163,255,.22);
-      box-shadow: 0 18px 55px rgba(0,0,0,.35);
-    }
-    .modalPanel:hover::before{ opacity:1; }
-
-    .modalPanel h4{
-      margin:0 0 8px;
-      font-size:13px;
-      letter-spacing:.15px;
-    }
-
-    .modalPanel p, .modalPanel li{
+    .gpList li{
       font-size: 12.5px;
       color: var(--muted);
       line-height: 1.55;
+      margin: 8px 0;
     }
-    .modalPanel ul{ margin: 8px 0 0 18px; }
+    .gpList b{ color: rgba(234,241,255,.92); }
 
-    .badgeType{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
-      font-size: 12px;
-      color: rgba(230,237,245,.88);
-      margin-top: 8px;
-    }
-    .badgeDot{ width: 8px; height: 8px; border-radius: 999px; background: rgba(77,163,255,.85); }
-    .badgeType.nir .badgeDot{ background: rgba(56,212,255,.85); }
-
-    /* ===== ACCORDEÓN ===== */
-    .modalPanel.pasos{ align-self: start; padding: 10px; }
-
-    .accBtn{
-      width: 100%;
+    /* accordion */
+    .gpAccBtn{
+      width:100%;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap: 12px;
-
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.12);
+      padding: 12px;
+      border: 0;
+      border-bottom: 1px solid rgba(255,255,255,.08);
       background: rgba(0,0,0,.14);
       color: var(--text);
       cursor:pointer;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 13px;
-      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
+      transition: background .15s var(--easeOut);
     }
-    .accBtn:hover{
-      border-color: rgba(77,163,255,.55);
-      box-shadow: 0 0 0 6px rgba(77,163,255,.10);
-      transform: translateY(-1px);
-      background: rgba(0,0,0,.16);
+    .gpAccBtn:hover{ background: rgba(0,0,0,.18); }
+    .gpAccIcon{
+      transition: transform .18s var(--easeOut);
+      opacity:.9;
     }
-    .accBtn:active{ transform: translateY(0) scale(.99); }
+    .gpAccBtn[aria-expanded="true"] .gpAccIcon{ transform: rotate(180deg); }
 
-    .accIcon{
-      transition: transform .18s ease;
-      opacity: .9;
+    .gpAccPanel{
+      padding: 12px;
+      animation: gpAccIn .18s var(--easeOut);
     }
-    .accBtn[aria-expanded="true"] .accIcon{ transform: rotate(180deg); }
-
-    .accPanel{
-      margin-top: 10px;
-      max-height: 45vh;
-      overflow: auto;
-      padding-right: 6px;
-      animation: accIn .16s ease;
-    }
-    @keyframes accIn{
-      from{ opacity:.3; transform: translateY(-4px); }
+    @keyframes gpAccIn{
+      from{ opacity:.25; transform: translateY(-6px); }
       to{ opacity:1; transform: translateY(0); }
     }
 
-    .steps{ display:grid; gap: 10px; margin-top: 10px; }
-    .step{
+    .gpStepsGrid{ display:grid; gap: 10px; }
+    .gpStep{
       border: 1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.16);
       border-radius: 14px;
       padding: 10px 12px;
-      transition: transform .15s ease, border-color .15s ease;
     }
-    .step:hover{
-      transform: translateY(-1px);
-      border-color: rgba(77,163,255,.22);
-    }
+    .gpStepN{ font-weight: 900; font-size: 12px; color: rgba(230,237,245,.92); }
+    .gpStepT{ margin-top: 6px; font-size: 12px; color: var(--muted); line-height: 1.5; }
 
-    .step .n{ font-weight: 900; font-size: 12px; color: rgba(230,237,245,.92); }
-    .step .t{ margin-top: 6px; font-size: 12px; color: var(--muted); line-height: 1.5; }
-
-    .accNotes{
-      margin-top: 10px;
+    .gpNote{
+      margin: 10px 0 0;
       font-size: 12.5px;
       color: var(--muted);
       line-height: 1.55;
     }
+    .gpNote b{ color: rgba(234,241,255,.92); }
 
-    .accPanel::-webkit-scrollbar{ width: 8px; }
-    .accPanel::-webkit-scrollbar-thumb{
-      background: rgba(255,255,255,.12);
-      border-radius: 999px;
-    }
-
-    /* ===== MOBILE MODAL ===== */
-    @media (max-width: 820px){
-      .modalOverlay{
-        padding: 10px;
-        align-items: flex-end;
-        justify-content: center;
-      }
-
-      .modal{
-        width: 100%;
-        max-height: 90vh;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-
-      .modalHandle{ display:block; }
-
-      .modalBody{
-        display:flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .modalFigure{ order: 1; }
-      .modalPanel.info{ order: 2; }
-      .modalPanel.pasos{ order: 3; }
-
-      .accPanel{ max-height: 38vh; }
-    }
-
-    /* ===== LIGHTBOX IMAGEN MODAL ===== */
-    .img-lightbox{
+    /* lightbox */
+    .gpLightbox{
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,.85);
@@ -752,175 +677,199 @@
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 6000;
+      z-index: 7000;
       cursor: zoom-out;
-
       opacity:0;
-      transition: opacity .14s ease;
+      transition: opacity .14s var(--easeOut);
+      padding: 14px;
     }
-    .img-lightbox.open{
-      display: flex;
+    .gpLightbox.is-open{
+      display:flex;
       opacity:1;
     }
-    .img-lightbox img{
+    .gpLightbox img{
       max-width: 92vw;
-      max-height: 92vh;
+      max-height: 92dvh;
       border-radius: 14px;
-      box-shadow: 0 30px 80px rgba(0,0,0,.65);
+      box-shadow: 0 30px 90px rgba(0,0,0,.70);
       transform: translateY(8px) scale(.99);
-      animation: lbIn .16s ease forwards;
+      animation: gpLbIn .16s var(--easeOut) forwards;
     }
-    @keyframes lbIn{
-      to{ transform: translateY(0) scale(1); }
+    @keyframes gpLbIn{ to{ transform: translateY(0) scale(1); } }
+
+    /* Mobile modal: bottom sheet */
+    @media (max-width: 820px){
+      .gpModalOverlay{
+        padding: 10px;
+        align-items:flex-end;
+        justify-content:center;
+      }
+      .gpModal{
+        width:100%;
+        height: 92dvh;
+        max-height: 92dvh;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      .gpModalHandle{ display:block; }
+
+      .gpModalBody{
+        padding: 12px;
+        padding-bottom: calc(20px + env(safe-area-inset-bottom));
+      }
+
+      .gpGrid{
+        grid-template-columns: 1fr;
+      }
+      .gpFigure, .gpInfo, .gpSteps{ grid-column: auto; }
     }
 
-    /* ===== Reduced motion ===== */
+    /* Hide top header when modal open (como pediste) */
+    body.modal-open header{ display:none; }
+
+    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
-      *{ animation: none !important; transition: none !important; }
-      html{ scroll-behavior:auto; }
+      *{ animation:none !important; transition:none !important; }
       body::before{ display:none; }
-      .modalOverlay.open{ animation: none; }
-      .modal{ animation: none; opacity: 1; transform: none; }
     }
 
-    /* Ocultar header cuando el modal está abierto */
-body.modal-open header{
-  display: none;
+    html, body{
+  min-height: 100%;
+}
+
+body{
+  margin:0;
+  font-family:"Segoe UI", Tahoma, sans-serif;
+  color:#eaf1ff;
+
+  /* ✅ FONDO GLOBAL */
+  background:
+    radial-gradient(1200px 800px at 10% 10%, rgba(77,163,255,.18), transparent 60%),
+    radial-gradient(1200px 900px at 90% 90%, rgba(56,212,255,.12), transparent 55%),
+    linear-gradient(135deg, #070e18, #0f1e33);
+
+  background-attachment: fixed; /* 🔥 clave para continuidad visual */
+  overflow-x:hidden;
 }
 
   </style>
-
 </head>
 
 <body>
-
-<header>
-  <div class="wrap">
-    <div>
-      <h1>Defectos – GP Graders</h1>
-      <span>Catálogo visual de defectos de cereza (MultiView™ Color + NIR)</span>
-    </div>
-    <a href="menu.html" class="btn">⬅ Volver al menú</a>
-  </div>
-</header>
-
-<main>
-
-  <!-- ===== BUSCADOR ===== -->
-  <section class="search-wrap" id="buscador">
-    <div class="search-head">
+  <header>
+    <div class="wrap">
       <div>
-        <h3>Búsqueda rápida en el catálogo</h3>
-        <div class="hint">Busca por nombre de defecto, palabra clave o criterio visual</div>
+        <h1>Defectos – GP Graders</h1>
+        <span>Catálogo visual de defectos de cereza (MultiView™ Color + NIR)</span>
       </div>
-      <button class="btn" id="clearSearchBtn" type="button">Limpiar</button>
+      <a href="menu.html" class="btn">⬅ Volver al menú</a>
     </div>
+  </header>
 
-    <div class="search-body">
-      <div class="search-row">
-        <div class="search-suggest">
-          <input class="search-input" id="searchInput" type="text" autocomplete="off"
-            placeholder="Ej: cracking, pitting, pudrición, deshidratación, NIR...">
-          <div class="suggest-list" id="suggestList"></div>
+  <main>
+    <!-- ===== BUSCADOR ===== -->
+    <section class="search-wrap" id="buscador">
+      <div class="search-head">
+        <div>
+          <h3>Búsqueda rápida en el catálogo</h3>
+          <div class="hint">Busca por nombre de defecto, palabra clave o criterio visual</div>
+        </div>
+        <button class="btn" id="clearSearchBtn" type="button">Limpiar</button>
+      </div>
+
+      <div class="search-body">
+        <div class="search-row">
+          <div class="search-suggest">
+            <input class="search-input" id="searchInput" type="text" autocomplete="off"
+              placeholder="Ej: cracking, pitting, pudrición, deshidratación, NIR...">
+            <div class="suggest-list" id="suggestList"></div>
+          </div>
+
+          <button class="btn primary" id="searchBtn" type="button">Buscar</button>
+          <button class="btn" id="prevBtn" type="button">◀</button>
+          <button class="btn" id="nextBtn" type="button">▶</button>
         </div>
 
-        <button class="btn primary" id="searchBtn" type="button">Buscar</button>
-        <button class="btn" id="prevBtn" type="button">◀</button>
-        <button class="btn" id="nextBtn" type="button">▶</button>
+        <div class="search-meta" id="searchMeta">Sin búsqueda activa.</div>
+      </div>
+    </section>
+
+    <!-- 1. INTRODUCCIÓN DEFECTOS -->
+    <section class="section" id="introduccion-defectos">
+      <div class="section-title">
+        <div class="bar"></div>
+        <h2>1. Introducción al catálogo de defectos</h2>
       </div>
 
-      <div class="search-meta" id="searchMeta">Sin búsqueda activa.</div>
-    </div>
-  </section>
+      <p class="section-sub">
+        En el contexto de clasificación de cerezas, un <strong>defecto</strong> se entiende como cualquier condición
+        visual, estructural o fisiológica del fruto que disminuye su calidad comercial, su vida útil o su aptitud para
+        el proceso de empaque. Estos defectos pueden manifestarse como alteraciones de piel (marcas, heridas, cracking),
+        desórdenes de textura (pitting, ablandamiento), contaminación (suciedad), daños mecánicos o signos de descomposición.
+      </p>
 
-  <!-- 1. INTRODUCCIÓN DEFECTOS -->
-  <section class="section" id="introduccion-defectos">
-    <div class="section-title">
-      <div class="bar"></div>
-      <h2>1. Introducción al catálogo de defectos</h2>
-    </div>
+      <p class="section-sub">
+        El propósito de esta sección es construir un <strong>catálogo estandarizado</strong> que permita:
+        (1) identificar rápidamente cada defecto por su <strong>nombre</strong> y su manifestación típica,
+        (2) comprender cómo se expresa en imágenes <strong>MultiView™ (Color + NIR)</strong>, y
+        (3) servir como guía práctica para <strong>configurar defectos dentro de gpVision™</strong>.
+      </p>
 
-    <p class="section-sub">
-      En el contexto de clasificación de cerezas, un <strong>defecto</strong> se entiende como cualquier condición
-      visual, estructural o fisiológica del fruto que disminuye su calidad comercial, su vida útil o su aptitud para
-      el proceso de empaque. Estos defectos pueden manifestarse como alteraciones de piel (marcas, heridas, cracking),
-      desórdenes de textura (pitting, ablandamiento), contaminación (suciedad), daños mecánicos o signos de descomposición.
-    </p>
+      <p class="section-sub">
+        En gpVision™, los defectos no son solo etiquetas descriptivas: representan <strong>reglas y criterios</strong>
+        que el sistema utiliza para asignar una condición al fruto y decidir su destino (clase/salida). Por ello,
+        conocer el defecto por nombre y reconocerlo visualmente es fundamental.
+      </p>
 
-    <p class="section-sub">
-      El propósito de esta sección es construir un <strong>catálogo estandarizado</strong> que permita:
-      (1) identificar rápidamente cada defecto por su <strong>nombre</strong> y su manifestación típica,
-      (2) comprender cómo se expresa en imágenes <strong>MultiView™ (Color + NIR)</strong>, y
-      (3) servir como guía práctica para <strong>configurar defectos dentro de gpVision™</strong>, asegurando que el
-      criterio técnico utilizado en planta coincida con la lógica de clasificación definida en la plataforma.
-    </p>
-
-    <p class="section-sub">
-      En gpVision™, los defectos no son solo etiquetas descriptivas: representan <strong>reglas y criterios</strong>
-      que el sistema utiliza para asignar una condición al fruto y decidir su destino (clase/salida). Por ello,
-      conocer el defecto por nombre y reconocerlo visualmente es fundamental para realizar configuraciones correctas,
-      validar resultados y evitar interpretaciones inconsistentes entre operadores, turnos o temporadas.
-    </p>
-
-    <p class="section-sub" style="margin-top:-6px;">
-      <strong>Cómo usar este catálogo:</strong> cada defecto se presentará con una definición breve, señales típicas
-      en Color/NIR (si aplica), confusiones comunes y una orientación práctica de configuración en gpVision™
-      (por ejemplo: qué buscar al ajustar umbrales, cuándo validar con imágenes recientes y cómo evitar falsos positivos).
-    </p>
-  </section>
-
-  <p class="section-sub">
-    A continuación se listan los defectos documentados, organizados para facilitar tanto el aprendizaje visual
-    como la configuración técnica dentro de la plataforma gpVision™.
-  </p>
-
-  <!-- 2. SELECCIÓN DE TIPO DE DEFECTO -->
-  <section class="section" id="selector-defectos">
-    <div class="section-title">
-      <div class="bar"></div>
-      <h2>2. Tipo de detección del defecto</h2>
-    </div>
+      <p class="section-sub" style="margin-top:-6px;">
+        <strong>Cómo usar este catálogo:</strong> cada defecto se presentará con una definición breve, señales típicas,
+        confusiones comunes y una orientación práctica de configuración en gpVision™.
+      </p>
+    </section>
 
     <p class="section-sub">
-      En gpVision™, los defectos se clasifican según el tipo de información visual utilizada
-      para su detección. Algunos defectos se identifican principalmente a partir de
-      <strong>características visibles en color</strong>, mientras que otros requieren el uso
-      de <strong>información infrarroja (NIR)</strong> para revelar daños no evidentes a simple vista.
+      A continuación se listan los defectos documentados, organizados para facilitar tanto el aprendizaje visual
+      como la configuración técnica dentro de la plataforma gpVision™.
     </p>
 
-    <div class="defect-selector">
-      <button class="defect-btn color" data-target="defectos-color">
-        Defectos detectados por Color
-        <span>Basados en apariencia visual: color, textura, forma y marcas externas</span>
-      </button>
+    <!-- 2. SELECTOR -->
+    <section class="section" id="selector-defectos">
+      <div class="section-title">
+        <div class="bar"></div>
+        <h2>2. Tipo de detección del defecto</h2>
+      </div>
 
-      <button class="defect-btn nir" data-target="defectos-nir">
-        Defectos detectados por Infrarrojo (NIR)
-        <span>Basados en respuesta espectral: daño interno, descomposición, humedad</span>
-      </button>
-    </div>
-  </section>
+      <p class="section-sub">
+        En gpVision™, los defectos se clasifican según el tipo de información visual utilizada.
+        Algunos defectos se identifican por <strong>características visibles en color</strong>, mientras que otros
+        requieren <strong>información infrarroja (NIR)</strong>.
+      </p>
 
-  <!-- 3. DEFECTOS DETECTADOS POR COLOR -->
-  <section class="section" id="defectos-color">
-    <div class="section-title">
-      <div class="bar"></div>
-      <h2>Defectos detectados por color</h2>
-    </div>
+      <div class="defect-selector">
+        <button class="defect-btn color" data-target="defectos-color">
+          Defectos detectados por Color
+          <span>Basados en apariencia visual: color, textura, forma y marcas externas</span>
+        </button>
 
-    <p class="section-sub">
-      Los defectos detectados por color se identifican a partir de información visible
-      capturada por las cámaras RGB del sistema MultiView™. Estos defectos suelen manifestarse
-      como alteraciones en el color superficial, textura, forma o integridad externa del fruto.
-    </p>
+        <button class="defect-btn nir" data-target="defectos-nir">
+          Defectos detectados por Infrarrojo (NIR)
+          <span>Basados en respuesta espectral: daño interno, descomposición, humedad</span>
+        </button>
+      </div>
+    </section>
 
-    <p class="section-sub">
-      En la configuración de gpVision™, este tipo de defectos se ajusta principalmente mediante
-      parámetros relacionados con umbrales de color, segmentación, contraste y análisis de
-      superficie. La validación visual en imágenes recientes es clave para evitar falsos positivos.
-    </p>
+    <!-- 3. COLOR -->
+    <section class="section" id="defectos-color">
+      <div class="section-title">
+        <div class="bar"></div>
+        <h2>Defectos detectados por color</h2>
+      </div>
 
-    <div class="defects-grid">
+      <p class="section-sub">
+        Los defectos detectados por color se identifican a partir de información visible capturada por las cámaras RGB.
+      </p>
+
+<div class="defects-grid">
 
       <article class="defect-card"
         data-type="color"
@@ -1225,532 +1174,522 @@ body.modal-open header{
     </div>
   </section>
 
-  <!-- ===== MODAL DEFECTOS ===== -->
-  <div class="modalOverlay" id="defectModal" aria-hidden="true">
-    <div class="modal" role="dialog" aria-label="Detalle de defecto">
-      <div class="modalHandle" aria-hidden="true"></div>
 
-      <!-- Lightbox imagen -->
-      <div id="imgLightbox" class="img-lightbox" aria-hidden="true">
-        <img id="imgLightboxImg" alt="">
-      </div>
+    <!-- =========================
+         MODAL NUEVO (HTML)
+         ========================= -->
+    <div class="gpModalOverlay" id="gpModalOverlay" aria-hidden="true">
+      <div class="gpModal" role="dialog" aria-modal="true" aria-labelledby="gpModalTitle">
+        <div class="gpModalHandle" aria-hidden="true"></div>
 
-      <div class="modalHead">
-        <div>
-          <h3 class="modalTitle" id="modalTitle">Defecto</h3>
-          <div class="modalSub" id="modalSub">Detalle técnico y configuración en gpVision™</div>
+        <div class="gpModalHead">
+          <div>
+            <h3 class="gpModalTitle" id="gpModalTitle">Defecto</h3>
+            <p class="gpModalSub" id="gpModalSub">Detalle técnico y configuración en gpVision™</p>
 
-          <div class="badgeType" id="modalType">
-            <span class="badgeDot"></span>
-            <span id="modalTypeText">Detección</span>
-          </div>
-        </div>
-        <button class="modalClose" id="modalCloseBtn" type="button">✕</button>
-      </div>
-
-      <div class="modalBody">
-        <div class="modalFigure">
-          <div class="img">
-            <img id="modalImg" src="" alt="Imagen defecto">
-          </div>
-          <div class="cap" id="modalCaption">Caption</div>
-        </div>
-
-        <div class="modalPanel pasos">
-          <button class="accBtn" id="stepsToggleBtn" type="button" aria-expanded="false" aria-controls="stepsPanel">
-            <span>Ver paso a paso (gpVision™)</span>
-            <span class="accIcon" aria-hidden="true">▾</span>
-          </button>
-
-          <div class="accPanel" id="stepsPanel" hidden>
-            <div class="steps">
-              <div class="step"><div class="n">Paso 1</div><div class="t" id="modalStep1"></div></div>
-              <div class="step"><div class="n">Paso 2</div><div class="t" id="modalStep2"></div></div>
-              <div class="step"><div class="n">Paso 3</div><div class="t" id="modalStep3"></div></div>
-              <div class="step"><div class="n">Paso 4</div><div class="t" id="modalStep4"></div></div>
-              <div class="step"><div class="n">Paso 5</div><div class="t" id="modalStep5"></div></div>
+            <div class="gpBadge" id="gpBadge">
+              <span class="gpDot"></span>
+              <span id="gpBadgeText">Detección</span>
             </div>
+          </div>
 
-            <p class="accNotes">
-              <strong>Notas:</strong> <span id="modalNotes"></span>
-            </p>
+          <button class="gpClose" id="gpModalClose" type="button" aria-label="Cerrar">✕</button>
+        </div>
+
+        <!-- ✅ El scroll vive aquí -->
+        <div class="gpModalBody" id="gpModalBody">
+          <div class="gpGrid">
+
+            <section class="gpCard gpFigure">
+              <div class="gpFigureImg">
+                <img id="gpModalImg" src="" alt="Imagen defecto" />
+              </div>
+              <div class="gpCaption" id="gpModalCaption">—</div>
+            </section>
+
+            <section class="gpCard gpInfo">
+              <div class="gpPad">
+                <h4 class="gpCardTitle">Información del defecto</h4>
+                <p class="gpText" id="gpDesc"></p>
+
+                <ul class="gpList">
+                  <li><b>Señales principales:</b> <span id="gpSignals"></span></li>
+                  <li><b>Confusiones comunes:</b> <span id="gpConfusions"></span></li>
+                  <li><b>Impacto:</b> <span id="gpImpact"></span></li>
+                </ul>
+              </div>
+            </section>
+
+            <section class="gpCard gpSteps">
+              <button class="gpAccBtn" id="gpAccBtn" type="button" aria-expanded="false" aria-controls="gpAccPanel">
+                <span>Ver paso a paso (gpVision™)</span>
+                <span class="gpAccIcon" aria-hidden="true">▾</span>
+              </button>
+
+              <div class="gpAccPanel" id="gpAccPanel" hidden>
+                <div class="gpStepsGrid">
+                  <div class="gpStep"><div class="gpStepN">Paso 1</div><div class="gpStepT" id="gpStep1"></div></div>
+                  <div class="gpStep"><div class="gpStepN">Paso 2</div><div class="gpStepT" id="gpStep2"></div></div>
+                  <div class="gpStep"><div class="gpStepN">Paso 3</div><div class="gpStepT" id="gpStep3"></div></div>
+                  <div class="gpStep"><div class="gpStepN">Paso 4</div><div class="gpStepT" id="gpStep4"></div></div>
+                  <div class="gpStep"><div class="gpStepN">Paso 5</div><div class="gpStepT" id="gpStep5"></div></div>
+                </div>
+
+                <p class="gpNote"><b>Notas:</b> <span id="gpNotes"></span></p>
+              </div>
+            </section>
+
           </div>
         </div>
-
-        <div class="modalPanel info">
-          <h4>Información del defecto</h4>
-          <p id="modalDesc"></p>
-
-          <ul>
-            <li><strong>Señales principales:</strong> <span id="modalSignals"></span></li>
-            <li><strong>Confusiones comunes:</strong> <span id="modalConfusions"></span></li>
-            <li><strong>Impacto:</strong> <span id="modalImpact"></span></li>
-          </ul>
-        </div>
       </div>
-
     </div>
-  </div>
 
-</main>
+    <!-- Lightbox -->
+    <div class="gpLightbox" id="gpLightbox" aria-hidden="true">
+      <img id="gpLightboxImg" alt="">
+    </div>
 
-<footer>
-  Defectos · GP Graders · Documentación técnica interna
-</footer>
+  </main>
 
-<script>
-  // ====== REVEAL (buscador + selector + cards) ======
-  (function(){
-    const targets = document.querySelectorAll(".search-wrap, .defect-selector, .defect-card");
-    if(!targets.length) return;
+  <footer>
+    Defectos · GP Graders · Documentación técnica interna
+  </footer>
 
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.classList.add("reveal");
-          io.unobserve(e.target);
+  <script>
+    /* =========================
+       REVEAL (buscador + selector + cards)
+       ========================= */
+    (function(){
+      const targets = document.querySelectorAll(".search-wrap, .defect-selector, .defect-card");
+      if(!targets.length) return;
+
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.classList.add("reveal");
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.14 });
+
+      targets.forEach((el, i)=>{
+        if(el.classList.contains("defect-card")){
+          el.style.transitionDelay = `${Math.min(i * 45, 420)}ms`;
+        }
+        io.observe(el);
+      });
+    })();
+
+    /* =========================
+       BUSCADOR + AUTOCOMPLETE (igual idea, mantenido)
+       ========================= */
+    const searchInput = document.getElementById("searchInput");
+    const suggestList = document.getElementById("suggestList");
+    const searchBtn = document.getElementById("searchBtn");
+    const clearBtn = document.getElementById("clearSearchBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const meta = document.getElementById("searchMeta");
+
+    let hits = [];
+    let activeIndex = -1;
+
+    let indexItems = [];
+    let suggestActive = -1;
+    const MAX_SUGGEST = 8;
+    const SKIP_TAGS = new Set(["SCRIPT","STYLE","INPUT","TEXTAREA","BUTTON","IFRAME","MARK"]);
+
+    function escapeRegExp(str){ return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+
+    function clearMarks(){
+      document.querySelectorAll("mark.gp-hit").forEach(m => {
+        const t = document.createTextNode(m.textContent);
+        m.replaceWith(t);
+      });
+      hits = [];
+      activeIndex = -1;
+    }
+
+    function setActive(idx){
+      if(!hits.length) return;
+      hits.forEach(h => h.classList.remove("active"));
+      activeIndex = (idx + hits.length) % hits.length;
+      hits[activeIndex].classList.add("active");
+      hits[activeIndex].scrollIntoView({ behavior:"smooth", block:"center" });
+      meta.textContent = `Coincidencias: ${hits.length} · Mostrando ${activeIndex + 1}/${hits.length}`;
+    }
+
+    function highlight(term){
+      clearMarks();
+      if(!term) { meta.textContent = "Sin búsqueda activa."; return; }
+
+      const root = document.querySelector("main");
+      const rx = new RegExp(escapeRegExp(term), "gi");
+
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode(node){
+          if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          const p = node.parentElement;
+          if(!p) return NodeFilter.FILTER_REJECT;
+          if(SKIP_TAGS.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
         }
       });
-    }, { threshold: 0.14 });
 
-    targets.forEach((el, i)=>{
-      if(el.classList.contains("defect-card")){
-        el.style.transitionDelay = `${Math.min(i * 45, 420)}ms`;
-      }
-      io.observe(el);
-    });
-  })();
+      const nodes = [];
+      while(walker.nextNode()) nodes.push(walker.currentNode);
 
-  // ====== BUSCADOR + AUTOCOMPLETE ======
-  const searchInput = document.getElementById("searchInput");
-  const suggestList = document.getElementById("suggestList");
-  const searchBtn = document.getElementById("searchBtn");
-  const clearBtn = document.getElementById("clearSearchBtn");
-  const prevBtn = document.getElementById("prevBtn");
-  const nextBtn = document.getElementById("nextBtn");
-  const meta = document.getElementById("searchMeta");
+      nodes.forEach(node => {
+        const txt = node.nodeValue;
+        if(!rx.test(txt)) return;
 
-  let hits = [];
-  let activeIndex = -1;
+        rx.lastIndex = 0;
+        const frag = document.createDocumentFragment();
+        let last = 0;
+        let m;
 
-  let indexItems = [];
-  let suggestActive = -1;
-  const MAX_SUGGEST = 8;
+        while((m = rx.exec(txt)) !== null){
+          const start = m.index;
+          const end = start + m[0].length;
+          if(start > last) frag.appendChild(document.createTextNode(txt.slice(last, start)));
 
-  const SKIP_TAGS = new Set(["SCRIPT","STYLE","INPUT","TEXTAREA","BUTTON","IFRAME","MARK"]);
+          const mark = document.createElement("mark");
+          mark.className = "gp-hit";
+          mark.textContent = txt.slice(start, end);
+          frag.appendChild(mark);
 
-  function escapeRegExp(str){
-    return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  }
+          last = end;
+        }
+        if(last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
+        node.parentNode.replaceChild(frag, node);
+      });
 
-  function clearMarks(){
-    document.querySelectorAll("mark.gp-hit").forEach(m => {
-      const t = document.createTextNode(m.textContent);
-      m.replaceWith(t);
-    });
-    hits = [];
-    activeIndex = -1;
-  }
-
-  function setActive(idx){
-    if(!hits.length) return;
-    hits.forEach(h => h.classList.remove("active"));
-    activeIndex = (idx + hits.length) % hits.length;
-    hits[activeIndex].classList.add("active");
-    hits[activeIndex].scrollIntoView({ behavior:"smooth", block:"center" });
-    meta.textContent = `Coincidencias: ${hits.length} · Mostrando ${activeIndex + 1}/${hits.length}`;
-  }
-
-  function highlight(term){
-    clearMarks();
-    if(!term) {
-      meta.textContent = "Sin búsqueda activa.";
-      return;
+      hits = Array.from(document.querySelectorAll("mark.gp-hit"));
+      if(hits.length) setActive(0);
+      else meta.textContent = "No se encontraron coincidencias.";
     }
 
-    const root = document.querySelector("main");
-    const rx = new RegExp(escapeRegExp(term), "gi");
+    function buildIndex(){
+      const root = document.querySelector("main");
+      indexItems = [];
 
-    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
-      acceptNode(node){
-        if(!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-        const p = node.parentElement;
-        if(!p) return NodeFilter.FILTER_REJECT;
-        if(SKIP_TAGS.has(p.tagName)) return NodeFilter.FILTER_REJECT;
-        return NodeFilter.FILTER_ACCEPT;
-      }
-    });
+      root.querySelectorAll("h1,h2,h3,h4").forEach((el, i) => {
+        const t = (el.innerText || "").trim();
+        if(t.length >= 3) indexItems.push({ id: `h-${i}`, text: t, el });
+      });
 
-    const nodes = [];
-    while(walker.nextNode()) nodes.push(walker.currentNode);
+      root.querySelectorAll("li").forEach((el, i) => {
+        const t = (el.innerText || "").trim();
+        if(t.length >= 12) indexItems.push({ id: `li-${i}`, text: t.slice(0, 220), el });
+      });
 
-    nodes.forEach(node => {
-      const txt = node.nodeValue;
-      if(!rx.test(txt)) return;
+      root.querySelectorAll(".section-sub").forEach((el, i) => {
+        const t = (el.innerText || "").trim();
+        if(t.length >= 18) indexItems.push({ id: `p-${i}`, text: t.slice(0, 220), el });
+      });
 
-      rx.lastIndex = 0;
-      const frag = document.createDocumentFragment();
-      let last = 0;
-      let m;
-
-      while((m = rx.exec(txt)) !== null){
-        const start = m.index;
-        const end = start + m[0].length;
-
-        if(start > last) frag.appendChild(document.createTextNode(txt.slice(last, start)));
-
-        const mark = document.createElement("mark");
-        mark.className = "gp-hit";
-        mark.textContent = txt.slice(start, end);
-        frag.appendChild(mark);
-
-        last = end;
-      }
-
-      if(last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
-      node.parentNode.replaceChild(frag, node);
-    });
-
-    hits = Array.from(document.querySelectorAll("mark.gp-hit"));
-    if(hits.length){
-      setActive(0);
-    }else{
-      meta.textContent = "No se encontraron coincidencias.";
+      document.querySelectorAll(".defect-card").forEach((card, i) => {
+        const es = (card.dataset.es || "").trim();
+        const en = (card.dataset.en || "").trim();
+        const desc = (card.dataset.desc || "").trim();
+        const signals = (card.dataset.signals || "").trim();
+        const conf = (card.dataset.confusions || "").trim();
+        const line = [es, en, desc, signals, conf].join(" · ").slice(0, 260);
+        if(line.length >= 6) indexItems.push({ id: `c-${i}`, text: line, el: card });
+      });
     }
-  }
 
-  function buildIndex(){
-    const root = document.querySelector("main");
-    indexItems = [];
+    function norm(s){
+      return (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+    }
+    function scoreMatch(query, text){
+      const q = norm(query), t = norm(text);
+      if(!q) return -1;
+      const idx = t.indexOf(q);
+      if(idx === -1) return -1;
 
-    // Headers + textos clave
-    root.querySelectorAll("h1,h2,h3,h4").forEach((el, i) => {
-      const t = (el.innerText || "").trim();
-      if(t.length >= 3) indexItems.push({ id: `h-${i}`, text: t, el });
-    });
-
-    root.querySelectorAll("li").forEach((el, i) => {
-      const t = (el.innerText || "").trim();
-      if(t.length >= 12) indexItems.push({ id: `li-${i}`, text: t.slice(0, 220), el });
-    });
-
-    root.querySelectorAll(".section-sub").forEach((el, i) => {
-      const t = (el.innerText || "").trim();
-      if(t.length >= 18) indexItems.push({ id: `p-${i}`, text: t.slice(0, 220), el });
-    });
-
-    // ✅ También indexa cards de defectos (mejor para el catálogo)
-    document.querySelectorAll(".defect-card").forEach((card, i) => {
-      const es = (card.dataset.es || "").trim();
-      const en = (card.dataset.en || "").trim();
-      const desc = (card.dataset.desc || "").trim();
-      const signals = (card.dataset.signals || "").trim();
-      const conf = (card.dataset.confusions || "").trim();
-      const line = [es, en, desc, signals, conf].join(" · ").slice(0, 260);
-      if(line.length >= 6) indexItems.push({ id: `c-${i}`, text: line, el: card });
-    });
-  }
-
-  function norm(s){
-    return (s || "")
-      .toLowerCase()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-  }
-
-  function scoreMatch(query, text){
-    const q = norm(query);
-    const t = norm(text);
-    if(!q) return -1;
-    const idx = t.indexOf(q);
-    if(idx === -1) return -1;
-
-    let score = 0;
-    if(idx === 0) score += 6;
-    score += Math.max(0, 5 - Math.min(idx, 5));
-    score += Math.min(q.length / 4, 4);
-    return score;
-  }
-
-  function hiText(text, query){
-    const q = query.trim();
-    if(!q) return text;
-    const rx = new RegExp(escapeRegExp(q), "ig");
-    return text.replace(rx, (m)=>`<span class="suggest-hi">${m}</span>`);
-  }
-
-  function hideSuggest(){
-    suggestList.style.display = "none";
-    suggestList.innerHTML = "";
-    suggestActive = -1;
-  }
-
-  function showSuggest(items, query){
-    if(!items.length){
+      let score = 0;
+      if(idx === 0) score += 6;
+      score += Math.max(0, 5 - Math.min(idx, 5));
+      score += Math.min(q.length / 4, 4);
+      return score;
+    }
+    function hiText(text, query){
+      const q = query.trim();
+      if(!q) return text;
+      const rx = new RegExp(escapeRegExp(q), "ig");
+      return text.replace(rx, (m)=>`<span class="suggest-hi">${m}</span>`);
+    }
+    function hideSuggest(){
+      suggestList.style.display = "none";
+      suggestList.innerHTML = "";
+      suggestActive = -1;
+    }
+    function showSuggest(items, query){
+      if(!items.length){ hideSuggest(); return; }
+      suggestList.innerHTML = items.map((it, idx) => {
+        const line = it.text.length > 120 ? it.text.slice(0, 120) + "…" : it.text;
+        return `
+          <div class="suggest-item" data-idx="${idx}">
+            <div class="suggest-title">${hiText(line, query)}</div>
+          </div>
+        `;
+      }).join("");
+      suggestList.style.display = "block";
+    }
+    function getSuggestions(query){
+      const q = query.trim();
+      if(q.length < 1) return [];
+      return indexItems
+        .map(it => ({ it, s: scoreMatch(q, it.text) }))
+        .filter(x => x.s >= 0)
+        .sort((a,b) => b.s - a.s)
+        .slice(0, MAX_SUGGEST)
+        .map(x => x.it);
+    }
+    function jumpToElement(el, query){
+      if(!el) return;
+      el.scrollIntoView({ behavior:"smooth", block:"center" });
+      highlight(query);
+      if(hits.length) setActive(0);
       hideSuggest();
-      return;
-    }
-    suggestList.innerHTML = items.map((it, idx) => {
-      const line = it.text.length > 120 ? it.text.slice(0, 120) + "…" : it.text;
-      return `
-        <div class="suggest-item" data-idx="${idx}">
-          <div class="suggest-title">${hiText(line, query)}</div>
-        </div>
-      `;
-    }).join("");
-    suggestList.style.display = "block";
-  }
-
-  function getSuggestions(query){
-    const q = query.trim();
-    if(q.length < 1) return [];
-    return indexItems
-      .map(it => ({ it, s: scoreMatch(q, it.text) }))
-      .filter(x => x.s >= 0)
-      .sort((a,b) => b.s - a.s)
-      .slice(0, MAX_SUGGEST)
-      .map(x => x.it);
-  }
-
-  function jumpToElement(el, query){
-    if(!el) return;
-
-    // Si es una card, centrar un poquito mejor
-    if(el.classList && el.classList.contains("defect-card")){
-      el.scrollIntoView({ behavior:"smooth", block:"center" });
-    }else{
-      el.scrollIntoView({ behavior:"smooth", block:"center" });
     }
 
-    highlight(query);
-    if(hits.length) setActive(0);
-    hideSuggest();
-  }
+    buildIndex();
 
-  buildIndex();
+    searchInput?.addEventListener("input", () => {
+      const q = searchInput.value;
+      const suggestions = getSuggestions(q);
+      showSuggest(suggestions, q);
+    });
 
-  searchInput?.addEventListener("input", () => {
-    const q = searchInput.value;
-    const suggestions = getSuggestions(q);
-    showSuggest(suggestions, q);
-  });
+    suggestList?.addEventListener("click", (e) => {
+      const item = e.target.closest(".suggest-item");
+      if(!item) return;
+      const q = searchInput.value.trim();
+      const suggestions = getSuggestions(q);
+      const idx = Number(item.dataset.idx);
+      const it = suggestions[idx];
+      if(it) jumpToElement(it.el, q);
+    });
 
-  suggestList?.addEventListener("click", (e) => {
-    const item = e.target.closest(".suggest-item");
-    if(!item) return;
-    const q = searchInput.value.trim();
-    const suggestions = getSuggestions(q);
-    const idx = Number(item.dataset.idx);
-    const it = suggestions[idx];
-    if(it) jumpToElement(it.el, q);
-  });
+    searchInput?.addEventListener("keydown", (e)=>{
+      const q = searchInput.value.trim();
+      const suggestions = getSuggestions(q);
+      if(!suggestions.length) return;
 
-  searchInput?.addEventListener("keydown", (e)=>{
-    const q = searchInput.value.trim();
-    const suggestions = getSuggestions(q);
-    if(!suggestions.length) return;
+      const items = Array.from(suggestList.querySelectorAll(".suggest-item"));
 
-    const items = Array.from(suggestList.querySelectorAll(".suggest-item"));
-
-    if(e.key === "ArrowDown"){
-      e.preventDefault();
-      suggestActive = (suggestActive + 1) % items.length;
-      items.forEach(x => x.classList.remove("active"));
-      items[suggestActive].classList.add("active");
-      items[suggestActive].scrollIntoView({ block:"nearest" });
-    }
-    if(e.key === "ArrowUp"){
-      e.preventDefault();
-      suggestActive = (suggestActive - 1 + items.length) % items.length;
-      items.forEach(x => x.classList.remove("active"));
-      items[suggestActive].classList.add("active");
-      items[suggestActive].scrollIntoView({ block:"nearest" });
-    }
-    if(e.key === "Enter"){
-      if(suggestActive >= 0 && suggestions[suggestActive]){
+      if(e.key === "ArrowDown"){
         e.preventDefault();
-        jumpToElement(suggestions[suggestActive].el, q);
-      }else{
-        highlight(q);
-        hideSuggest();
+        suggestActive = (suggestActive + 1) % items.length;
+        items.forEach(x => x.classList.remove("active"));
+        items[suggestActive].classList.add("active");
+        items[suggestActive].scrollIntoView({ block:"nearest" });
       }
-    }
-    if(e.key === "Escape"){
+      if(e.key === "ArrowUp"){
+        e.preventDefault();
+        suggestActive = (suggestActive - 1 + items.length) % items.length;
+        items.forEach(x => x.classList.remove("active"));
+        items[suggestActive].classList.add("active");
+        items[suggestActive].scrollIntoView({ block:"nearest" });
+      }
+      if(e.key === "Enter"){
+        if(suggestActive >= 0 && suggestions[suggestActive]){
+          e.preventDefault();
+          jumpToElement(suggestions[suggestActive].el, q);
+        }else{
+          highlight(q);
+          hideSuggest();
+        }
+      }
+      if(e.key === "Escape"){ hideSuggest(); }
+    });
+
+    document.addEventListener("click", (e)=>{
+      const wrap = e.target.closest(".search-wrap");
+      if(!wrap) hideSuggest();
+    });
+
+    searchBtn?.addEventListener("click", () => {
+      const q = searchInput.value.trim();
+      highlight(q);
       hideSuggest();
-    }
-  });
+    });
 
-  document.addEventListener("click", (e)=>{
-    const wrap = e.target.closest(".search-wrap");
-    if(!wrap) hideSuggest();
-  });
+    nextBtn?.addEventListener("click", ()=> setActive(activeIndex + 1));
+    prevBtn?.addEventListener("click", ()=> setActive(activeIndex - 1));
 
-  searchBtn?.addEventListener("click", () => {
-    const q = searchInput.value.trim();
-    highlight(q);
-    hideSuggest();
-  });
+    clearBtn?.addEventListener("click", ()=>{
+      searchInput.value = "";
+      clearMarks();
+      meta.textContent = "Sin búsqueda activa.";
+      hideSuggest();
+    });
 
-  nextBtn?.addEventListener("click", ()=> setActive(activeIndex + 1));
-  prevBtn?.addEventListener("click", ()=> setActive(activeIndex - 1));
+    document.querySelectorAll(".defect-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const targetId = btn.dataset.target;
+        const target = document.getElementById(targetId);
+        if(target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
 
-  clearBtn?.addEventListener("click", ()=>{
-    searchInput.value = "";
-    clearMarks();
-    meta.textContent = "Sin búsqueda activa.";
-    hideSuggest();
-  });
+    /* =========================
+       MODAL NUEVO + LIGHTBOX
+       - scroll real móvil (gpModalBody)
+       - cierra con click afuera + ESC
+       - oculta header cuando abre (body.modal-open)
+       ========================= */
+    (function(){
+      const overlay = document.getElementById("gpModalOverlay");
+      const modal = overlay?.querySelector(".gpModal");
+      const closeBtn = document.getElementById("gpModalClose");
 
-  document.querySelectorAll(".defect-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const targetId = btn.dataset.target;
-      const target = document.getElementById(targetId);
-      if(target){
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      const title = document.getElementById("gpModalTitle");
+      const sub = document.getElementById("gpModalSub");
+
+      const badge = document.getElementById("gpBadge");
+      const badgeText = document.getElementById("gpBadgeText");
+
+      const img = document.getElementById("gpModalImg");
+      const caption = document.getElementById("gpModalCaption");
+
+      const desc = document.getElementById("gpDesc");
+      const signals = document.getElementById("gpSignals");
+      const confusions = document.getElementById("gpConfusions");
+      const impact = document.getElementById("gpImpact");
+
+      const accBtn = document.getElementById("gpAccBtn");
+      const accPanel = document.getElementById("gpAccPanel");
+
+      const s1 = document.getElementById("gpStep1");
+      const s2 = document.getElementById("gpStep2");
+      const s3 = document.getElementById("gpStep3");
+      const s4 = document.getElementById("gpStep4");
+      const s5 = document.getElementById("gpStep5");
+      const notes = document.getElementById("gpNotes");
+
+      // Lightbox
+      const lb = document.getElementById("gpLightbox");
+      const lbImg = document.getElementById("gpLightboxImg");
+
+      let lastFocus = null;
+
+      function lockBody(){
+        document.body.classList.add("modal-open");
+        document.body.style.overflow = "hidden";
       }
-    });
-  });
-
-  // =========================
-  // MODAL DEFECTOS + ACORDEÓN + LIGHTBOX
-  // =========================
-  (function(){
-    const overlay = document.getElementById("defectModal");
-    if(!overlay) return;
-
-    const closeBtn = document.getElementById("modalCloseBtn");
-    const handle = overlay.querySelector(".modalHandle");
-
-    const title = document.getElementById("modalTitle");
-    const sub = document.getElementById("modalSub");
-    const img = document.getElementById("modalImg");
-    const caption = document.getElementById("modalCaption");
-
-    const typeBadge = document.getElementById("modalType");
-    const typeText = document.getElementById("modalTypeText");
-
-    // Lightbox
-    const lightbox = document.getElementById("imgLightbox");
-    const lightboxImg = document.getElementById("imgLightboxImg");
-
-    const stepsToggleBtn = document.getElementById("stepsToggleBtn");
-    const stepsPanel = document.getElementById("stepsPanel");
-    const accIcon = stepsToggleBtn?.querySelector(".accIcon");
-    const accLabel = stepsToggleBtn?.querySelector("span");
-
-    const $ = (id) => document.getElementById(id);
-
-    function setAccordion(open){
-      if(!stepsToggleBtn || !stepsPanel) return;
-      stepsToggleBtn.setAttribute("aria-expanded", open ? "true" : "false");
-      stepsPanel.hidden = !open;
-
-      if(accLabel){
-        accLabel.textContent = open ? "Ocultar paso a paso (gpVision™)" : "Ver paso a paso (gpVision™)";
+      function unlockBody(){
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "";
       }
-      if(accIcon){
-        accIcon.textContent = open ? "▴" : "▾";
+
+      function setAccordion(open){
+        if(!accBtn || !accPanel) return;
+        accBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        accPanel.hidden = !open;
       }
-    }
 
-    stepsToggleBtn?.addEventListener("click", ()=>{
-      const isOpen = stepsToggleBtn.getAttribute("aria-expanded") === "true";
-      setAccordion(!isOpen);
-    });
+      accBtn?.addEventListener("click", ()=>{
+        const isOpen = accBtn.getAttribute("aria-expanded") === "true";
+        setAccordion(!isOpen);
+      });
 
-    // Lightbox open
-    img?.addEventListener("click", () => {
-      if(!img.src) return;
-      lightboxImg.src = img.src;
-      lightboxImg.alt = img.alt || "";
-      lightbox.classList.add("open");
-      lightbox.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-    });
+      function openModal(card){
+        lastFocus = document.activeElement;
 
-    function closeLightbox(){
-      lightbox.classList.remove("open");
-      lightbox.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-    }
+        const es = card.dataset.es || "Defecto";
+        const en = card.dataset.en || "";
+        const type = (card.dataset.type || "").toLowerCase();
 
-    lightbox?.addEventListener("click", closeLightbox);
+        title.textContent = `${es} (${en})`;
+        sub.textContent = "Detalle técnico y configuración en gpVision™";
 
-function openModal(card){
-  const es = card.dataset.es || "Defecto";
-  const en = card.dataset.en || "";
-  const type = (card.dataset.type || "").toLowerCase();
+        img.src = card.dataset.img || "";
+        img.alt = `${es} (${en})`;
+        caption.textContent = card.dataset.caption || "";
 
-  title.textContent = `${es} (${en})`;
-  sub.textContent = "Detalle técnico y configuración en gpVision™";
+        desc.textContent = card.dataset.desc || "";
+        signals.textContent = card.dataset.signals || "";
+        confusions.textContent = card.dataset.confusions || "";
+        impact.textContent = card.dataset.impact || "";
 
-  img.src = card.dataset.img || "";
-  img.alt = `${es} (${en})`;
-  caption.textContent = card.dataset.caption || "";
+        s1.textContent = card.dataset.step1 || "";
+        s2.textContent = card.dataset.step2 || "";
+        s3.textContent = card.dataset.step3 || "";
+        s4.textContent = card.dataset.step4 || "";
+        s5.textContent = card.dataset.step5 || "";
+        notes.textContent = card.dataset.notes || "";
 
-  $("modalDesc").textContent       = card.dataset.desc || "";
-  $("modalSignals").textContent    = card.dataset.signals || "";
-  $("modalConfusions").textContent = card.dataset.confusions || "";
-  $("modalImpact").textContent     = card.dataset.impact || "";
+        badge.classList.remove("nir");
+        if(type === "nir"){
+          badge.classList.add("nir");
+          badgeText.textContent = "Detección: Infrarrojo (NIR)";
+        }else{
+          badgeText.textContent = "Detección: Color (RGB)";
+        }
 
-  $("modalStep1").textContent = card.dataset.step1 || "";
-  $("modalStep2").textContent = card.dataset.step2 || "";
-  $("modalStep3").textContent = card.dataset.step3 || "";
-  $("modalStep4").textContent = card.dataset.step4 || "";
-  $("modalStep5").textContent = card.dataset.step5 || "";
-  $("modalNotes").textContent = card.dataset.notes || "";
+        setAccordion(false);
 
-  typeBadge.classList.remove("nir");
-  if(type === "nir"){
-    typeBadge.classList.add("nir");
-    typeText.textContent = "Detección: Infrarrojo (NIR)";
-  }else{
-    typeText.textContent = "Detección: Color (RGB)";
-  }
+        overlay.classList.add("is-open");
+        overlay.setAttribute("aria-hidden","false");
+        lockBody();
 
-  setAccordion(false);
-
-  // ✅ ABRIR: ocultar barra superior
-  document.body.classList.add("modal-open");
-
-  overlay.classList.add("open");
-  overlay.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-  closeBtn?.focus?.({ preventScroll:true });
-}
-
-function closeModal(){
-  overlay.classList.remove("open");
-  overlay.setAttribute("aria-hidden", "true");
-
-  // ✅ CERRAR: mostrar barra superior de nuevo
-  document.body.classList.remove("modal-open");
-
-  document.body.style.overflow = "";
-
-  // si el lightbox está abierto, también cerrarlo
-  if(lightbox?.classList.contains("open")) closeLightbox();
-}
-
-
-    document.querySelectorAll(".defect-card").forEach(card=>{
-      card.addEventListener("click", ()=> openModal(card));
-    });
-
-    closeBtn?.addEventListener("click", closeModal);
-    handle?.addEventListener("click", closeModal);
-
-    overlay.addEventListener("click", (e)=>{
-      if(e.target === overlay) closeModal();
-    });
-
-    document.addEventListener("keydown", (e)=>{
-      if(e.key === "Escape"){
-        if(lightbox?.classList.contains("open")) closeLightbox();
-        else if(overlay.classList.contains("open")) closeModal();
+        // enfocar cierre
+        closeBtn?.focus?.({ preventScroll:true });
       }
-    });
-  })();
-</script>
 
+      function closeModal(){
+        overlay.classList.remove("is-open");
+        overlay.setAttribute("aria-hidden","true");
+        unlockBody();
+        setAccordion(false);
+
+        // si lightbox abierto, cerrar
+        if(lb.classList.contains("is-open")) closeLightbox();
+
+        // devolver focus
+        if(lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll:true });
+      }
+
+      // click cards
+      document.querySelectorAll(".defect-card").forEach(card=>{
+        card.addEventListener("click", ()=> openModal(card));
+      });
+
+      // cerrar
+      closeBtn?.addEventListener("click", closeModal);
+
+      // click fuera
+      overlay?.addEventListener("click", (e)=>{
+        if(e.target === overlay) closeModal();
+      });
+
+      // ESC
+      document.addEventListener("keydown", (e)=>{
+        if(e.key !== "Escape") return;
+        if(lb.classList.contains("is-open")) closeLightbox();
+        else if(overlay.classList.contains("is-open")) closeModal();
+      });
+
+      // Lightbox
+      img?.addEventListener("click", ()=>{
+        if(!img.src) return;
+        lbImg.src = img.src;
+        lbImg.alt = img.alt || "";
+        lb.classList.add("is-open");
+        lb.setAttribute("aria-hidden","false");
+      });
+
+      function closeLightbox(){
+        lb.classList.remove("is-open");
+        lb.setAttribute("aria-hidden","true");
+        lbImg.src = "";
+      }
+
+      lb?.addEventListener("click", closeLightbox);
+    })();
+  </script>
 </body>
 </html>
