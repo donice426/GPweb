@@ -1,45 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Mecánica General | GP Graders</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     :root{
       --bg0:#070e18;
       --bg2:#0f1e33;
+
       --panel: rgba(255,255,255,.04);
+      --panel2: rgba(0,0,0,.18);
       --stroke: rgba(255,255,255,.10);
+
       --text:#eaf1ff;
       --muted:#b9c6e3;
+
       --brand:#4da3ff;
       --brand2:#38d4ff;
+
       --shadow: 0 16px 50px rgba(0,0,0,.45);
+      --shadow2: 0 22px 70px rgba(0,0,0,.50);
+
+      --r:16px;
       --r20:20px;
-      --card: rgba(255,255,255,.04); 
-      --r: 16px;                    
     }
 
     *{ box-sizing:border-box; }
+    html, body{ min-height:100%; }
 
     body{
       margin:0;
       font-family:"Segoe UI", Tahoma, sans-serif;
       color:var(--text);
+
+      /* ✅ Fondo global infinito */
       background:
-        radial-gradient(900px 500px at 15% 10%, rgba(77,163,255,.18), transparent 60%),
-        radial-gradient(900px 600px at 80% 90%, rgba(77,163,255,.10), transparent 55%),
+        radial-gradient(1200px 800px at 10% 10%, rgba(77,163,255,.18), transparent 60%),
+        radial-gradient(1200px 900px at 90% 90%, rgba(56,212,255,.12), transparent 55%),
         linear-gradient(135deg, var(--bg0), var(--bg2));
+      background-attachment: fixed;
+
+      overflow-x:hidden;
     }
 
+    /* ✅ Glow animado (no se corta) */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-40px;
+      pointer-events:none;
+      background:
+        radial-gradient(520px 320px at 18% 18%, rgba(77,163,255,.14), transparent 62%),
+        radial-gradient(520px 320px at 85% 82%, rgba(56,212,255,.10), transparent 64%);
+      opacity:.95;
+      animation: bgFloat 10s ease-in-out infinite alternate;
+      z-index:0;
+    }
+    @keyframes bgFloat{
+      from{ transform: translate3d(-10px,-6px,0) scale(1); }
+      to  { transform: translate3d(10px,8px,0) scale(1.02); }
+    }
+
+    /* Header */
     header{
       position:sticky;
       top:0;
-      background:rgba(8,14,24,.9);
-      border-bottom:1px solid rgba(255,255,255,.08);
       z-index:10;
+      background:rgba(8,14,24,.90);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
+      transform: translateY(-6px);
+      opacity:0;
+      animation: fadeDown .45s ease forwards;
     }
+    @keyframes fadeDown{ to{ transform: translateY(0); opacity:1; } }
 
     header .wrap{
       max-width:1100px;
@@ -48,18 +84,53 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
+      gap:12px;
+    }
+    header h1{ margin:0; font-size:16px; }
+    header span{ font-size:12px; color:var(--muted); }
+
+    /* Layout */
+    main{
+      max-width:1100px;
+      margin:auto;
+      padding:26px 18px 50px;
+      position:relative;
+      z-index:1; /* encima del glow */
     }
 
-    header h1{
-      margin:0;
-      font-size:16px;
-    }
-
-    header span{
+    footer{
+      text-align:center;
       font-size:12px;
-      color:var(--muted);
+      color:rgba(255,255,255,.4);
+      padding:20px;
+      position:relative;
+      z-index:1;
     }
 
+    .section{ margin-top:34px; }
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:8px;
+    }
+    .bar{
+      width:10px;
+      height:22px;
+      border-radius:8px;
+      background:linear-gradient(180deg,var(--brand),var(--brand2));
+      box-shadow: 0 10px 26px rgba(77,163,255,.10);
+    }
+    .section-title h2{ margin:0; font-size:18px; }
+    .section-sub{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:18px;
+      max-width:900px;
+      line-height:1.65;
+    }
+
+    /* Buttons (formato hardware) */
     .btn{
       padding:9px 14px;
       border-radius:12px;
@@ -68,480 +139,362 @@
       border:1px solid rgba(255,255,255,.12);
       background:rgba(255,255,255,.04);
       color:var(--text);
+      cursor:pointer;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
+      position:relative;
+      overflow:hidden;
+      will-change: transform;
     }
+    .btn::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(420px 140px at 10% 10%, rgba(77,163,255,.18), transparent 65%);
+      opacity:0;
+      transition: opacity .2s ease;
+      pointer-events:none;
+    }
+    .btn:hover{
+      border-color: rgba(77,163,255,.55);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(0,0,0,.28);
+      background: rgba(0,0,0,.10);
+    }
+    .btn:hover::after{ opacity:1; }
+    .btn:active{ transform: translateY(0) scale(.99); }
 
     .btn.primary{
-  border-color: rgba(77,163,255,.55);
-  background: linear-gradient(180deg, rgba(77,163,255,.18), rgba(56,212,255,.12));
-}
-.btn.primary:hover{
-  border-color: rgba(77,163,255,.85);
-}
+      border-color: rgba(77,163,255,.55);
+      background: linear-gradient(180deg, rgba(77,163,255,.18), rgba(56,212,255,.12));
+    }
+    .btn.primary:hover{ border-color: rgba(77,163,255,.85); }
 
-
-    main{
-      max-width:1100px;
-      margin:auto;
-      padding:26px 18px 50px;
+    .btn:focus-visible{
+      outline:none;
+      box-shadow: 0 0 0 6px rgba(77,163,255,.18);
+      border-color: rgba(77,163,255,.65);
     }
 
-    .section{
-      margin-top:40px;
+    /* Card base (hardware style) */
+    .card{
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r20);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+      will-change: transform;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, filter .15s ease;
     }
-
-    .section-title{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin-bottom:8px;
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius: inherit;
+      background: radial-gradient(520px 220px at 10% 0%, rgba(77,163,255,.10), transparent 60%);
+      opacity:0;
+      transition: opacity .18s ease;
+      pointer-events:none;
     }
-
-    .bar{
-      width:10px;
-      height:22px;
-      border-radius:8px;
-      background:linear-gradient(180deg,var(--brand),var(--brand2));
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(77,163,255,.22);
+      box-shadow: var(--shadow2);
+      filter: saturate(1.03);
     }
+    .card:hover::before{ opacity:1; }
 
-    .section-title h2{
-      margin:0;
-      font-size:18px;
-    }
-
-    .section-sub{
-      font-size:13px;
-      color:var(--muted);
-      margin-bottom:18px;
-      max-width:850px;
-    }
-
-    .figure{
-      background:var(--panel);
-      border:1px solid var(--stroke);
-      border-radius:var(--r20);
-      box-shadow:var(--shadow);
-      margin-bottom:20px;
-    }
-
-    .figure-h{
+    .card-h{
       padding:14px 16px;
       border-bottom:1px solid rgba(255,255,255,.08);
     }
-
-    .figure-h h3{
-      margin:0;
-      font-size:14px;
+    .card-h h3{ margin:0; font-size:14px; }
+    .card-h .hint{ margin-top:4px; font-size:12px; color:var(--muted); }
+    .card-b{
+      padding: 14px 16px 16px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
     }
 
-    .figure-h .hint{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:4px;
+    /* Search (hardware style) */
+    .search-wrap{
+      margin-top:14px;
+      background: var(--panel);
+      border:1px solid var(--stroke);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow: visible;
+      transform: translateY(10px);
+      opacity:0;
+      transition: transform .55s ease, opacity .55s ease;
     }
+    .search-wrap.reveal{ transform: translateY(0); opacity:1; }
 
-    .ph{
-      height:220px;
-      margin:14px 16px;
-      border-radius:16px;
-      border:2px dashed rgba(255,255,255,.25);
+    .search-head{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.10);
       display:flex;
       align-items:center;
-      justify-content:center;
-      text-align:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .search-head h3{ margin:0; font-size:14px; }
+    .search-head .hint{ margin-top:4px; font-size:12px; color:var(--muted); }
+    .search-body{ padding:14px 16px 16px; }
+    .search-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .search-suggest{ position:relative; flex:1; min-width:220px; }
+    .search-input{
+      width:100%;
+      flex:1;
+      min-width:220px;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.22);
+      color:var(--text);
+      outline:none;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+    }
+    .search-input:focus{
+      border-color: rgba(77,163,255,.55);
+      box-shadow: 0 0 0 6px rgba(77,163,255,.12);
+      transform: translateY(-1px);
+    }
+    .search-meta{
+      margin-top:10px;
       font-size:12px;
-      color:rgba(255,255,255,.6);
+      color: rgba(230,237,245,.60);
     }
 
-    .figure-b{
-      padding:0 16px 16px;
-      font-size:13px;
-      color:var(--muted);
-      line-height:1.55;
+    /* highlight */
+    mark.gp-hit{
+      background: rgba(77,163,255,.25);
+      border: 1px solid rgba(77,163,255,.35);
+      color: var(--text);
+      padding: 0 2px;
+      border-radius: 6px;
+      transition: box-shadow .2s ease, background .2s ease, border-color .2s ease;
+    }
+    mark.gp-hit.active{
+      background: rgba(77,163,255,.45);
+      border-color: rgba(77,163,255,.75);
+      box-shadow: 0 0 0 6px rgba(77,163,255,.14);
+      animation: popHit .28s ease;
+    }
+    @keyframes popHit{ from{ transform: scale(.98); } to{ transform: scale(1); } }
+
+    /* Autocomplete list */
+    .suggest-list{
+      position:absolute;
+      top: calc(100% + 8px);
+      left:0; right:0;
+      background: rgba(10,20,34,.98);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 14px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
+      overflow:hidden;
+      z-index:999;
+      max-height: 280px;
+      overflow-y:auto;
+      display:none;
+      transform-origin: top;
+      animation: drop .16s ease;
+    }
+    @keyframes drop{
+      from{ transform: translateY(-6px) scale(.98); opacity:.4; }
+      to{ transform: translateY(0) scale(1); opacity:1; }
+    }
+    .suggest-item{
+      padding:10px 12px;
+      cursor:pointer;
+      border-top:1px solid rgba(255,255,255,.08);
+      transition: background .12s ease, transform .12s ease;
+    }
+    .suggest-item:first-child{ border-top:none; }
+    .suggest-item:hover,
+    .suggest-item.active{ background: rgba(77,163,255,.12); transform: translateX(2px); }
+    .suggest-title{ font-size:13px; color: rgba(230,237,245,.92); line-height:1.35; }
+    .suggest-hi{
+      background: rgba(77,163,255,.22);
+      border: 1px solid rgba(77,163,255,.35);
+      padding: 0 2px;
+      border-radius: 6px;
     }
 
-    footer{
-      text-align:center;
+    /* Mecánica content blocks = cards grid (hardware style) */
+    .mech-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .mech-card{
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--r);
+      padding: 14px 14px 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+      position:relative;
+      overflow:hidden;
+    }
+    .mech-card::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius: inherit;
+      background: radial-gradient(520px 180px at 10% 0%, rgba(77,163,255,.10), transparent 60%);
+      opacity:0;
+      transition: opacity .18s ease;
+      pointer-events:none;
+    }
+    .mech-card:hover::before{ opacity:1; }
+
+    .mech-card-title{
+      margin:0 0 10px;
+      font-size: .98rem;
+      color: var(--text);
+      letter-spacing:.2px;
+    }
+    .mech-text{
+      margin: 10px 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 13px;
+    }
+    .mech-list{
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 13px;
+    }
+    .mech-list li{ margin: 8px 0; }
+    .mech-list strong{ color: var(--text); font-weight: 600; }
+
+    .mech-divider{
+      border:none;
+      height:1px;
+      background: var(--stroke);
+      margin: 14px 0;
+      opacity:.9;
+    }
+
+    .callout{
+      border: 1px solid rgba(77,163,255,.28);
+      background: rgba(77,163,255,.08);
+      border-radius: var(--r);
+      padding: 12px 14px;
+    }
+    .callout h4{
+      margin:0 0 8px;
+      color: var(--text);
+      font-size: .98rem;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.16);
       font-size:12px;
-      color:rgba(255,255,255,.4);
-      padding:20px;
+      color: rgba(230,237,245,.88);
+      margin-bottom: 8px;
+    }
+    .badgeDot{ width:8px; height:8px; border-radius:999px; background: rgba(77,163,255,.85); }
+
+    /* Images */
+    .img-figure{
+      width: 100%;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      display:block;
+      margin: 12px auto 6px;
+      cursor: zoom-in;
+      transition: transform .18s ease, filter .18s ease, border-color .18s ease;
+      background: rgba(0,0,0,.14);
+    }
+    .img-figure:hover{
+      transform: scale(1.01);
+      filter: saturate(1.03);
+      border-color: rgba(77,163,255,.25);
+    }
+    .caption{
+      margin: 0;
+      font-size: 12px;
+      color: rgba(255,255,255,.55);
+      line-height: 1.45;
     }
 
-    /* ===== BUSCADOR ===== */
-.search-wrap{
-  margin-top: 14px;
-  background: var(--card);
-  border: 1px solid var(--stroke);
-  border-radius: var(--r);
-  box-shadow: var(--shadow);
-  overflow: visible;
-}
-.search-head{
-  padding: 14px 16px;
-  border-bottom: 1px solid rgba(255,255,255,.10);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 10px;
-}
-.search-head h3{
-  margin:0;
-  font-size: 14px;
-}
-.search-head .hint{
-  margin-top: 4px;
-  font-size: 12px;
-  color: var(--muted);
-}
-.search-body{
-  padding: 14px 16px 16px;
-}
-.search-row{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  flex-wrap: wrap;
-}
-.search-input{
-  flex: 1;
-  min-width: 220px;
-  padding: 12px 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.16);
-  background: rgba(0,0,0,.22);
-  color: var(--text);
-  outline: none;
-}
-.search-input:focus{
-  border-color: rgba(77,163,255,.55);
-}
-.search-meta{
-  margin-top: 10px;
-  font-size: 12px;
-  color: rgba(230,237,245,.60);
-}
+    /* Width helpers */
+    .w-xs{ max-width: 260px; }
+    .w-s{ max-width: 420px; }
+    .w-m{ max-width: 720px; }
+    .w-l{ max-width: 920px; }
 
-/* resaltado */
-mark.gp-hit{
-  background: rgba(77,163,255,.25);
-  border: 1px solid rgba(77,163,255,.35);
-  color: var(--text);
-  padding: 0 2px;
-  border-radius: 6px;
-}
-mark.gp-hit.active{
-  background: rgba(77,163,255,.45);
-  border-color: rgba(77,163,255,.75);
-  box-shadow: 0 0 0 6px rgba(77,163,255,.14);
-}
+    /* Reveal animation for sections/cards */
+    .revealItem{
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    .revealItem.reveal{
+      transform: translateY(0);
+      opacity: 1;
+      transition: transform .55s ease, opacity .55s ease;
+    }
 
-/* =========================
-   MECÁNICA - BLOQUE TEXTO
-   ========================= */
-.mech-intro{
-  margin-top: 14px;
-}
+    /* Lightbox */
+    .img-lightbox{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.85);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 6000;
+      cursor: zoom-out;
+      opacity:0;
+      transition: opacity .14s ease;
+      padding: 16px;
+    }
+    .img-lightbox.open{
+      display: flex;
+      opacity:1;
+    }
+    .img-lightbox img{
+      max-width: 92vw;
+      max-height: 92vh;
+      border-radius: 14px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.65);
+      transform: translateY(8px) scale(.99);
+      animation: lbIn .16s ease forwards;
+      background: rgba(0,0,0,.10);
+    }
+    @keyframes lbIn{ to{ transform: translateY(0) scale(1); } }
 
-.mech-title{
-  margin: 10px 0 10px;
-  font-size: 1.05rem;
-  letter-spacing: .2px;
-  color: var(--text);
-}
+    /* Responsive */
+    @media (min-width: 860px){
+      .mech-grid{ grid-template-columns: 1fr 1fr; }
+      .mech-grid .span-2{ grid-column: 1 / -1; }
+    }
 
-.mech-text{
-  margin: 10px 0;
-  color: var(--muted);
-  line-height: 1.55;
-}
-
-.mech-grid{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.mech-card{
-  background: var(--card);
-  border: 1px solid var(--stroke);
-  border-radius: var(--r);
-  padding: 14px 14px 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.22);
-}
-
-.mech-card-title{
-  margin: 0 0 10px;
-  font-size: .98rem;
-  color: var(--text);
-}
-
-.mech-list{
-  margin: 0;
-  padding-left: 18px;
-  color: var(--muted);
-  line-height: 1.55;
-}
-
-.mech-list li{
-  margin: 8px 0;
-}
-
-.mech-list strong{
-  color: var(--text);
-  font-weight: 600;
-}
-
-.mech-divider{
-  border: none;
-  height: 1px;
-  background: var(--stroke);
-  margin: 14px 0;
-  opacity: .9;
-}
-
-.mech-callout{
-  border: 1px solid rgba(77,163,255,.28);
-  background: rgba(77,163,255,.08);
-  border-radius: var(--r);
-  padding: 12px 14px;
-}
-
-.mech-callout-title{
-  margin: 0 0 8px;
-  color: var(--text);
-  font-size: .98rem;
-}
-
-.mech-analogy{
-  margin-top: 12px;
-  border: 1px dashed rgba(255,255,255,.18);
-  background: rgba(255,255,255,.04);
-  border-radius: var(--r);
-  padding: 12px 14px;
-}
-
-.mech-badge{
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.18);
-  background: rgba(255,255,255,.06);
-  color: var(--text);
-  font-size: .78rem;
-  letter-spacing: .3px;
-  margin-bottom: 8px;
-}
-
-/* Responsive: en pantallas anchas, 2 columnas */
-@media (min-width: 820px){
-  .mech-grid{
-    grid-template-columns: 1fr;
-  }
-  .mech-grid .mech-card:nth-child(3){
-    grid-column: 1 / -1;
-  }
-}
-
-.img-figure{
-  width: 80%;              /* ⬅ un poco más pequeña */
-  max-width: 900px;        /* ⬅ evita que se vean gigantes en pantallas grandes */
-  margin:14px auto;        /* ⬅ centra la imagen */
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
-  display:block;
-}
-
-.img-figure{
-  margin:14px auto;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
-  display:block;
-}
-
-.img-figure.xs{ width:25%; }
-.img-figure.s{ width:35%; }
-.img-figure.ss{ width:50%; }
-.img-figure.sm{ width:75%; }
-.img-figure.md{ width:85%; }
-.img-figure.lg{ width:95%; }
-
-
-/* Evita que se "acoplen" bloques seguidos por colapso de márgenes */
-.mech-intro{
-  display: flow-root;     
-  margin-bottom: 22px;
-}
-
-.mech-analogy{
-  margin-bottom: 18px;   
-}
-
-.figure{
-  margin-top: 18px;       
-}
-
-/* ===== AUTOCOMPLETE LIST ===== */
-.search-suggest{
-  position: relative;
-  flex: 1;
-  min-width: 220px;
-}
-.search-suggest .search-input{
-  width: 100%;
-}
-
-.suggest-list{
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  right: 0;
-  background: rgba(10,20,34,.98);
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 14px;
-  box-shadow: 0 18px 60px rgba(0,0,0,.55);
-  overflow: hidden;
-  z-index: 999;
-  max-height: 280px;
-  overflow-y: auto;
-  display: none;
-}
-
-.suggest-item{
-  padding: 10px 12px;
-  cursor: pointer;
-  border-top: 1px solid rgba(255,255,255,.08);
-}
-.suggest-item:first-child{ border-top: none; }
-.suggest-item:hover,
-.suggest-item.active{
-  background: rgba(77,163,255,.12);
-}
-.suggest-title{
-  font-size: 13px;
-  color: rgba(230,237,245,.92);
-  line-height: 1.35;
-}
-
-.suggest-hi{
-  background: rgba(77,163,255,.22);
-  border: 1px solid rgba(77,163,255,.35);
-  padding: 0 2px;
-  border-radius: 6px;
-}
-
-/* =========================
-   ANIMACIONES / INTERACCIONES
-   ========================= */
-
-/* scroll suave al hacer click en anchors */
-html{ scroll-behavior:smooth; }
-
-/* transiciones globales suaves */
-.btn, .figure, .search-wrap, .suggest-item, .img-figure{
-  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .18s ease, filter .18s ease;
-}
-
-/* Botones más “vivos” */
-.btn:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 14px 30px rgba(0,0,0,.28);
-}
-.btn:active{
-  transform: translateY(0px) scale(.98);
-}
-
-/* Tarjetas/figuras: hover con brillo y elevación */
-.figure{
-  position: relative;
-  overflow: hidden;
-  will-change: transform;
-}
-.figure:hover{
-  transform: translateY(-3px);
-  border-color: rgba(77,163,255,.40);
-  box-shadow: 0 18px 60px rgba(0,0,0,.55);
-}
-
-/* Shine sutil al pasar el mouse */
-.figure::after{
-  content:"";
-  position:absolute;
-  inset:-40% -60%;
-  background: linear-gradient(120deg,
-    transparent 0%,
-    rgba(77,163,255,.08) 35%,
-    rgba(56,212,255,.10) 50%,
-    rgba(77,163,255,.08) 65%,
-    transparent 100%
-  );
-  transform: translateX(-35%) rotate(8deg);
-  opacity: 0;
-  pointer-events:none;
-  transition: opacity .18s ease;
-}
-.figure:hover::after{
-  opacity: 1;
-  animation: gpShine 1.2s ease forwards;
-}
-
-@keyframes gpShine{
-  0%{ transform: translateX(-35%) rotate(8deg); }
-  100%{ transform: translateX(35%) rotate(8deg); }
-}
-
-/* Imágenes: hover zoom sutil + foco accesible */
-.img-figure:hover{
-  transform: scale(1.02);
-  filter: saturate(1.03);
-}
-.img-figure:active{
-  transform: scale(1.00);
-}
-
-/* Títulos: animación ligera al hover */
-.figure-h h3{
-  transition: transform .18s ease, letter-spacing .18s ease;
-}
-.figure:hover .figure-h h3{
-  transform: translateX(2px);
-  letter-spacing: .2px;
-}
-
-/* Autocomplete: interacción más notoria */
-.suggest-item{
-  transform: translateY(0);
-}
-.suggest-item:hover{
-  transform: translateY(-1px);
-  border-color: rgba(77,163,255,.25);
-}
-
-/* Respeta gente con reduce motion */
-@media (prefers-reduced-motion: reduce){
-  *{ animation: none !important; transition: none !important; }
-  html{ scroll-behavior:auto; }
-}
-
-/* Reveal */
-.gp-reveal{
-  opacity: 0;
-  transform: translateY(10px);
-}
-.gp-reveal.is-in{
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity .45s ease, transform .45s ease;
-}
-
-.btn:focus-visible,
-.search-input:focus-visible{
-  outline: none;
-  box-shadow: 0 0 0 6px rgba(77,163,255,.18);
-  border-color: rgba(77,163,255,.65);
-}
-
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none !important; transition:none !important; }
+      body::before{ display:none; }
+      html{ scroll-behavior:auto; }
+    }
   </style>
 </head>
 
@@ -559,562 +512,480 @@ html{ scroll-behavior:smooth; }
 
 <main>
 
-  <section class="search-wrap" id="buscador">
-  <div class="search-head">
-    <div>
-      <h3>Búsqueda rápida en el manual</h3>
-      <div class="hint">Busca por palabra o frase y salta entre coincidencias</div>
-    </div>
-    <button class="btn" id="clearSearchBtn" type="button">Limpiar</button>
+  <!-- Lightbox global -->
+  <div id="imgLightbox" class="img-lightbox" aria-hidden="true">
+    <img id="imgLightboxImg" alt="">
   </div>
 
-  <div class="search-body">
-    <div class="search-row">
-      
-      <div class="search-suggest">
-  <input class="search-input" id="searchInput" type="text" autocomplete="off"
-    placeholder="Ej: RTUnit, calibración, carril, licencia...">
-  <div class="suggest-list" id="suggestList"></div>
-</div>
-
-
-      <button class="btn primary" id="searchBtn" type="button">Buscar</button>
-      <button class="btn" id="prevBtn" type="button">◀</button>
-      <button class="btn" id="nextBtn" type="button">▶</button>
+  <!-- BUSCADOR -->
+  <section class="search-wrap revealItem" id="buscador">
+    <div class="search-head">
+      <div>
+        <h3>Búsqueda rápida en el manual</h3>
+        <div class="hint">Busca por palabra o frase y salta entre coincidencias</div>
+      </div>
+      <button class="btn" id="clearSearchBtn" type="button">Limpiar</button>
     </div>
-    <div class="search-meta" id="searchMeta">Sin búsqueda activa.</div>
+
+    <div class="search-body">
+      <div class="search-row">
+        <div class="search-suggest">
+          <input class="search-input" id="searchInput" type="text" autocomplete="off"
+            placeholder="Ej: encoder, VFD, solenoide, retorno, carril...">
+          <div class="suggest-list" id="suggestList"></div>
+        </div>
+
+        <button class="btn primary" id="searchBtn" type="button">Buscar</button>
+        <button class="btn" id="prevBtn" type="button" aria-label="Anterior">◀</button>
+        <button class="btn" id="nextBtn" type="button" aria-label="Siguiente">▶</button>
+      </div>
+
+      <div class="search-meta" id="searchMeta">Sin búsqueda activa.</div>
+    </div>
+  </section>
+
+<!-- 1. INTRO -->
+<section class="section revealItem" id="intro">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>1. Introducción a la mecánica del sistema</h2>
+  </div>
+
+  <p class="section-sub">
+    Este apartado describe la infraestructura física y los componentes electromecánicos que hacen posible la operación
+    estable de la clasificadora: <b>transporte</b>, <b>rotación</b>, <b>singulación</b>, <b>sincronización</b> y
+    <b>expulsión</b>. En una línea de selección, la visión “decide”, pero la mecánica es la que <b>hace que esa decisión se cumpla</b>
+    en el punto exacto.
+  </p>
+
+  <div class="mech-grid">
+    <article class="mech-card">
+      <h3 class="mech-card-title">Objetivo mecánico del sistema (qué debe garantizar sí o sí)</h3>
+      <ul class="mech-list">
+        <li><strong>Flujo continuo:</strong> evitar acumulaciones, rebalses y “olas” de producto que rompen el ritmo de lectura.</li>
+        <li><strong>Rotación estable:</strong> la fruta debe girar de forma repetible para que la inspección sea consistente.</li>
+        <li><strong>Posición repetible:</strong> la fruta debe viajar centrada y a velocidad constante para llegar al punto de expulsión.</li>
+        <li><strong>Sincronía con encoder:</strong> cada acción mecánica (captura, decisión, expulsión) depende de tiempo/posición.</li>
+        <li><strong>Evitar daño del fruto:</strong> golpes, cortes, pellizcos y caídas que afecten calidad o generen falsas detecciones.</li>
+      </ul>
+      <div class="callout" style="margin-top:12px;">
+        <h4>Indicadores rápidos de “mecánica sana”</h4>
+        <ul class="mech-list">
+          <li><strong>La línea suena uniforme</strong> (sin “saltos” ni vibraciones periódicas).</li>
+          <li><strong>La fruta mantiene carril</strong> (no rebota ni se cruza).</li>
+          <li><strong>La tasa de retorno es baja y estable</strong> (no sube con el tiempo).</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="mech-card">
+      <h3 class="mech-card-title">Sistema de transporte y posicionamiento (dónde se gana o se pierde la estabilidad)</h3>
+      <ul class="mech-list">
+        <li><strong>Rodillos (rollers):</strong> sostienen, transportan y generan rotación. Deben tener tracción uniforme y limpieza.</li>
+        <li><strong>Guías laterales:</strong> centran el fruto; si están muy cerradas causan pellizcos/atascos, si están muy abiertas provocan cruces.</li>
+        <li><strong>Cadena y ejes:</strong> transmiten el movimiento; desgaste o desalineación genera variación de velocidad (error de sincronía).</li>
+        <li><strong>Chasis y soportes:</strong> rigidez mecánica evita vibración. Un soporte flojo = lectura inestable.</li>
+      </ul>
+
+      <hr class="mech-divider" />
+
+      <p class="mech-text" style="margin:0;">
+        <b>Problema típico:</b> “La visión está bien, pero la salida falla”. Muchas veces el origen real es mecánico:
+        deslizamiento en rollers, holgura en ejes o vibración en pórtico.
+      </p>
+    </article>
+
+    <article class="mech-card span-2">
+      <h3 class="mech-card-title">Control de movimiento, potencia y sincronización (la cadena completa)</h3>
+
+      <p class="mech-text" style="margin-top:0;">
+        En GP Graders el desempeño depende de la relación entre <b>motores + reductores</b> (entrega de torque),
+        <b>VFD</b> (control de velocidad), <b>encoder</b> (posición/tiempo) y <b>PLC</b> (coordinación).
+        Si uno se desajusta, el sistema completo pierde precisión.
+      </p>
+
+      <div class="mech-grid" style="margin-top:10px;">
+        <article class="mech-card" style="box-shadow:none;">
+          <h4 class="mech-card-title" style="font-size:.98rem;">Motores + reductores</h4>
+          <ul class="mech-list">
+            <li><strong>Torque vs RPM:</strong> la reducción aumenta torque y estabiliza el arrastre.</li>
+            <li><strong>Holguras:</strong> juego en acoples o cadenas se traduce en “micro-variaciones” de velocidad.</li>
+            <li><strong>Señal de alerta:</strong> calentamiento anormal, ruido metálico, vibración periódica.</li>
+          </ul>
+        </article>
+
+        <article class="mech-card" style="box-shadow:none;">
+          <h4 class="mech-card-title" style="font-size:.98rem;">VFD (variadores)</h4>
+          <ul class="mech-list">
+            <li><strong>Evitar sobretemperatura:</strong> separación térmica y ventilación real en gabinete.</li>
+            <li><strong>Rampas:</strong> rampas muy agresivas generan tirones; rampas muy suaves pueden perder sincronía al arranque.</li>
+            <li><strong>Señal de alerta:</strong> paradas intermitentes, alarmas térmicas, velocidad “flotante”.</li>
+          </ul>
+        </article>
+      </div>
+
+      <hr class="mech-divider" />
+
+      <div class="mech-grid" style="margin-top:10px;">
+        <article class="mech-card" style="box-shadow:none;">
+          <h4 class="mech-card-title" style="font-size:.98rem;">Encoder (posición real)</h4>
+          <ul class="mech-list">
+            <li><strong>Rol:</strong> convierte movimiento físico del eje en pulsos; define dónde está cada taza/momento.</li>
+            <li><strong>Pérdida de pulsos:</strong> causa expulsiones corridas, “mezcla de clases” o caídas fuera de tiempo.</li>
+            <li><strong>Señal de alerta:</strong> fallas que aparecen “a ratos”, especialmente a alta velocidad.</li>
+          </ul>
+        </article>
+
+        <article class="mech-card" style="box-shadow:none;">
+          <h4 class="mech-card-title" style="font-size:.98rem;">PLC + salidas (ejecución)</h4>
+          <ul class="mech-list">
+            <li><strong>Coordinación:</strong> lee sensores/encoder y ordena actuadores en el instante correcto.</li>
+            <li><strong>Actuadores/solenoides:</strong> expulsión alineada al centro de la taza; requiere calibración física.</li>
+            <li><strong>Señal de alerta:</strong> un carril falla más que otros → revisar actuador/holgura mecánica local.</li>
+          </ul>
+        </article>
+      </div>
+
+      <hr class="mech-divider" />
+
+      <div class="callout">
+        <h4>Puntos importantes (lo que más genera fallas reales)</h4>
+        <ul class="mech-list">
+          <li><strong>Gestión térmica:</strong> el calor afecta VFD y motores → deriva de velocidad y paradas intermitentes.</li>
+          <li><strong>Cableado / vibración:</strong> microcortes o falsos contactos se interpretan como fallos de sincronía.</li>
+          <li><strong>Referencia mecánica:</strong> la caída depende de distancias físicas bien medidas y repetibles.</li>
+          <li><strong>Limpieza:</strong> jugos/residuos cambian fricción en rollers y guías → deslizamientos y rotación irregular.</li>
+        </ul>
+      </div>
+
+      <div style="margin-top:12px;">
+        <span class="badge"><span class="badgeDot"></span> Analogía</span>
+        <p class="mech-text" style="margin-top:6px;">
+          Si el sistema fuera un reloj: el motor entrega fuerza, el reductor estabiliza, el encoder cuenta los “ticks”
+          y el PLC ejecuta. Si el encoder “salta ticks” o el motor entrega tirones, la hora (expulsión) queda corrida.
+        </p>
+      </div>
+    </article>
   </div>
 </section>
 
-  <!-- ================================================= -->
-  <!-- 1. INTRODUCCIÓN -->
-  <!-- ================================================= -->
-  <section class="section">
-    <div class="section-title">
-      <div class="bar"></div>
-      <h2>1. Introducción a la mecánica del sistema</h2>
+<!-- Figura general (formato hardware card) -->
+<section class="section revealItem" id="sistema-mecanico">
+  <div class="card">
+    <div class="card-h">
+      <h3>Sistema mecánico</h3>
+      <div class="hint">Vista general y relación entre módulos</div>
     </div>
+    <div class="card-b">
+      <p class="mech-text" style="margin-top:0;">
+        La línea integra alimentación, transporte, inspección y expulsión. La mecánica garantiza un flujo fluido,
+        rotación estable y sincronización con el encoder para que cada fruto llegue al punto de salida correcto.
+        En operación, la prioridad es mantener <b>estabilidad</b> (sin vibración), <b>tracción uniforme</b> (sin deslizamiento)
+        y <b>referencias físicas consistentes</b> (misma posición, mismo tiempo).
+      </p>
 
-<p class="section-sub">
-  Descripción general de la estructura mecánica que soporta
-  el transporte, posicionamiento y estabilidad del producto.
-</p>
+      <div class="callout" style="margin:12px 0 14px;">
+        <h4>Checklist rápido antes de producción (3 minutos)</h4>
+        <ul class="mech-list">
+          <li><strong>Rodillos limpios</strong> (pérdida de agarre).</li>
+          <li><strong>Guías alineadas</strong> (sin puntos que pellizquen).</li>
+          <li><strong>Sin ruidos metálicos</strong> ni vibración anormal al subir velocidad.</li>
+          <li><strong>Ventilación en gabinete</strong> funcionando (VFD sin alarmas térmicas).</li>
+          <li><strong>Expulsión “seca”</strong> (solenoides responden parejo y sin retardo).</li>
+        </ul>
+      </div>
 
-<!-- Contenido nuevo (Mecánica) -->
-<div class="mech-intro">
-  <h3 class="mech-title">Introducción: Arquitectura Mecánica y Sistemas de Tracción</h3>
+      <img
+        src="Imagenes/Maquina general-12-24 at 8.52.51 AM.jpeg"
+        alt="Vista general del sistema mecánico"
+        class="img-figure w-m"
+        data-zoomable="true"
+      />
+      <p class="caption">
+        Vista general de la clasificadora: alimentación → transporte → zona de inspección → salidas.
+      </p>
 
-  <p class="mech-text">
-    Este apartado detalla la infraestructura física y los componentes electromecánicos que constituyen el cuerpo operativo
-    de la clasificadora. Mientras que otros módulos se encargan del análisis de datos, el sistema mecánico tiene la función
-    crítica de garantizar el transporte fluido, la rotación constante y la expulsión precisa de cada fruto mediante una
-    sincronización electromecánica rigurosa.
-  </p>
+      <hr class="mech-divider" />
 
-  <p class="mech-text">
-    La estabilidad de la línea depende de la integridad de sus componentes de tracción y del control de potencia, los cuales
-    permiten que la maquinaria opere con una precisión milimétrica bajo las siguientes bases mecánicas:
+      <p class="mech-text" style="margin:0;">
+        <b>Tip operativo:</b> cuando aumentes capacidad, no “subas todo” a la vez. Sube velocidad y observa:
+        <b>rotación</b>, <b>centrado</b>, <b>saltos (jumps)</b> y <b>tasa de retorno</b>. Si alguno empeora, el límite real es mecánico.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Sistema general (módulos) -->
+<section class="section revealItem" id="sistema-general">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>2. Sistema General</h2>
+  </div>
+
+  <p class="section-sub">
+    Módulos mecánicos responsables del flujo, ordenamiento, inspección y distribución. Cada módulo tiene:
+    <b>función</b> → <b>ajustes</b> → <b>fallas típicas</b> → <b>acciones recomendadas</b>.
   </p>
 
   <div class="mech-grid">
+    <!-- 2.1 -->
     <article class="mech-card">
-      <h4 class="mech-card-title">1. Sistema de Transporte y Posicionamiento Físico</h4>
+      <h3 class="mech-card-title">2.1 Elevador de producto</h3>
+
+      <p class="mech-text">
+        Transfiere frutos desde recepción/lavado hacia módulos superiores con flujo continuo. Debe evitar golpes y rebalses,
+        y permitir drenaje para no arrastrar exceso de agua a la inspección.
+      </p>
+
       <ul class="mech-list">
-        <li>
-          <strong>Rodillos de Transporte (Rollers):</strong>
-          Son los encargados de estabilizar y rotar la fruta de manera controlada durante su desplazamiento. Este mecanismo
-          es vital para asegurar una velocidad constante y evitar vibraciones que puedan afectar el trayecto del producto.
-        </li>
-        <li>
-          <strong>Guías Laterales:</strong>
-          Estos componentes mantienen la fruta centrada y alineada sobre los rodillos. Su función principal es evitar desvíos,
-          saltos o contactos accidentales con la estructura del chasis, asegurando un movimiento lineal estable.
-        </li>
-        <li>
-          <strong>Cadena y Ejes de Tracción:</strong>
-          El movimiento físico de la línea se basa en una cadena de clasificación cuyo eje principal debe completar al menos
-          una rotación completa para sincronizar la posición de los componentes de control.
-        </li>
+        <li><strong>Ajustes clave:</strong> velocidad, inclinación efectiva y punto de descarga (altura/ángulo).</li>
+        <li><strong>Objetivo:</strong> entregar un flujo <b>constante</b> (sin “olas”).</li>
+        <li><strong>Señales de problema:</strong> acumulación en base, producto que cae a golpes, goteo excesivo hacia módulos siguientes.</li>
+        <li><strong>Acción recomendada:</strong> estabilizar velocidad, revisar tensado/arrastre y limpiar zonas donde se pega residuo.</li>
       </ul>
+
+      <img src="Imagenes/WhatsApp Image 2025-12-24 at 8.50.41 AM.jpeg"
+           alt="Elevador de producto"
+           class="img-figure w-s"
+           data-zoomable="true">
+      <p class="caption">Elevador utilizado para alimentación y transferencia hacia etapas superiores.</p>
     </article>
 
+    <!-- 2.2 -->
     <article class="mech-card">
-      <h4 class="mech-card-title">2. Control de Movimiento y Potencia</h4>
+      <h3 class="mech-card-title">2.2 Sierras para corte de pedicelo</h3>
+
+      <p class="mech-text">
+        Múltiples sierras rotativas paralelas separan pedicelo sin dañar fruto. La estabilidad depende del centrado del producto,
+        velocidad constante y protección contra atascos.
+      </p>
+
       <ul class="mech-list">
-        <li>
-          <strong>Motores y Reductores de Velocidad:</strong>
-          Cada sección motriz cuenta con cajas reductoras montadas bajo los motores. Su función es reducir las RPM del motor y
-          aumentar el torque, lo que permite un movimiento estable y sincronizado de los rodillos, cadenas y ejes de la máquina.
-        </li>
-        <li>
-          <strong>Variadores de Frecuencia (VFD):</strong>
-          Estos dispositivos controlan la velocidad de los motores eléctricos. Una disposición adecuada con separación térmica
-          es esencial para evitar la acumulación de calor, lo que garantiza que los motores funcionen sin paradas intermitentes.
-        </li>
-        <li>
-          <strong>Controlador Lógico Programable (PLC):</strong>
-          El PLC Allen-Bradley actúa como el cerebro industrial del hardware, monitoreando las entradas de los sensores de la máquina
-          y controlando directamente las salidas de los motores y actuadores mecánicos.
-        </li>
+        <li><strong>Ajustes clave:</strong> separación entre sierras, velocidad de rotación, alineación del conjunto.</li>
+        <li><strong>Objetivo:</strong> cortar pedicelo con <b>mínimo contacto</b> con la fruta.</li>
+        <li><strong>Fallas típicas:</strong> corte incompleto (velocidad baja), daño del fruto (separación incorrecta), atasco por residuos.</li>
+        <li><strong>Acción recomendada:</strong> limpieza periódica, verificar guardas, revisar vibración y desgaste de discos.</li>
       </ul>
+
+      <img src="Imagenes/WhatsApp Image 2025-12-24 at 8.50.42 AM.jpeg"
+           alt="Sistema de sierras"
+           class="img-figure w-s"
+           data-zoomable="true">
+      <p class="caption">Sistema de sierras rotativas para corte de pedicelos.</p>
     </article>
 
+    <!-- 2.3 -->
     <article class="mech-card">
-      <h4 class="mech-card-title">3. Sincronización Electromecánica</h4>
+      <h3 class="mech-card-title">2.3 Distribución post corte</h3>
+
+      <p class="mech-text">
+        Etapa de transición: redistribuye el producto para mantener carga uniforme y evitar cruces antes de singulación/rollers.
+        Aquí se corrigen “desórdenes” de flujo.
+      </p>
+
       <ul class="mech-list">
-        <li>
-          <strong>Encoder:</strong>
-          Es el dispositivo fundamental para el control de movimiento y la sincronización de la cadena. Traduce el movimiento físico
-          del eje en pulsos eléctricos que el sistema utiliza para conocer la posición exacta de cada taza en todo momento.
-        </li>
-        <li>
-          <strong>Módulos de Salida (Solenoides):</strong>
-          La expulsión física se realiza mediante la activación mecánica de solenoides en los puntos de salida, cuya temporización
-          debe estar alineada perfectamente con el centro de la taza para asegurar que el fruto caiga en la sección correcta.
-        </li>
+        <li><strong>Ajustes clave:</strong> nivelación, ángulos de canalización, velocidad relativa con módulo anterior.</li>
+        <li><strong>Señales de problema:</strong> acumulaciones en una zona, cruces de carril, producto saltando.</li>
+        <li><strong>Impacto:</strong> mala distribución aumenta <b>retorno</b> y reduce calidad de inspección.</li>
+        <li><strong>Acción recomendada:</strong> nivelar, revisar superficies de contacto y puntos donde se pega residuo.</li>
       </ul>
+
+      <img src="Imagenes/WhatsApp Image 2025-12-24 at 8.50.43 AM.jpeg"
+           alt="Distribución post corte"
+           class="img-figure w-s"
+           data-zoomable="true">
+      <p class="caption">Módulo de distribución y canalización del producto post corte.</p>
     </article>
-  </div>
 
-  <hr class="mech-divider" />
-
-  <div class="mech-callout">
-    <h4 class="mech-callout-title">Puntos IMPORTANTES para la gestión mecánica</h4>
-    <ul class="mech-list">
-      <li><strong>Gestión Térmica:</strong> La acumulación de calor en los tableros de potencia puede afectar la estabilidad de los motores y variadores.</li>
-      <li><strong>Mantenimiento del Cableado:</strong> Una gestión deficiente de los cables (tensionados o sin sujeción) en los gabinetes industriales puede provocar microcortes que el sistema interpreta como fallos de sincronización mecánica.</li>
-      <li><strong>Alineación del Punto de Referencia:</strong> La precisión de la caída del fruto depende de la medición manual de las distancias físicas entre el punto de referencia mecánico y cada salida.</li>
-    </ul>
-  </div>
-
-  <div class="mech-analogy">
-    <span class="mech-badge">Analogía</span>
-    <p class="mech-text">
-      Si el sistema fuera un reloj de precisión, los motores y reductores serían el muelle que da la fuerza, mientras que el Encoder
-      y el PLC serían los engranajes que aseguran que las manecillas se muevan exactamente un segundo a la vez, sin saltos ni retrasos.
-    </p>
-  </div>
-</div>
-
-
-<div class="figure">
-  <div class="figure-h">
-    <h3>Sistema mecánico</h3>
-    <div class="hint">Soporte físico del proceso</div>
-  </div>
-
-  <!-- Imagen real del sistema -->
-  <div style="padding:14px 16px;">
-
-  </div>
-
-  <div class="figure-b">
-    La imagen presenta una vista general de la línea de clasificación, donde se observa la disposición completa del sistema
-    mecánico desde la zona de alimentación hasta las salidas de descarga. Esta arquitectura integra de forma continua los
-    sistemas de transporte, posicionamiento, inspección y expulsión, constituyendo la base física sobre la cual operan los
-    módulos de control, visión y software.
-
-    <br><br>
-
-    El diseño de la máquina se organiza en carriles paralelos de transporte equipados con rodillos y mecanismos de guiado,
-    los cuales permiten el desplazamiento controlado del fruto. Estos elementos aseguran una rotación estable y una
-    alineación constante, condición fundamental para garantizar la precisión del proceso de clasificación.
-
-    <br><br>
-
-    En la zona central se identifica el área operativa y de supervisión, diseñada para facilitar el monitoreo del proceso y
-    el acceso seguro a los módulos mecánicos y eléctricos. Finalmente, en el extremo de salida, el sistema mecánico,
-    sincronizado mediante encoder y control lógico, acciona los mecanismos de expulsión que dirigen cada fruto hacia su
-    correspondiente línea de destino.
-
-    <br><br>
-
-    En conjunto, el sistema mecánico cumple el rol de asegurar un transporte fluido, una sincronización precisa y una
-    operación continua y estable de la máquina.
-
-    <img src="Imagenes/Maquina general-12-24 at 8.52.51 AM.jpeg" alt="Ventana de selección de frutas" class="img-figure sm">
-
-  </div>
-</div>
-
-  </section>
-
-
-  <!-- 2. SISTEMA DE TRANSPORTE -->
-
-  <section class="section">
-    <div class="section-title">
-      <div class="bar"></div>
-      <h2>2. Sistema General</h2>
-    </div>
-
-    <p class="section-sub">
-      Elementos encargados del desplazamiento y posicionamiento
-    </p>
-
-    <div class="mech-intro">
-
-  <p class="mech-text">
-    A continuación, se presenta una descripción detallada de los principales componentes que conforman este sistema
-    y su funcionamiento integrado:
-  </p>
-
-  <div class="mech-grid">
-<article class="mech-card">
-  <h4 class="mech-card-title">1. Elevador de Producto (Sistema de Alimentación)</h4>
-
-  <p class="mech-text">
-    El elevador de producto cumple la función de transferir los frutos desde la etapa
-    de recepción o lavado hacia los módulos superiores de la línea, asegurando un flujo
-    continuo, controlado y estable. Este sistema actúa como un enlace mecánico crítico
-    entre las etapas iniciales del proceso y las zonas de clasificación o inspección.
-  </p>
-
-  <p class="mech-text">
-    El mecanismo se basa en una superficie elevadora inclinada, diseñada para transportar
-    el producto de forma progresiva, evitando acumulaciones bruscas, retrocesos o impactos
-    que puedan dañar el fruto. La inclinación y velocidad del elevador se ajustan de acuerdo
-    a la capacidad de operación de la línea.
-  </p>
-
-  <p class="mech-text">
-    Durante el proceso, el sistema permite el drenaje controlado del agua proveniente
-    de la etapa de lavado, reduciendo la carga hídrica antes de la transferencia a los
-    módulos siguientes. El accionamiento del elevador se realiza mediante un motor
-    sincronizado con el resto del sistema mecánico, evitando desbalances en el flujo
-    de alimentación.
-  </p>
-
-  
-  <div style="margin-top:12px;">
-      <img src="Imagenes/WhatsApp Image 2025-12-24 at 8.50.41 AM.jpeg" alt="Ventana de selección de frutas" class="img-figure ss">
-    <p style="margin:6px 0 0; font-size:12px; color:rgba(255,255,255,.55);">
-     Elevador de producto utilizado para la alimentación y transferencia
-      del fruto hacia las etapas superiores del proceso.
-    </p>
-  </div>
-</article>
-
-<article class="mech-card">
-  <h4 class="mech-card-title">2. Sistema de Sierras para Corte de Pedicelo</h4>
-
-  <p class="mech-text">
-    El sistema de sierras tiene como función principal la separación mecánica del
-    pedicelo, permitiendo distinguir y procesar correctamente cerezas sueltas y
-    cerezas adheridas a restos vegetales u otros frutos. Este proceso es fundamental
-    para garantizar una clasificación limpia y evitar interferencias en las etapas
-    posteriores de transporte y análisis.
-  </p>
-
-  <p class="mech-text">
-    El mecanismo está compuesto por múltiples sierras rotativas dispuestas de forma
-    paralela, las cuales actúan de manera controlada sobre el pedicelo sin generar
-    daño en el fruto. La disposición y separación entre sierras permite un corte
-    preciso, minimizando pérdidas y reduciendo el riesgo de cortes irregulares.
-  </p>
-
-  <p class="mech-text">
-    El accionamiento del sistema se realiza mediante motores eléctricos sincronizados,
-    asegurando una velocidad de rotación constante y acorde a la cadencia de la línea.
-    Esta sincronización evita acumulaciones, atascos o cortes incompletos que podrían
-    afectar la eficiencia del proceso.
-  </p>
-
-  <p class="mech-text">
-    La estructura del módulo incluye elementos de protección y contención que
-    garantizan la seguridad operativa, así como bandejas y conductos que facilitan
-    la evacuación de residuos vegetales resultantes del corte.
-  </p>
-
-  <!-- Imagen del sistema de sierras -->
-  <div style="margin-top:12px;">
-
-    <img src="Imagenes/WhatsApp Image 2025-12-24 at 8.50.42 AM.jpeg" alt="Ventana de selección de frutas" class="img-figure ss">
-
-    <p style="margin:6px 0 0; font-size:12px; color:rgba(255,255,255,.55);">
-      Figura X. Sistema de sierras rotativas utilizado para el corte de pedicelos y
-      separación de cerezas durante el proceso de clasificación.
-    </p>
-  </div>
-</article>
-
-<article class="mech-card">
-  <h4 class="mech-card-title">3. Sistema de Distribución Post Corte de Pedicelo</h4>
-
-  <p class="mech-text">
-    El sistema de distribución post corte de pedicelo tiene como función principal
-    reorganizar y canalizar las cerezas una vez que han sido separadas de sus pedicelos,
-    asegurando un flujo ordenado y continuo hacia las siguientes etapas del proceso
-    de clasificación.
-  </p>
-
-  <p class="mech-text">
-    Este módulo actúa como una etapa de transición mecánica, donde el producto es
-    redistribuido de manera uniforme sobre superficies de transporte segmentadas,
-    evitando acumulaciones, cruces de producto o desbalances en la carga de la línea.
-  </p>
-
-  <p class="mech-text">
-    La geometría del sistema, junto con la velocidad controlada de los elementos de
-    transporte, permite desacelerar y espaciar las cerezas de forma progresiva,
-    preparando el producto para una correcta alineación y posterior inspección
-    o clasificación.
-  </p>
-
-  <p class="mech-text">
-    El accionamiento de este módulo se encuentra sincronizado con los sistemas
-    anteriores y posteriores, garantizando continuidad en el flujo y evitando
-    interferencias que puedan afectar la estabilidad mecánica o la eficiencia
-    del proceso global.
-  </p>
-
-  <!-- Imagen del sistema de distribución -->
-  <div style="margin-top:12px;">
-
-<img src="Imagenes/WhatsApp Image 2025-12-24 at 8.50.43 AM.jpeg" alt="Ventana de selección de frutas" class="img-figure ss">
-
-    <p style="margin:6px 0 0; font-size:12px; color:rgba(255,255,255,.55);">
-      Figura X. Módulo de distribución encargado de reorganizar el flujo de cerezas
-      después del proceso de corte de pedicelo.
-    </p>
-  </div>
-</article>
-
-<article class="mech-card">
-  <h4 class="mech-card-title">4. Singulador de Fruta (Ordenamiento previo a Rollers)</h4>
-
-  <p class="mech-text">
-    El singulador de fruta tiene como función principal organizar y separar las cerezas
-    de forma individual antes de su ingreso al sistema de rodillos. Este módulo es clave
-    para asegurar que cada fruto avance de manera ordenada, evitando agrupamientos,
-    superposiciones o ingresos simultáneos que puedan afectar la estabilidad del proceso.
-  </p>
-
-  <p class="mech-text">
-    El sistema se compone de carriles paralelos de transporte con geometría controlada,
-    diseñados para espaciar progresivamente el producto y conducir cada cereza hacia
-    una posición definida. Este ordenamiento permite que el fruto llegue correctamente
-    alineado a los rollers, facilitando su rotación y lectura posterior.
-  </p>
-
-  <p class="mech-text">
-    La velocidad del singulador se encuentra sincronizada con la velocidad de la línea,
-    de modo que el flujo de entrada coincida con la capacidad del sistema de rodillos.
-    Esta sincronización evita cuellos de botella, rebalses o pérdidas de control en la
-    transición entre módulos.
-  </p>
-
-  <p class="mech-text">
-    Gracias a este proceso de singularización, el sistema mecánico asegura condiciones
-    óptimas para la inspección óptica, mejorando la repetibilidad del análisis y la
-    eficiencia global de la clasificación.
-  </p>
-
-  <!-- Imagen del singulador -->
-  <div style="margin-top:12px;">
-
-  <img src="Imagenes/WhatsApp Image 2025-12-24 at 8.50.55 AM.jpeg" alt="Ventana de selección de frutas" class="img-figure ss">
-
-    <p style="margin:6px 0 0; font-size:12px; color:rgba(255,255,255,.55);">
-      Figura X. Singulador de fruta encargado de separar y ordenar las cerezas antes
-      de su ingreso al sistema de rodillos.
-    </p>
-  </div>
-</article>
-
-
-    <!-- 1 -->
+    <!-- 2.4 -->
     <article class="mech-card">
+      <h3 class="mech-card-title">2.4 Singulador de fruta</h3>
 
-  <p style ="margin:0 0 6px;"><b>5. Sistema de Visión y Transporte en Zona de Inspección</b></p>
+      <p class="mech-text">
+        Separa y ordena la fruta para que ingrese de forma individual a los rollers. Es un “filtro” mecánico:
+        si falla, la visión recibirá fruta superpuesta o mal posicionada.
+      </p>
 
-  <!-- 5. SISTEMA DE VISIÓN -->
-  <p class="mech-text">
-    El sistema de visión es el encargado de capturar la información óptica del fruto en
-    movimiento para permitir su clasificación automática. Su función principal es obtener
-    imágenes consistentes y repetibles de cada cereza mientras avanza por la línea,
-    incluso a altas velocidades de operación.
-  </p>
+      <ul class="mech-list">
+        <li><strong>Ajustes clave:</strong> velocidad sincronizada con línea, separación de canales y guías de entrada/salida.</li>
+        <li><strong>Objetivo:</strong> <b>1 fruta = 1 posición</b> (sin dobles ni pegadas).</li>
+        <li><strong>Señales de problema:</strong> dobles frecuentes, fruta cruzada, rebotes al ingreso a rollers.</li>
+        <li><strong>Acción recomendada:</strong> ajustar guías, revisar vibración, y evitar exceso de carga desde elevador.</li>
+      </ul>
 
-  <p class="mech-text">
-    El conjunto está compuesto por cámaras industriales montadas sobre una estructura
-    rígida tipo pórtico, diseñada para mantener una geometría estable respecto al producto.
-    Esta estabilidad mecánica es crítica, ya que cualquier vibración, flexión o
-    desalineación afecta directamente la calidad de la captura y la precisión del análisis.
-  </p>
+      <img src="Imagenes/WhatsApp Image 2025-12-24 at 8.50.55 AM.jpeg"
+           alt="Singulador de fruta"
+           class="img-figure w-s"
+           data-zoomable="true">
+      <p class="caption">Singulador encargado de separar y ordenar cerezas antes de rollers.</p>
+    </article>
 
-  <p class="mech-text">
-    El sistema trabaja en conjunto con el mecanismo de rotación generado por los rodillos,
-    permitiendo que el fruto sea observado desde múltiples ángulos durante su recorrido.
-    La captura de imágenes se encuentra sincronizada mediante encoder, asegurando que cada
-    lectura corresponda a la posición exacta del fruto sobre la línea.
-  </p>
+    <!-- 2.5 -->
+    <article class="mech-card span-2">
+      <h3 class="mech-card-title">2.5 Zona de inspección: visión + transporte</h3>
 
-  <p class="mech-text">
-    Para asegurar condiciones de captura estables, el sistema incorpora iluminación
-    controlada y carcasas de protección, minimizando la influencia de la luz ambiente,
-    la humedad y la contaminación propias del entorno industrial.
-  </p>
+      <p class="mech-text">
+        El pórtico de visión debe ser rígido y estable. La inspección depende de que el fruto se transporte con velocidad constante,
+        sin vibración y con rotación repetible. Aquí cualquier detalle mecánico “se convierte” en error de clasificación.
+      </p>
 
-  <!-- Imagen sistema de visión -->
-  <img src="Imagenes/WhatsApp Image 2025-12-24 at 8.52.51 AM.jpeg" alt="Ventana de selección de frutas" class="img-figure ss">
+      <ul class="mech-list">
+        <li><strong>Requisito mecánico:</strong> la fruta debe viajar centrada; si se pega a una guía, cambia el ángulo de captura.</li>
+        <li><strong>Vibración:</strong> provoca desenfoque y variación de iluminación efectiva.</li>
+        <li><strong>Higiene:</strong> agua/jugos pueden crear reflejos o cambiar fricción y rotación.</li>
+      </ul>
 
-  <p style="margin:6px 0 14px; font-size:12px; color:rgba(255,255,255,.55);">
-    Figura X. Sistema de visión compuesto por cámaras industriales montadas sobre
-    estructura rígida para la inspección óptica del fruto en movimiento.
-  </p>
+      <img src="Imagenes/WhatsApp Image 2025-12-24 at 8.52.51 AM.jpeg"
+           alt="Sistema de visión"
+           class="img-figure w-m"
+           data-zoomable="true">
+      <p class="caption">Sistema de visión en pórtico rígido para inspección óptica del fruto en movimiento.</p>
 
-      <!-- 1 -->
+      <hr class="mech-divider" />
+
+      <h4 style="margin:0 0 6px; color:var(--text); font-size: .98rem;">2.5.1 Rollers (rodillos hacia salidas)</h4>
+
+      <p class="mech-text">
+        Los rollers transportan y rotan el fruto. La velocidad debe estar sincronizada con el encoder para asegurar que la decisión
+        del sistema se ejecute exactamente en el punto de expulsión.
+      </p>
+
+      <ul class="mech-list">
+        <li><strong>Ajustes clave:</strong> tracción uniforme, alineación de ejes, limpieza y desgaste parejo.</li>
+        <li><strong>Problema típico:</strong> “deslizamiento” → la fruta rota menos o avanza distinto → la expulsión queda corrida.</li>
+        <li><strong>Señales:</strong> mayor retorno, clases mezcladas, errores que aumentan al subir velocidad.</li>
+        <li><strong>Acción recomendada:</strong> limpieza, revisar rodillos “vidriados”, tensión y acoples; confirmar que la fruta no esté húmeda en exceso.</li>
+      </ul>
+
+      <div class="callout" style="margin-top:12px;">
+        <h4>Regla práctica</h4>
+        <ul class="mech-list">
+          <li>Si el error aparece solo <strong>a alta velocidad</strong>, sospecha de <strong>deslizamiento / vibración / encoder</strong>.</li>
+          <li>Si el error ocurre siempre en el <strong>mismo carril</strong>, sospecha de <strong>rodillo/guía/actuador local</strong>.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- 2.6 -->
     <article class="mech-card">
+      <h3 class="mech-card-title">2.6 Salidas y distribución</h3>
 
-  <!-- ✅ 5.1 ROLLERS (MISMO CONTENEDOR DEL 5) -->
-  <p style ="margin:14px 0 6px;"><b>5.1. Rollers (Rodillos de Transporte hacia Salidas)</b></p>
+      <p class="mech-text">
+        Las salidas reciben el fruto clasificado. La expulsión debe ocurrir cuando la taza está centrada respecto al punto de caída.
+        Errores aquí generan mezclas de clase o pérdidas de trazabilidad.
+      </p>
 
-  <p class="mech-text">
-    Los <strong>rollers</strong> (rodillos) son el sistema mecánico principal que
-    <strong>transporta la cereza (fruta)</strong> a lo largo de la zona de inspección y
-    hasta su <strong>respectiva salida</strong>. Cada fruto se desplaza apoyado sobre
-    estos rodillos, manteniendo un avance estable y controlado durante todo el recorrido.
-  </p>
+      <ul class="mech-list">
+        <li><strong>Ajustes clave:</strong> posición física de salida, tiempo/retardo del actuador, verificación de alineación.</li>
+        <li><strong>Fallas típicas:</strong> retardo de solenoide, actuador débil, guía mal centrada o salida sucia.</li>
+        <li><strong>Señales:</strong> clase correcta pero cae al contenedor equivocado; caídas “a medias”.</li>
+        <li><strong>Acción recomendada:</strong> limpiar, revisar respuesta del actuador, y validar la referencia mecánica del punto de expulsión.</li>
+      </ul>
 
-  <p class="mech-text">
-    Además del transporte, los rollers cumplen una función clave: generan
-    <strong>rotación controlada</strong> del fruto. Esta rotación permite que el sistema
-    MultiView™ capture múltiples vistas mientras la cereza avanza, mejorando la cobertura
-    visual y la confiabilidad de la detección de defectos.
-  </p>
-
-  <p class="mech-text">
-    La velocidad de los rollers está sincronizada con el resto de la línea mediante el
-    <strong>encoder</strong>, asegurando que cada fruta llegue a tiempo al punto de expulsión
-    correspondiente. De esta forma, cuando el sistema decide la clasificación, la mecánica
-    garantiza que el fruto esté en la posición correcta para caer en la salida asignada.
-  </p>
-
-  <p class="mech-text">
-    En operación, es importante mantener los rollers limpios y con tracción uniforme,
-    ya que desgaste, suciedad o variaciones de fricción pueden provocar
-    <strong>deslizamientos</strong>, cambios de rotación o desplazamientos que afectan la
-    precisión de lectura y la sincronización con las salidas.
-  </p>
-
-  <!-- Imagen sistema de visión -->
-  <img src="Imagenes/WhatsApp Image 2025-12-24 at 8.52.51 AM.jpeg" alt="Ventana de selección de frutas" class="img-figure ss">
-
-  <p style="margin:6px 0 14px; font-size:12px; color:rgba(255,255,255,.55);">
-    Figura X. Sistema de visión compuesto por cámaras industriales montadas sobre
-    estructura rígida para la inspección óptica del fruto en movimiento.
-  </p>
-
-    </article>
+      <img src="Imagenes/WhatsApp Image 2026-01-05 at 4.22.28 PM.jpeg"
+           alt="Sistema de salidas"
+           class="img-figure w-s"
+           data-zoomable="true">
+      <p class="caption">Sistema de salidas: distribución del fruto hacia contenedores según clase.</p>
     </article>
 
-  <article class="mech-card">
+    <!-- 2.7 -->
+    <article class="mech-card">
+      <h3 class="mech-card-title">2.7 Retorno de fruta no clasificada</h3>
 
-  <p style="margin:0 0 6px;"><b>6. Sistema de Salidas y Distribución de Fruta Clasificada</b></p>
+      <p class="mech-text">
+        El retorno recircula fruta no leída/no clasificada. Es un indicador clave: si aumenta, normalmente hay un problema mecánico
+        (rotación/posicionamiento) o de condiciones (humedad/limpieza/vibración).
+      </p>
 
-  <p class="mech-text">
-    El sistema de salidas es el encargado de recibir y distribuir las cerezas una vez
-    que han sido clasificadas por el sistema de visión y decisión. Cada salida
-    representa un destino específico definido por la lógica de clasificación
-    (calibre, calidad, defecto o condición interna del fruto).
-  </p>
+      <ul class="mech-list">
+        <li><strong>Qué significa:</strong> la fruta no cumplió condiciones mínimas para lectura confiable o sincronía.</li>
+        <li><strong>Causas típicas:</strong> dobles, mala rotación, exceso de agua, vibración en pórtico, deslizamiento en rollers.</li>
+        <li><strong>Acción recomendada:</strong> revisar módulos previos (singulador y distribución), limpiar rollers y verificar encoder.</li>
+        <li><strong>Regla:</strong> retorno alto sostenido = la línea está “fuera de condición”.</li>
+      </ul>
 
-  <p class="mech-text">
-    Mecánicamente, las salidas están dispuestas en carriles paralelos a lo largo de la
-    línea, sincronizados con el avance del sistema de rodillos. Cuando una cereza
-    alcanza el punto exacto de expulsión, el sistema activa el mecanismo correspondiente
-    para dirigir el fruto hacia su salida asignada.
-  </p>
+      <img src="Imagenes/retorno-fruta.jpeg"
+           alt="Sistema de retorno"
+           class="img-figure w-s"
+           data-zoomable="true">
+      <p class="caption">Retorno: recirculación de fruta para una nueva inspección.</p>
+    </article>
 
-  <p class="mech-text">
-    Cada salida cuenta con contenedores o bandejas individuales que reciben el producto
-    de forma controlada, evitando golpes, rebotes o acumulaciones excesivas. Este diseño
-    permite mantener la integridad física del fruto y asegurar una distribución ordenada
-    hacia las etapas posteriores del proceso (embalaje, acumulación o despacho).
-  </p>
+    <!-- Extra: mantenimiento y seguridad (muy útil) -->
+    <article class="mech-card span-2">
+      <h3 class="mech-card-title">2.8 Mantenimiento y seguridad (recomendado)</h3>
 
-  <p class="mech-text">
-    La precisión del sistema de salidas depende directamente de la correcta
-    sincronización entre el encoder, la velocidad de la línea y el accionamiento de los
-    actuadores mecánicos. Una desalineación en cualquiera de estos elementos puede provocar
-    errores de caída, mezclas de clases o pérdidas de trazabilidad del producto.
-  </p>
+      <p class="mech-text" style="margin-top:0;">
+        La estabilidad mecánica depende más del mantenimiento que de “ajustes finos”. Una rutina simple evita la mayoría de
+        fallas intermitentes.
+      </p>
 
-  <p class="mech-text">
-    En operación normal, es fundamental verificar periódicamente la alineación física
-    de las salidas, el estado de los contenedores y la limpieza del área, ya que residuos
-    o desgaste mecánico pueden afectar la correcta recepción de las cerezas.
-  </p>
+      <div class="mech-grid" style="margin-top:10px;">
+        <article class="mech-card" style="box-shadow:none;">
+          <h4 class="mech-card-title" style="font-size:.98rem;">Rutina diaria (inicio / fin)</h4>
+          <ul class="mech-list">
+            <li><strong>Limpieza:</strong> rollers, guías, salidas y zonas con jugo/residuo.</li>
+            <li><strong>Inspección visual:</strong> tornillos flojos, vibración, guardas, cables sueltos.</li>
+            <li><strong>Chequeo térmico:</strong> gabinete, ventiladores, VFD sin alarmas.</li>
+          </ul>
+        </article>
 
-  <!-- Imagen del sistema de salidas -->
-  <img src="Imagenes/WhatsApp Image 2026-01-05 at 4.22.28 PM.jpeg" alt="Sistema de salidas de cerezas" class="img-figure s">
+        <article class="mech-card" style="box-shadow:none;">
+          <h4 class="mech-card-title" style="font-size:.98rem;">Rutina semanal (preventivo)</h4>
+          <ul class="mech-list">
+            <li><strong>Revisar tensiones:</strong> cadenas/correas y acoples.</li>
+            <li><strong>Desgaste:</strong> rodillos vidriados, guías marcadas, actuadores con retorno lento.</li>
+            <li><strong>Verificar referencia:</strong> alineación punto de expulsión vs centro de taza.</li>
+          </ul>
+        </article>
+      </div>
 
-  <p style="margin:6px 0 0; font-size:12px; color:rgba(255,255,255,.55);">
-    Figura X. Sistema de salidas de la clasificadora, donde las cerezas son distribuidas
-    hacia sus respectivos contenedores según el resultado de la clasificación.
-  </p>
+      <div class="callout" style="margin-top:12px;">
+        <h4>Seguridad (mínimos)</h4>
+        <ul class="mech-list">
+          <li><strong>Bloqueo/etiquetado (LOTO):</strong> antes de intervenir rodillos, sierras o salidas.</li>
+          <li><strong>Guardas:</strong> nunca operar con protecciones retiradas.</li>
+          <li><strong>Prueba controlada:</strong> después de ajuste, arrancar en baja velocidad y observar vibración/ruidos.</li>
+        </ul>
+      </div>
+    </article>
 
-</article>
-  
-<article class="mech-card">
-
-  <p style="margin:0 0 6px;"><b>7. Sistema de Retorno de Fruta No Clasificada</b></p>
-
-  <p class="mech-text">
-    El sistema de retorno tiene como función principal gestionar la fruta que, por
-    diversas razones, no ha sido correctamente leída o clasificada por el sistema
-    de visión. En lugar de ser enviada a una salida específica, este producto es
-    conducido hacia el extremo final de la máquina para ser recirculado.
-  </p>
-
-  <p class="mech-text">
-    Durante la operación, pueden existir condiciones en las que la fruta no cumple
-    los requisitos de lectura óptica, tales como posiciones inadecuadas, rotación
-    insuficiente, o interferencias momentáneas en la captura de imagen. En estos
-    casos, el sistema mecánico desvía automáticamente la cereza hacia el canal de
-    retorno.
-  </p>
-
-  <p class="mech-text">
-    Mecánicamente, el retorno consiste en un carril de transporte que dirige la fruta
-    nuevamente hacia el inicio de la línea. Este recorrido permite que el fruto
-    reingrese al proceso de singularización y transporte, otorgándole una nueva
-    oportunidad de ser inspeccionado y clasificado correctamente.
-  </p>
-
-  <p class="mech-text">
-    El retorno se encuentra sincronizado con la velocidad general de la máquina,
-    evitando acumulaciones, golpes o recirculaciones excesivas. De esta forma, el
-    sistema mantiene un flujo continuo sin afectar la estabilidad operativa ni la
-    capacidad de clasificación de la línea.
-  </p>
-
-  <p class="mech-text">
-    Desde el punto de vista operativo, el porcentaje de fruta en retorno constituye
-    un indicador relevante del desempeño del sistema de visión y de la condición
-    mecánica. Un aumento anormal del retorno puede indicar problemas de iluminación,
-    sincronización, limpieza de cámaras o desgaste en los componentes de transporte.
-  </p>
-
-  <!-- Imagen del sistema de retorno -->
-  <img src="Imagenes/retorno-fruta.jpeg" alt="Sistema de retorno de fruta" class="img-figure sm">
-
-  <p style="margin:6px 0 0; font-size:12px; color:rgba(255,255,255,.55);">
-    Figura X. Sistema de retorno de fruta, encargado de recircular las cerezas no
-    clasificadas hacia el inicio de la máquina para una nueva inspección.
-  </p>
-
-</article>
+  </div>
+</section>
 
 </main>
+
 
 <footer>
   Mecánica General · GP Graders · Documentación técnica interna
 </footer>
 
 <script>
-  // ====== BUSCADOR + AUTOCOMPLETE ======
+  // =========================
+  // REVEAL (hardware feel)
+  // =========================
+  (function(){
+    const targets = document.querySelectorAll(".revealItem, .mech-card, .card");
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add("reveal");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    targets.forEach((el, i)=>{
+      // delay suave para tarjetas
+      if(el.classList.contains("mech-card")) el.style.transitionDelay = `${Math.min(i*35, 350)}ms`;
+      io.observe(el);
+    });
+  })();
+
+  // =========================
+  // BUSCADOR + AUTOCOMPLETE
+  // =========================
   const searchInput = document.getElementById("searchInput");
   const suggestList = document.getElementById("suggestList");
   const searchBtn = document.getElementById("searchBtn");
@@ -1126,8 +997,7 @@ html{ scroll-behavior:smooth; }
   let hits = [];
   let activeIndex = -1;
 
-  // Autocomplete index
-  let indexItems = []; // { id, text, el }
+  let indexItems = [];
   let suggestActive = -1;
   const MAX_SUGGEST = 8;
 
@@ -1202,7 +1072,6 @@ html{ scroll-behavior:smooth; }
       }
 
       if(last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
-
       node.parentNode.replaceChild(frag, node);
     });
 
@@ -1214,39 +1083,33 @@ html{ scroll-behavior:smooth; }
     }
   }
 
-  // ====== AUTOCOMPLETE: construir índice del manual ======
   function buildIndex(){
     const root = document.querySelector("main");
     indexItems = [];
 
-    // 1) Títulos y subtítulos (prioridad alta)
     root.querySelectorAll("h1,h2,h3,h4").forEach((el, i) => {
       const t = (el.innerText || "").trim();
       if(t.length >= 3) indexItems.push({ id: `h-${i}`, text: t, el });
     });
 
-    // 2) List items (li) (útiles para pasos)
     root.querySelectorAll("li").forEach((el, i) => {
       const t = (el.innerText || "").trim();
       if(t.length >= 12) indexItems.push({ id: `li-${i}`, text: t.slice(0, 220), el });
     });
 
-    // 3) Párrafos importantes (opcional: recorta)
-    root.querySelectorAll(".figure-b p").forEach((el, i) => {
+    root.querySelectorAll("p").forEach((el, i) => {
       const t = (el.innerText || "").trim();
-      if(t.length >= 18) indexItems.push({ id: `p-${i}`, text: t.slice(0, 220), el });
+      if(t.length >= 22) indexItems.push({ id: `p-${i}`, text: t.slice(0, 220), el });
     });
   }
 
-  // Normaliza para comparar
   function norm(s){
     return (s || "")
       .toLowerCase()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g,""); // quita tildes
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"");
   }
 
   function scoreMatch(query, text){
-    // scoring simple: incluye, empieza, proximidad
     const q = norm(query);
     const t = norm(text);
     if(!q) return -1;
@@ -1254,9 +1117,9 @@ html{ scroll-behavior:smooth; }
     if(idx === -1) return -1;
 
     let score = 0;
-    if(idx === 0) score += 6;          // empieza con
-    score += Math.max(0, 5 - Math.min(idx, 5)); // mientras más cerca del inicio mejor
-    score += Math.min(q.length / 4, 4); // query más larga, mejor
+    if(idx === 0) score += 6;
+    score += Math.max(0, 5 - Math.min(idx, 5));
+    score += Math.min(q.length / 4, 4);
     return score;
   }
 
@@ -1273,58 +1136,48 @@ html{ scroll-behavior:smooth; }
     suggestActive = -1;
   }
 
-function showSuggest(items, query){
-  if(!items.length){
-    hideSuggest();
-    return;
+  function showSuggest(items, query){
+    if(!items.length){
+      hideSuggest();
+      return;
+    }
+    suggestList.innerHTML = items.map((it, idx) => {
+      const line = it.text.length > 120 ? it.text.slice(0, 120) + "…" : it.text;
+      return `
+        <div class="suggest-item" data-idx="${idx}">
+          <div class="suggest-title">${hiText(line, query)}</div>
+        </div>
+      `;
+    }).join("");
+    suggestList.style.display = "block";
   }
-  suggestList.innerHTML = items.map((it, idx) => {
-    const line = it.text.length > 120 ? it.text.slice(0, 120) + "…" : it.text;
-    return `
-      <div class="suggest-item" data-idx="${idx}">
-        <div class="suggest-title">${hiText(line, query)}</div>
-      </div>
-    `;
-  }).join("");
-  suggestList.style.display = "block";
-}
 
   function getSuggestions(query){
     const q = query.trim();
     if(q.length < 1) return [];
-
-    // filtra y rankea
-    const ranked = indexItems
+    return indexItems
       .map(it => ({ it, s: scoreMatch(q, it.text) }))
       .filter(x => x.s >= 0)
       .sort((a,b) => b.s - a.s)
       .slice(0, MAX_SUGGEST)
       .map(x => x.it);
-
-    return ranked;
   }
 
   function jumpToElement(el, query){
     if(!el) return;
-    // Lleva al elemento
     el.scrollIntoView({ behavior:"smooth", block:"center" });
-    // Resalta el término en el documento
     highlight(query);
-    // y activa la primera coincidencia visible
     if(hits.length) setActive(0);
     hideSuggest();
   }
 
-  // ====== EVENTOS ======
   buildIndex();
 
   searchInput?.addEventListener("input", () => {
     const q = searchInput.value;
-    const suggestions = getSuggestions(q);
-    showSuggest(suggestions, q);
+    showSuggest(getSuggestions(q), q);
   });
 
-  // click en sugerencias
   suggestList?.addEventListener("click", (e) => {
     const item = e.target.closest(".suggest-item");
     if(!item) return;
@@ -1335,7 +1188,6 @@ function showSuggest(items, query){
     if(it) jumpToElement(it.el, q);
   });
 
-  // navegación teclado (flechas + enter)
   searchInput?.addEventListener("keydown", (e)=>{
     const q = searchInput.value.trim();
     const suggestions = getSuggestions(q);
@@ -1358,22 +1210,17 @@ function showSuggest(items, query){
       items[suggestActive].scrollIntoView({ block:"nearest" });
     }
     if(e.key === "Enter"){
-      // Si hay item activo, salta a ese
       if(suggestActive >= 0 && suggestions[suggestActive]){
         e.preventDefault();
         jumpToElement(suggestions[suggestActive].el, q);
       }else{
-        // si no, hace búsqueda normal
         highlight(q);
         hideSuggest();
       }
     }
-    if(e.key === "Escape"){
-      hideSuggest();
-    }
+    if(e.key === "Escape"){ hideSuggest(); }
   });
 
-  // click fuera: cerrar lista
   document.addEventListener("click", (e)=>{
     const wrap = e.target.closest(".search-wrap");
     if(!wrap) hideSuggest();
@@ -1394,28 +1241,38 @@ function showSuggest(items, query){
     meta.textContent = "Sin búsqueda activa.";
     hideSuggest();
   });
-  // ===== Reveal al aparecer en pantalla =====
+
+  // =========================
+  // LIGHTBOX para imágenes
+  // =========================
   (function(){
-    const targets = [
-      ...document.querySelectorAll(".section"),
-      ...document.querySelectorAll(".figure"),
-      ...document.querySelectorAll(".search-wrap")
-    ];
+    const lb = document.getElementById("imgLightbox");
+    const lbImg = document.getElementById("imgLightboxImg");
 
-    targets.forEach(el => el.classList.add("gp-reveal"));
+    function open(src, alt){
+      lbImg.src = src;
+      lbImg.alt = alt || "";
+      lb.classList.add("open");
+      lb.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+    function close(){
+      lb.classList.remove("open");
+      lb.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      lbImg.src = "";
+    }
 
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.classList.add("is-in");
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
+    document.querySelectorAll("img[data-zoomable='true']").forEach(img=>{
+      img.addEventListener("click", ()=> open(img.src, img.alt));
+    });
 
-    targets.forEach(el => io.observe(el));
+    lb.addEventListener("click", close);
+
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape" && lb.classList.contains("open")) close();
+    });
   })();
-
 </script>
 
 </body>

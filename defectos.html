@@ -974,25 +974,25 @@ body{
       <article class="defect-card"
         data-type="color"
         data-es="Hijuelo"
-        data-en="Twin Fruit"
+        data-en="Spur"
         data-img="Imagenes/DEFECTO_HIJUELO_COLOR.jpeg"
         data-desc="El hijuelo corresponde a un defecto de forma en el que dos frutos se desarrollan parcial o totalmente unidos."
         data-signals="Forma irregular/asimétrica, volumen superior, hendidura o línea de unión"
         data-confusions="Fruta grande normal, deformaciones leves"
         data-impact="Afecta uniformidad y reduce aceptación comercial"
         data-step1="Abrir el módulo de configuración de defectos en gpVision™."
-        data-step2="Crear o seleccionar el defecto 'Hijuelo / Twin Fruit' bajo detección por Color (RGB)."
+        data-step2="Crear o seleccionar el defecto 'Hijuelo / Spur' bajo detección por Color (RGB)."
         data-step3="Ajustar análisis de forma para detectar fusiones."
         data-step4="Calibrar umbrales de tamaño/contorno para no confundir con fruta grande."
         data-step5="Validar con imágenes recientes considerando grados de fusión."
         data-notes="Recomendación: incluir fruta grande normal en sets para bajar falsos positivos."
       >
         <div class="defect-thumb">
-          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Hijuelo (Twin Fruit)">
+          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Hijuelo (Spur)">
         </div>
         <div class="defect-names">
           <div class="es">Hijuelo</div>
-          <div class="en">Twin Fruit</div>
+          <div class="en">Spur</div>
         </div>
       </article>
 
@@ -1071,6 +1071,56 @@ body{
         </div>
       </article>
 
+      <article class="defect-card"
+  data-type="color"
+  data-es="Guata blanca"
+  data-en="White Pith"
+  data-img="Imagenes/DEFECTO_GUATA_BLANCA_COLOR.png"
+  data-desc="La guata blanca corresponde a una alteración del tejido (principalmente alrededor de la cavidad del carozo) que se manifiesta como material blanquecino/esponjoso o zonas pálidas internas, y que en algunos casos puede hacerse visible externamente como áreas opacas o decoloradas. Suele asociarse a condición fisiológica del fruto (madurez/estrés) y puede aumentar reclamos en destino por mala calidad al corte."
+  data-signals="En RGB: áreas opacas o pálidas, pérdida de brillo local, zonas con textura ‘algodonosa’/difusa cerca del ombligo o alrededor del eje del fruto (cuando se refleja hacia la piel). Bajo buena iluminación se aprecia un parche blanquecino-amarillento con borde suave (no tan definido como una cicatriz)."
+  data-confusions="Russet leve, bloom natural (cera), residuos de polvo/suciedad, variación de brillo por humedad superficial, cicatrices cosméticas, sobremadurez con pérdida de brillo."
+  data-impact="Reduce la aceptación comercial (principalmente en mercados exigentes) y puede generar reclamos por condición interna al consumo. Incrementa rechazo si se confunde con fruta ‘opaca’ o con daño fisiológico."
+  data-step1="Abrir el módulo de configuración de defectos en gpVision™."
+  data-step2="Seleccionar o crear el defecto (spectro) 'Guata blanca / White Pith' bajo detección por Color (RGB)."
+  data-step3="Ajustar segmentación para capturar áreas opacas/decoloradas (baja saturación y brillo reducido) sin incluir sombras."
+  data-step4="Calibrar umbrales para diferenciar guata blanca de bloom/cera y de russet: validar con fruta real confirmada (idealmente con corte)."
+  data-step5="Validar con imágenes recientes en distintos calibres/variedades, guardar y monitorear falsos positivos (humedad, polvo, reflejos)."
+  data-notes="Recomendación: usar sets confirmados por corte para entrenar el criterio. Revisar iluminación y excluir fruta mojada; la humedad puede simular opacidad. Si hay mucho bloom natural, ajustar para no penalizarlo."
+>
+  <div class="defect-thumb">
+    <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Guata blanca (White Pith)">
+  </div>
+  <div class="defect-names">
+    <div class="es">Guata blanca</div>
+    <div class="en">White Pith</div>
+  </div>
+</article>
+
+<article class="defect-card"
+  data-type="color"
+  data-es="Inmaduro (Claro)"
+  data-en="Immature (Light)"
+  data-img="Imagenes/DEFECTO_INMADURO_LIGHT.png"
+  data-desc="El defecto Inmaduro (Light) corresponde a fruta que presenta tonalidades más claras de lo permitido para el estándar de cosecha y comercialización. Este tipo de fruta no ha alcanzado el nivel óptimo de madurez, evidenciándose principalmente por coloraciones pálidas, bajo desarrollo de pigmentación y menor intensidad cromática en la piel."
+  data-signals="En color (RGB): valores de luminosidad (L*) elevados, saturación reducida y predominio de tonos claros o deslavados. La fruta inmadura presenta menor intensidad de rojo y mayor presencia de matices amarillentos o blanquecinos."
+  data-confusions="Variaciones naturales por variedad, fruta lavada con alta reflectancia, zonas sobreiluminadas, fruta firme con color heterogéneo."
+  data-impact="Afecta la homogeneidad del lote, reduce aceptación comercial y puede generar reclamos por calidad visual y sensorial. En exportación, suele ser clasificada en categorías inferiores o descartada."
+  data-step1="Abrir gpVision™ y seleccionar detección por Color (RGB)."
+  data-step2="Crear o seleccionar el defecto 'Inmaduro (Light) / Immature (Light)'."
+  data-step3="Ajustar umbrales de color y saturación diferenciando fruta inmadura de fruta madura clara."
+  data-step4="Validar con sets de fruta inmadura, fruta madura aceptable y fruta sobremadura."
+  data-step5="Guardar la configuración y monitorear solapamientos con defectos de madurez avanzada."
+  data-notes="Recomendación: calibrar iluminación y balance de blancos antes de ajustar umbrales, y validar por variedad para evitar falsas detecciones en cultivares de color naturalmente claro."
+>
+  <div class="defect-thumb">
+    <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Inmaduro (Light) / Immature (Light)">
+  </div>
+  <div class="defect-names">
+    <div class="es">Inmaduro (Light)</div>
+    <div class="en">Immature (Light)</div>
+  </div>
+</article>
+
     </div>
   </section>
 
@@ -1147,29 +1197,80 @@ body{
       </article>
 
       <article class="defect-card"
-        data-type="nir"
-        data-es="Guata blanca"
-        data-en="White Pith"
-        data-img="Imagenes/DEFECTO_GUATA_BLANCA_NIR.png"
-        data-desc="El defecto Guata blanca corresponde a una alteración interna del fruto..."
-        data-signals="Respuesta NIR irregular, zonas de menor absorción, patrones difusos..."
-        data-confusions="Sobremadurez, variaciones varietales, temperatura..."
-        data-impact="Rechazo severo en destino por mala condición interna..."
-        data-step1="Abrir gpVision™ y seleccionar detección NIR."
-        data-step2="Crear/seleccionar 'Guata blanca / White Pith'."
-        data-step3="Ajustar umbrales NIR sin confundir con madurez avanzada."
-        data-step4="Validar con fruta confirmada mediante corte."
-        data-step5="Guardar y monitorear falsos positivos."
-        data-notes="Recomendación: validar periódicamente con inspección destructiva."
-      >
-        <div class="defect-thumb">
-          <img src="Imagenes/Screenshot 2025-12-31 013802.png" alt="Guata blanca (White Pith)">
-        </div>
-        <div class="defect-names">
-          <div class="es">Guata blanca</div>
-          <div class="en">White Pith</div>
-        </div>
-      </article>
+  data-type="nir"
+  data-es="Machucón"
+  data-en="Bruise"
+  data-img="Imagenes/DEFECTO_MACHUCON_NIR.png"
+  data-desc="El machucón corresponde a un daño interno del tejido del fruto causado por impacto, presión o manipulación excesiva durante cosecha, proceso o transporte. En etapas iniciales, el daño puede no presentar señales visibles externas, pero sí altera la estructura celular y el contenido de agua, siendo detectable mediante infrarrojo cercano (NIR)."
+  data-signals="En NIR: zonas con respuesta espectral alterada, generalmente más oscuras u opacas respecto al tejido sano, con contornos difusos. La señal suele aparecer localizada y no necesariamente coincide con marcas visibles en RGB, especialmente en machucones recientes."
+  data-confusions="Fruta blanda por madurez, daño fisiológico incipiente, variaciones naturales de firmeza por temperatura, guata blanca interna, sobremadurez avanzada."
+  data-impact="Reduce significativamente la vida útil del fruto y aumenta la probabilidad de pudrición secundaria durante almacenamiento y tránsito. Genera reclamos por daño interno no visible al despacho."
+  data-step1="Abrir gpVision™ y seleccionar el modo de detección por Infrarrojo (NIR)."
+  data-step2="Crear o seleccionar el defecto 'Machucón / Bruise' dentro de la configuración NIR."
+  data-step3="Ajustar sensibilidad y umbrales NIR para identificar diferencias de absorción asociadas a daño por impacto."
+  data-step4="Validar con sets de fruta sana vs fruta machucada confirmada (idealmente mediante inspección destructiva)."
+  data-step5="Guardar la configuración y monitorear solapamientos con defectos de blando o descomposición incipiente."
+  data-notes="Recomendación: calibrar a temperatura estable y repetir validaciones durante la jornada. Machucones recientes pueden evolucionar; revisar el comportamiento NIR a distintas horas post impacto."
+>
+  <div class="defect-thumb">
+    <img src="Imagenes/Screenshot 2025-12-31 013802.png" alt="Machucón (Bruise)">
+  </div>
+  <div class="defect-names">
+    <div class="es">Machucón</div>
+    <div class="en">Bruise</div>
+  </div>
+</article>
+
+<article class="defect-card"
+  data-type="nir"
+  data-es="Doble (Fruto siamés)"
+  data-en="Double / Twin Fruit"
+  data-img="Imagenes/DEFECTO_DOBLE_NIR.png"
+  data-desc="El defecto Doble corresponde a frutos siameses o unidos, donde dos cerezas comparten tejido parcial o total. Este tipo de defecto suele originarse por alteraciones fisiológicas durante la floración y el desarrollo. Aunque en algunos casos es visible externamente, su identificación confiable se realiza mediante análisis infrarrojo cercano (NIR), debido a la masa, volumen y estructura interna anómala del fruto."
+  data-signals="En NIR: respuesta espectral irregular asociada a mayor volumen y densidad interna, con patrones de absorción no homogéneos. Se detecta un perfil NIR más complejo y extendido en comparación con fruta simple, incluso cuando externamente parece una sola unidad."
+  data-confusions="Fruta de gran calibre individual, frutos muy próximos en el singulador, solapamiento momentáneo en rollers, variaciones de orientación durante la captura."
+  data-impact="Afecta la uniformidad del producto final, genera problemas en embalaje y presentación, y puede provocar errores en conteo, calibrado y llenado de envases. Generalmente no cumple con estándares comerciales."
+  data-step1="Abrir gpVision™ y seleccionar detección por Infrarrojo (NIR)."
+  data-step2="Crear o seleccionar el defecto 'Doble / Twin Fruit' en la lista de defectos NIR."
+  data-step3="Ajustar umbrales considerando volumen, firma espectral y patrones NIR asociados a fruta unida."
+  data-step4="Validar con sets de fruta simple vs fruta doble confirmada visual y manualmente."
+  data-step5="Guardar la configuración y verificar que no exista solapamiento excesivo con calibres grandes normales."
+  data-notes="Recomendación: complementar la detección NIR con información geométrica (ancho/longitud) cuando esté disponible, y validar especialmente en variedades propensas a fruta doble."
+>
+  <div class="defect-thumb">
+    <img src="Imagenes/Screenshot 2025-12-31 013802.png" alt="Doble (Twin Fruit)">
+  </div>
+  <div class="defect-names">
+    <div class="es">Doble (Fruto siamés)</div>
+    <div class="en">Double / Twin Fruit</div>
+  </div>
+</article>
+
+<article class="defect-card"
+  data-type="nir"
+  data-es="Black Hole"
+  data-en="Black Hole"
+  data-img="Imagenes/DEFECTO_BLACK_HOLE_NIR.png"
+  data-desc="El defecto Black Hole corresponde a cavidades profundas u orificios internos en el fruto, generalmente asociados a colapsos del tejido, pudrición localizada o daño interno severo. Aunque puede no ser evidente externamente en color, este defecto se identifica de forma confiable mediante análisis en infrarrojo cercano (NIR), debido a la alteración estructural del tejido interno."
+  data-signals="En NIR: respuesta espectral muy atenuada y no homogénea en la zona afectada, con pérdida de continuidad en la señal. La cavidad genera absorción irregular y patrones NIR anómalos respecto a fruta sana o con defectos superficiales."
+  data-confusions="Blando severo, descomposición interna avanzada, fruta sobremadura con colapso de pulpa, variaciones internas por daño mecánico no visible."
+  data-impact="Reduce drásticamente la calidad interna del fruto, genera rechazo en procesos de exportación y aumenta el riesgo sanitario. Generalmente clasificado como descarte por no cumplir estándares de firmeza e integridad."
+  data-step1="Abrir gpVision™ y seleccionar detección por Infrarrojo Cercano (NIR)."
+  data-step2="Crear o seleccionar el defecto 'Black Hole' en el catálogo de defectos NIR."
+  data-step3="Ajustar umbrales NIR enfocándose en pérdida de densidad y discontinuidad de señal interna."
+  data-step4="Validar con sets de fruta sana, blanda y fruta con cavidades internas confirmadas."
+  data-step5="Guardar la configuración y monitorear solapamientos con blando severo o pudrición interna."
+  data-notes="Recomendación: validar periódicamente con cortes físicos de fruta para asegurar la correcta separación entre Black Hole y otros defectos internos similares."
+>
+  <div class="defect-thumb">
+    <img src="Imagenes/Screenshot 2025-12-31 013802.png" alt="Black Hole (NIR)">
+  </div>
+  <div class="defect-names">
+    <div class="es">Black Hole</div>
+    <div class="en">Cavidad Profunda</div>
+  </div>
+</article>
+
 
     </div>
   </section>
