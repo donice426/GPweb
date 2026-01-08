@@ -963,25 +963,41 @@
 
 <script>
   // =========================
-  // REVEAL (hardware feel)
-  // =========================
-  (function(){
-    const targets = document.querySelectorAll(".revealItem, .mech-card, .card");
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.classList.add("reveal");
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
+// REVEAL (hardware feel) + fallback móvil
+// =========================
+(function(){
+  const targets = document.querySelectorAll(".revealItem, .mech-card, .card");
 
-    targets.forEach((el, i)=>{
-      // delay suave para tarjetas
-      if(el.classList.contains("mech-card")) el.style.transitionDelay = `${Math.min(i*35, 350)}ms`;
-      io.observe(el);
+  // ✅ Fallback: si el navegador no soporta o falla IntersectionObserver, mostramos todo.
+  if (!("IntersectionObserver" in window)) {
+    targets.forEach(el => el.classList.add("reveal"));
+    return;
+  }
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add("reveal");
+        io.unobserve(e.target);
+      }
     });
-  })();
+  }, { threshold: 0.12 });
+
+  targets.forEach((el, i)=>{
+    // delay suave para tarjetas
+    if(el.classList.contains("mech-card")) el.style.transitionDelay = `${Math.min(i*35, 350)}ms`;
+    io.observe(el);
+  });
+
+  // ✅ Extra: por si el primer render móvil no dispara el observer bien
+  setTimeout(() => {
+    targets.forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight * 1.2) el.classList.add("reveal");
+    });
+  }, 400);
+})();
+
 
   // =========================
   // BUSCADOR + AUTOCOMPLETE
