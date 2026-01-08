@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>gpVision™ | Manual Técnico</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     :root{
@@ -18,10 +17,9 @@
       --brand2:#38d4ff;
       --shadow: 0 16px 50px rgba(0,0,0,.45);
       --r20:20px;
-      --card: rgba(255,255,255,.04); 
-      --r: 16px;                    
+      --card: rgba(255,255,255,.04);
+      --r: 16px;
     }
-
 
     *{ box-sizing:border-box; }
 
@@ -50,6 +48,7 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
+      gap:12px;
     }
 
     header h1{
@@ -70,15 +69,17 @@
       border:1px solid rgba(255,255,255,.12);
       background:rgba(255,255,255,.04);
       color:var(--text);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      cursor:pointer;
+      user-select:none;
     }
     .btn.primary{
-  border-color: rgba(77,163,255,.55);
-  background: linear-gradient(180deg, rgba(77,163,255,.18), rgba(56,212,255,.12));
-}
-.btn.primary:hover{
-  border-color: rgba(77,163,255,.85);
-}
-
+      border-color: rgba(77,163,255,.55);
+      background: linear-gradient(180deg, rgba(77,163,255,.18), rgba(56,212,255,.12));
+    }
+    .btn.primary:hover{ border-color: rgba(77,163,255,.85); }
 
     main{
       max-width:1100px;
@@ -125,6 +126,10 @@
       border-radius:var(--r20);
       box-shadow:var(--shadow);
       margin-bottom:20px;
+
+      position: relative;
+      overflow: hidden;
+      will-change: transform;
     }
 
     .figure-h{
@@ -135,6 +140,7 @@
     .figure-h h3{
       margin:0;
       font-size:14px;
+      transition: transform .18s ease, letter-spacing .18s ease;
     }
 
     .figure-h .hint{
@@ -170,258 +176,272 @@
       padding:20px;
     }
 
-.img-figure{
-  width: 80%;              /* ⬅ un poco más pequeña */
-  max-width: 900px;        /* ⬅ evita que se vean gigantes en pantallas grandes */
-  margin:14px auto;        /* ⬅ centra la imagen */
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
-  display:block;
-}
+    /* ===== IMÁGENES ===== */
+    .img-figure{
+      width: 80%;
+      max-width: 900px;
+      margin:14px auto;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      display:block;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .18s ease, filter .18s ease;
+    }
 
-.img-figure{
-  margin:14px auto;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
-  display:block;
-}
+    .img-figure.xs{ width:25%; }
+    .img-figure.s{ width:35%; }
+    .img-figure.ss{ width:50%; }
+    .img-figure.sm{ width:75%; }
+    .img-figure.md{ width:85%; }
+    .img-figure.lg{ width:95%; }
 
-.img-figure.xs{ width:25%; }
-.img-figure.s{ width:35%; }
-.img-figure.ss{ width:50%; }
-.img-figure.sm{ width:75%; }
-.img-figure.md{ width:85%; }
-.img-figure.lg{ width:95%; }
+    /* ===== BUSCADOR ===== */
+    .search-wrap{
+      margin-top: 14px;
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow: visible;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .18s ease, filter .18s ease;
+    }
+    .search-head{
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .search-head h3{ margin:0; font-size: 14px; }
+    .search-head .hint{ margin-top: 4px; font-size: 12px; color: var(--muted); }
+    .search-body{ padding: 14px 16px 16px; }
+    .search-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+    .search-input{
+      flex: 1;
+      min-width: 220px;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      outline: none;
+    }
+    .search-input:focus{ border-color: rgba(77,163,255,.55); }
+    .search-meta{ margin-top: 10px; font-size: 12px; color: rgba(230,237,245,.60); }
 
-/* ===== BUSCADOR ===== */
-.search-wrap{
-  margin-top: 14px;
-  background: var(--card);
-  border: 1px solid var(--stroke);
-  border-radius: var(--r);
-  box-shadow: var(--shadow);
-  overflow: visible;
-}
-.search-head{
-  padding: 14px 16px;
-  border-bottom: 1px solid rgba(255,255,255,.10);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 10px;
-}
-.search-head h3{
-  margin:0;
-  font-size: 14px;
-}
-.search-head .hint{
-  margin-top: 4px;
-  font-size: 12px;
-  color: var(--muted);
-}
-.search-body{
-  padding: 14px 16px 16px;
-}
-.search-row{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  flex-wrap: wrap;
-}
-.search-input{
-  flex: 1;
-  min-width: 220px;
-  padding: 12px 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.16);
-  background: rgba(0,0,0,.22);
-  color: var(--text);
-  outline: none;
-}
-.search-input:focus{
-  border-color: rgba(77,163,255,.55);
-}
-.search-meta{
-  margin-top: 10px;
-  font-size: 12px;
-  color: rgba(230,237,245,.60);
-}
+    /* resaltado */
+    mark.gp-hit{
+      background: rgba(77,163,255,.25);
+      border: 1px solid rgba(77,163,255,.35);
+      color: var(--text);
+      padding: 0 2px;
+      border-radius: 6px;
+    }
+    mark.gp-hit.active{
+      background: rgba(77,163,255,.45);
+      border-color: rgba(77,163,255,.75);
+      box-shadow: 0 0 0 6px rgba(77,163,255,.14);
+    }
 
-/* resaltado */
-mark.gp-hit{
-  background: rgba(77,163,255,.25);
-  border: 1px solid rgba(77,163,255,.35);
-  color: var(--text);
-  padding: 0 2px;
-  border-radius: 6px;
-}
-mark.gp-hit.active{
-  background: rgba(77,163,255,.45);
-  border-color: rgba(77,163,255,.75);
-  box-shadow: 0 0 0 6px rgba(77,163,255,.14);
-}
+    /* ===== AUTOCOMPLETE LIST ===== */
+    .search-suggest{
+      position: relative;
+      flex: 1;
+      min-width: 220px;
+    }
+    .search-suggest .search-input{ width: 100%; }
 
-/* ===== AUTOCOMPLETE LIST ===== */
-.search-suggest{
-  position: relative;
-  flex: 1;
-  min-width: 220px;
-}
-.search-suggest .search-input{
-  width: 100%;
-}
+    .suggest-list{
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: rgba(10,20,34,.98);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 14px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
+      overflow: hidden;
+      z-index: 999;
+      max-height: 280px;
+      overflow-y: auto;
+      display: none;
+    }
 
-.suggest-list{
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  right: 0;
-  background: rgba(10,20,34,.98);
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 14px;
-  box-shadow: 0 18px 60px rgba(0,0,0,.55);
-  overflow: hidden;
-  z-index: 999;
-  max-height: 280px;
-  overflow-y: auto;
+    .suggest-item{
+      padding: 10px 12px;
+      cursor: pointer;
+      border-top: 1px solid rgba(255,255,255,.08);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .18s ease, filter .18s ease;
+    }
+    .suggest-item:first-child{ border-top: none; }
+    .suggest-item:hover,
+    .suggest-item.active{
+      background: rgba(77,163,255,.12);
+    }
+    .suggest-title{
+      font-size: 13px;
+      color: rgba(230,237,245,.92);
+      line-height: 1.35;
+    }
+
+    .suggest-hi{
+      background: rgba(77,163,255,.22);
+      border: 1px solid rgba(77,163,255,.35);
+      padding: 0 2px;
+      border-radius: 6px;
+    }
+
+    /* =========================
+       ANIMACIONES / INTERACCIONES
+       ========================= */
+    html{ scroll-behavior:smooth; }
+
+    .btn, .figure, .suggest-item{
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .18s ease, filter .18s ease;
+    }
+
+    .btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(0,0,0,.28);
+    }
+    .btn:active{ transform: translateY(0px) scale(.98); }
+
+    .figure:hover{
+      transform: translateY(-3px);
+      border-color: rgba(77,163,255,.40);
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
+    }
+    .figure:hover .figure-h h3{
+      transform: translateX(2px);
+      letter-spacing: .2px;
+    }
+
+    .figure::after{
+      content:"";
+      position:absolute;
+      inset:-40% -60%;
+      background: linear-gradient(120deg,
+        transparent 0%,
+        rgba(77,163,255,.08) 35%,
+        rgba(56,212,255,.10) 50%,
+        rgba(77,163,255,.08) 65%,
+        transparent 100%
+      );
+      transform: translateX(-35%) rotate(8deg);
+      opacity: 0;
+      pointer-events:none;
+      transition: opacity .18s ease;
+    }
+    .figure:hover::after{
+      opacity: 1;
+      animation: gpShine 1.2s ease forwards;
+    }
+    @keyframes gpShine{
+      0%{ transform: translateX(-35%) rotate(8deg); }
+      100%{ transform: translateX(35%) rotate(8deg); }
+    }
+
+    .img-figure:hover{
+      transform: scale(1.02);
+      filter: saturate(1.03);
+    }
+    .img-figure:active{
+      transform: scale(1.00);
+    }
+
+    .suggest-item:hover{
+      transform: translateY(-1px);
+      border-color: rgba(77,163,255,.25);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation: none !important; transition: none !important; }
+      html{ scroll-behavior:auto; }
+    }
+
+    /* ===== Reveal (FIX) =====
+       Problema original: algunos bloques quedaban en opacity:0
+       porque IntersectionObserver puede “saltarse” elementos con cambios
+       de layout (imágenes/iframes) o en algunos navegadores.
+       Solución: mantenemos IO + agregamos fallback por scroll/resize,
+       y un "failsafe" para revelar lo que quede oculto.
+    */
+    .gp-reveal{
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    .gp-reveal.is-in{
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity .45s ease, transform .45s ease;
+    }
+
+    .btn:focus-visible,
+    .search-input:focus-visible{
+      outline: none;
+      box-shadow: 0 0 0 6px rgba(77,163,255,.18);
+      border-color: rgba(77,163,255,.65);
+    }
+
+    /* ===== MODAL IMÁGENES ===== */
+.img-modal{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
   display: none;
 }
 
-.suggest-item{
-  padding: 10px 12px;
-  cursor: pointer;
-  border-top: 1px solid rgba(255,255,255,.08);
-}
-.suggest-item:first-child{ border-top: none; }
-.suggest-item:hover,
-.suggest-item.active{
-  background: rgba(77,163,255,.12);
-}
-.suggest-title{
-  font-size: 13px;
-  color: rgba(230,237,245,.92);
-  line-height: 1.35;
-}
+.img-modal.is-open{ display: block; }
 
-.suggest-hi{
-  background: rgba(77,163,255,.22);
-  border: 1px solid rgba(77,163,255,.35);
-  padding: 0 2px;
-  border-radius: 6px;
-}
-
-/* =========================
-   ANIMACIONES / INTERACCIONES
-   ========================= */
-
-/* scroll suave al hacer click en anchors */
-html{ scroll-behavior:smooth; }
-
-/* transiciones globales suaves */
-.btn, .figure, .search-wrap, .suggest-item, .img-figure{
-  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .18s ease, filter .18s ease;
-}
-
-/* Botones más “vivos” */
-.btn:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 14px 30px rgba(0,0,0,.28);
-}
-.btn:active{
-  transform: translateY(0px) scale(.98);
-}
-
-/* Tarjetas/figuras: hover con brillo y elevación */
-.figure{
-  position: relative;
-  overflow: hidden;
-  will-change: transform;
-}
-.figure:hover{
-  transform: translateY(-3px);
-  border-color: rgba(77,163,255,.40);
-  box-shadow: 0 18px 60px rgba(0,0,0,.55);
-}
-
-/* Shine sutil al pasar el mouse */
-.figure::after{
-  content:"";
+.img-modal-backdrop{
   position:absolute;
-  inset:-40% -60%;
-  background: linear-gradient(120deg,
-    transparent 0%,
-    rgba(77,163,255,.08) 35%,
-    rgba(56,212,255,.10) 50%,
-    rgba(77,163,255,.08) 65%,
-    transparent 100%
-  );
-  transform: translateX(-35%) rotate(8deg);
-  opacity: 0;
-  pointer-events:none;
-  transition: opacity .18s ease;
-}
-.figure:hover::after{
-  opacity: 1;
-  animation: gpShine 1.2s ease forwards;
+  inset:0;
+  background: rgba(0,0,0,.70);
+  backdrop-filter: blur(2px);
 }
 
-@keyframes gpShine{
-  0%{ transform: translateX(-35%) rotate(8deg); }
-  100%{ transform: translateX(35%) rotate(8deg); }
+.img-modal-box{
+  position: relative;
+  max-width: min(1100px, 92vw);
+  max-height: 86vh;
+  margin: 6vh auto 0;
+  background: rgba(10,20,34,.92);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 18px;
+  box-shadow: 0 24px 90px rgba(0,0,0,.65);
+  padding: 14px;
 }
 
-/* Imágenes: hover zoom sutil + foco accesible */
-.img-figure:hover{
-  transform: scale(1.02);
-  filter: saturate(1.03);
-}
-.img-figure:active{
-  transform: scale(1.00);
-}
-
-/* Títulos: animación ligera al hover */
-.figure-h h3{
-  transition: transform .18s ease, letter-spacing .18s ease;
-}
-.figure:hover .figure-h h3{
-  transform: translateX(2px);
-  letter-spacing: .2px;
+.img-modal-box img{
+  display:block;
+  width: 100%;
+  height: auto;
+  max-height: calc(86vh - 28px);
+  object-fit: contain;
+  border-radius: 14px;
 }
 
-/* Autocomplete: interacción más notoria */
-.suggest-item{
-  transform: translateY(0);
-}
-.suggest-item:hover{
-  transform: translateY(-1px);
-  border-color: rgba(77,163,255,.25);
-}
-
-/* Respeta gente con reduce motion */
-@media (prefers-reduced-motion: reduce){
-  *{ animation: none !important; transition: none !important; }
-  html{ scroll-behavior:auto; }
-}
-
-/* Reveal */
-.gp-reveal{
-  opacity: 0;
-  transform: translateY(10px);
-}
-.gp-reveal.is-in{
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity .45s ease, transform .45s ease;
+.img-modal-close{
+  position:absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 800;
 }
 
-.btn:focus-visible,
-.search-input:focus-visible{
-  outline: none;
-  box-shadow: 0 0 0 6px rgba(77,163,255,.18);
-  border-color: rgba(77,163,255,.65);
-}
+.img-figure{ cursor: zoom-in; }
 
   </style>
 </head>
@@ -3340,6 +3360,15 @@ sqlcmd -S NOMBREDESERVIDOR -U Nombredeusuario -P Contraseña -i schedule.sql
   </div>
 </div>
 
+<!-- MODAL IMÁGENES -->
+<div id="imgModal" class="img-modal" aria-hidden="true">
+  <div class="img-modal-backdrop" data-close="1"></div>
+
+  <div class="img-modal-box" role="dialog" aria-modal="true" aria-label="Vista ampliada">
+    <button class="img-modal-close" type="button" aria-label="Cerrar" data-close="1">✕</button>
+    <img id="imgModalTarget" alt="" />
+  </div>
+</div>
 
 </main>
 <footer>
@@ -3435,7 +3464,6 @@ sqlcmd -S NOMBREDESERVIDOR -U Nombredeusuario -P Contraseña -i schedule.sql
       }
 
       if(last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
-
       node.parentNode.replaceChild(frag, node);
     });
 
@@ -3452,34 +3480,29 @@ sqlcmd -S NOMBREDESERVIDOR -U Nombredeusuario -P Contraseña -i schedule.sql
     const root = document.querySelector("main");
     indexItems = [];
 
-    // 1) Títulos y subtítulos (prioridad alta)
     root.querySelectorAll("h1,h2,h3,h4").forEach((el, i) => {
       const t = (el.innerText || "").trim();
       if(t.length >= 3) indexItems.push({ id: `h-${i}`, text: t, el });
     });
 
-    // 2) List items (li) (útiles para pasos)
     root.querySelectorAll("li").forEach((el, i) => {
       const t = (el.innerText || "").trim();
       if(t.length >= 12) indexItems.push({ id: `li-${i}`, text: t.slice(0, 220), el });
     });
 
-    // 3) Párrafos importantes (opcional: recorta)
     root.querySelectorAll(".figure-b p").forEach((el, i) => {
       const t = (el.innerText || "").trim();
       if(t.length >= 18) indexItems.push({ id: `p-${i}`, text: t.slice(0, 220), el });
     });
   }
 
-  // Normaliza para comparar
   function norm(s){
     return (s || "")
       .toLowerCase()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g,""); // quita tildes
+      .normalize("NFD").replace(/[\u0300-\u036f]/g,"");
   }
 
   function scoreMatch(query, text){
-    // scoring simple: incluye, empieza, proximidad
     const q = norm(query);
     const t = norm(text);
     if(!q) return -1;
@@ -3487,9 +3510,9 @@ sqlcmd -S NOMBREDESERVIDOR -U Nombredeusuario -P Contraseña -i schedule.sql
     if(idx === -1) return -1;
 
     let score = 0;
-    if(idx === 0) score += 6;          // empieza con
-    score += Math.max(0, 5 - Math.min(idx, 5)); // mientras más cerca del inicio mejor
-    score += Math.min(q.length / 4, 4); // query más larga, mejor
+    if(idx === 0) score += 6;
+    score += Math.max(0, 5 - Math.min(idx, 5));
+    score += Math.min(q.length / 4, 4);
     return score;
   }
 
@@ -3501,49 +3524,44 @@ sqlcmd -S NOMBREDESERVIDOR -U Nombredeusuario -P Contraseña -i schedule.sql
   }
 
   function hideSuggest(){
+    if(!suggestList) return;
     suggestList.style.display = "none";
     suggestList.innerHTML = "";
     suggestActive = -1;
   }
 
-function showSuggest(items, query){
-  if(!items.length){
-    hideSuggest();
-    return;
+  function showSuggest(items, query){
+    if(!suggestList) return;
+    if(!items.length){
+      hideSuggest();
+      return;
+    }
+    suggestList.innerHTML = items.map((it, idx) => {
+      const line = it.text.length > 120 ? it.text.slice(0, 120) + "…" : it.text;
+      return `
+        <div class="suggest-item" data-idx="${idx}">
+          <div class="suggest-title">${hiText(line, query)}</div>
+        </div>
+      `;
+    }).join("");
+    suggestList.style.display = "block";
   }
-  suggestList.innerHTML = items.map((it, idx) => {
-    const line = it.text.length > 120 ? it.text.slice(0, 120) + "…" : it.text;
-    return `
-      <div class="suggest-item" data-idx="${idx}">
-        <div class="suggest-title">${hiText(line, query)}</div>
-      </div>
-    `;
-  }).join("");
-  suggestList.style.display = "block";
-}
 
   function getSuggestions(query){
     const q = query.trim();
     if(q.length < 1) return [];
-
-    // filtra y rankea
-    const ranked = indexItems
+    return indexItems
       .map(it => ({ it, s: scoreMatch(q, it.text) }))
       .filter(x => x.s >= 0)
       .sort((a,b) => b.s - a.s)
       .slice(0, MAX_SUGGEST)
       .map(x => x.it);
-
-    return ranked;
   }
 
   function jumpToElement(el, query){
     if(!el) return;
-    // Lleva al elemento
     el.scrollIntoView({ behavior:"smooth", block:"center" });
-    // Resalta el término en el documento
     highlight(query);
-    // y activa la primera coincidencia visible
     if(hits.length) setActive(0);
     hideSuggest();
   }
@@ -3557,7 +3575,6 @@ function showSuggest(items, query){
     showSuggest(suggestions, q);
   });
 
-  // click en sugerencias
   suggestList?.addEventListener("click", (e) => {
     const item = e.target.closest(".suggest-item");
     if(!item) return;
@@ -3568,7 +3585,6 @@ function showSuggest(items, query){
     if(it) jumpToElement(it.el, q);
   });
 
-  // navegación teclado (flechas + enter)
   searchInput?.addEventListener("keydown", (e)=>{
     const q = searchInput.value.trim();
     const suggestions = getSuggestions(q);
@@ -3591,12 +3607,10 @@ function showSuggest(items, query){
       items[suggestActive].scrollIntoView({ block:"nearest" });
     }
     if(e.key === "Enter"){
-      // Si hay item activo, salta a ese
       if(suggestActive >= 0 && suggestions[suggestActive]){
         e.preventDefault();
         jumpToElement(suggestions[suggestActive].el, q);
       }else{
-        // si no, hace búsqueda normal
         highlight(q);
         hideSuggest();
       }
@@ -3606,7 +3620,6 @@ function showSuggest(items, query){
     }
   });
 
-  // click fuera: cerrar lista
   document.addEventListener("click", (e)=>{
     const wrap = e.target.closest(".search-wrap");
     if(!wrap) hideSuggest();
@@ -3628,7 +3641,7 @@ function showSuggest(items, query){
     hideSuggest();
   });
 
-  // ===== Reveal al aparecer en pantalla =====
+  // ===== Reveal al aparecer en pantalla (FIX + FALLBACK) =====
   (function(){
     const targets = [
       ...document.querySelectorAll(".section"),
@@ -3636,22 +3649,115 @@ function showSuggest(items, query){
       ...document.querySelectorAll(".search-wrap")
     ];
 
+    // Marca todos como "reveal"
     targets.forEach(el => el.classList.add("gp-reveal"));
 
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){
-          e.target.classList.add("is-in");
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
+    // Helper: revela si está en viewport (fallback)
+    function revealInView(){
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const trigger = vh * 0.88; // antes de llegar
+      let pending = 0;
 
-    targets.forEach(el => io.observe(el));
+      for(const el of targets){
+        if(el.classList.contains("is-in")) continue;
+        const r = el.getBoundingClientRect();
+        if(r.top < trigger && r.bottom > 0){
+          el.classList.add("is-in");
+        }else{
+          pending++;
+        }
+      }
+
+      // Failsafe: si por alguna razón quedan colgados, los mostramos igual
+      // (evita “huecos” como tu 7-9 y 9-11)
+      if(pending){
+        clearTimeout(revealInView.__t);
+        revealInView.__t = setTimeout(()=>{
+          // si el usuario ya scrolleó un buen rato, libera todo lo que quede
+          // (sin romper animación de los primeros)
+          const y = window.scrollY || document.documentElement.scrollTop || 0;
+          if(y > 900){
+            targets.forEach(el => el.classList.add("is-in"));
+          }
+        }, 1800);
+      }
+    }
+
+    // IntersectionObserver (principal)
+    if("IntersectionObserver" in window){
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.classList.add("is-in");
+            io.unobserve(e.target);
+          }
+        });
+      }, {
+        threshold: 0.10,
+        rootMargin: "120px 0px 120px 0px" // ayuda con imágenes/iframes y sticky header
+      });
+
+      targets.forEach(el => io.observe(el));
+
+      // además, fallback por si hay saltos de layout (carga de imágenes)
+      window.addEventListener("scroll", revealInView, { passive:true });
+      window.addEventListener("resize", revealInView);
+      window.addEventListener("load", revealInView);
+
+      // primer pase
+      requestAnimationFrame(revealInView);
+    }else{
+      // Si el navegador no soporta IO, mostramos todo.
+      targets.forEach(el => el.classList.add("is-in"));
+    }
   })();
 
+  // ===== MODAL PARA ABRIR IMÁGENES EN GRANDE =====
+(function(){
+  const modal = document.getElementById("imgModal");
+  const target = document.getElementById("imgModalTarget");
+  if(!modal || !target) return;
+
+  function openModal(imgEl){
+    const src = imgEl.getAttribute("src");
+    if(!src) return;
+
+    target.src = src;
+    target.alt = imgEl.getAttribute("alt") || "Imagen ampliada";
+
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal(){
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    target.src = "";
+  }
+
+  // Click en cualquier imagen del manual
+  document.addEventListener("click", (e) => {
+    const img = e.target.closest("img.img-figure");
+    if(img){
+      openModal(img);
+      return;
+    }
+    // Cerrar si clic en backdrop o botón
+    if(e.target.closest("[data-close='1']")){
+      closeModal();
+    }
+  });
+
+  // ESC para cerrar
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape" && modal.classList.contains("is-open")){
+      closeModal();
+    }
+  });
+})();
+
 </script>
-
-
 </body>
 </html>

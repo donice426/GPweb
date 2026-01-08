@@ -431,6 +431,60 @@ html{ scroll-behavior:smooth; }
   border-color: rgba(77,163,255,.65);
 }
 
+/* ===== MODAL IMÁGENES ===== */
+.img-modal{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+}
+
+.img-modal.is-open{ display: block; }
+
+.img-modal-backdrop{
+  position:absolute;
+  inset:0;
+  background: rgba(0,0,0,.70);
+  backdrop-filter: blur(2px);
+}
+
+.img-modal-box{
+  position: relative;
+  max-width: min(1100px, 92vw);
+  max-height: 86vh;
+  margin: 6vh auto 0;
+  background: rgba(10,20,34,.92);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 18px;
+  box-shadow: 0 24px 90px rgba(0,0,0,.65);
+  padding: 14px;
+}
+
+.img-modal-box img{
+  display:block;
+  width: 100%;
+  height: auto;
+  max-height: calc(86vh - 28px);
+  object-fit: contain;
+  border-radius: 14px;
+}
+
+.img-modal-close{
+  position:absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.img-figure{ cursor: zoom-in; }
+
   </style>
 </head>
 
@@ -1365,6 +1419,16 @@ html{ scroll-behavior:smooth; }
 
 </section>
 
+<!-- MODAL IMÁGENES -->
+<div id="imgModal" class="img-modal" aria-hidden="true">
+  <div class="img-modal-backdrop" data-close="1"></div>
+
+  <div class="img-modal-box" role="dialog" aria-modal="true" aria-label="Vista ampliada">
+    <button class="img-modal-close" type="button" aria-label="Cerrar" data-close="1">✕</button>
+    <img id="imgModalTarget" alt="" />
+  </div>
+</div>
+
 </main>
 
 <footer>
@@ -1674,6 +1738,52 @@ function showSuggest(items, query){
 
     targets.forEach(el => io.observe(el));
   })();
+
+// ===== MODAL PARA ABRIR IMÁGENES EN GRANDE =====
+(function(){
+  const modal = document.getElementById("imgModal");
+  const target = document.getElementById("imgModalTarget");
+  if(!modal || !target) return;
+
+  function openModal(imgEl){
+    const src = imgEl.getAttribute("src");
+    if(!src) return;
+
+    target.src = src;
+    target.alt = imgEl.getAttribute("alt") || "Imagen ampliada";
+
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal(){
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    target.src = "";
+  }
+
+  // Click en cualquier imagen del manual
+  document.addEventListener("click", (e) => {
+    const img = e.target.closest("img.img-figure");
+    if(img){
+      openModal(img);
+      return;
+    }
+    // Cerrar si clic en backdrop o botón
+    if(e.target.closest("[data-close='1']")){
+      closeModal();
+    }
+  });
+
+  // ESC para cerrar
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape" && modal.classList.contains("is-open")){
+      closeModal();
+    }
+  });
+})();
 
 </script>
 
