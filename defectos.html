@@ -752,6 +752,156 @@ body{
   overflow-x:hidden;
 }
 
+/* =========================
+   BLOQUE: Guía rápida de configuración (RGB + NIR)
+   ========================= */
+.guia-wrap{
+  margin-top: 18px;
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  border-radius: var(--r20);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.guia-head{
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.guia-head h3{
+  margin:0;
+  font-size:14px;
+}
+.guia-head p{
+  margin:6px 0 0;
+  font-size:12px;
+  color: var(--muted);
+  line-height:1.45;
+  max-width: 70ch;
+}
+
+.guia-body{
+  padding: 14px 16px 16px;
+}
+
+.guia-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 860px){
+  .guia-grid{ grid-template-columns: 1fr; }
+}
+
+.guia-card{
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.16);
+  border-radius: 18px;
+  overflow: hidden;
+  position:relative;
+}
+
+.guia-card::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:18px;
+  background: radial-gradient(520px 220px at 10% 0%, rgba(77,163,255,.12), transparent 60%);
+  opacity:.65;
+  pointer-events:none;
+}
+
+.guia-card.nir::before{
+  background: radial-gradient(520px 220px at 10% 0%, rgba(56,212,255,.10), transparent 60%);
+}
+
+.guia-top{
+  padding: 12px 12px 10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  background: rgba(0,0,0,.10);
+}
+
+.guia-title{
+  margin:0;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.15px;
+}
+
+.guia-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  font-size:12px;
+  color: rgba(230,237,245,.90);
+}
+.guia-dot{
+  width:8px; height:8px; border-radius:999px;
+  background: rgba(77,163,255,.95);
+}
+.guia-card.nir .guia-dot{ background: rgba(56,212,255,.95); }
+
+.guia-content{
+  padding: 12px;
+}
+
+.guia-content p{
+  margin:0 0 10px;
+  font-size:12.5px;
+  color: var(--muted);
+  line-height:1.55;
+}
+
+.guia-steps{
+  margin:0;
+  padding-left: 18px;
+}
+.guia-steps li{
+  margin: 8px 0;
+  font-size:12.5px;
+  color: var(--muted);
+  line-height:1.55;
+}
+.guia-steps b{ color: rgba(234,241,255,.92); }
+
+.guia-note{
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px dashed rgba(255,255,255,.16);
+  background: rgba(0,0,0,.10);
+  font-size:12.5px;
+  color: var(--muted);
+  line-height:1.55;
+}
+
+.guia-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top: 12px;
+}
+
+.guia-actions .btn{
+  padding: 9px 12px;
+  border-radius: 12px;
+  font-weight:800;
+}
+
   </style>
 </head>
 
@@ -832,31 +982,115 @@ body{
       como la configuración técnica dentro de la plataforma gpVision™.
     </p>
 
-    <!-- 2. SELECTOR -->
-    <section class="section" id="selector-defectos">
-      <div class="section-title">
-        <div class="bar"></div>
-        <h2>2. Tipo de detección del defecto</h2>
-      </div>
+<!-- 1.1 GUÍA RÁPIDA: Cómo configurar un defecto (RGB + NIR) -->
+<section class="section" id="guia-configuracion">
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2> Cómo configurar un defecto en gpVision™ (Color y NIR)</h2>
+  </div>
 
-      <p class="section-sub">
+  <p class="section-sub">
+    Esta guía resume el flujo mínimo para configurar un defecto por <strong>Color (RGB)</strong> y otro por
+    <strong>Infrarrojo Cercano (NIR)</strong>. La idea es que puedas replicar el método en cualquier defecto del catálogo.
+  </p>
+
+ <p class="section-sub">
         En gpVision™, los defectos se clasifican según el tipo de información visual utilizada.
         Algunos defectos se identifican por <strong>características visibles en color</strong>, mientras que otros
         requieren <strong>información infrarroja (NIR)</strong>.
       </p>
 
-      <div class="defect-selector">
-        <button class="defect-btn color" data-target="defectos-color">
-          Defectos detectados por Color
-          <span>Basados en apariencia visual: color, textura, forma y marcas externas</span>
-        </button>
-
-        <button class="defect-btn nir" data-target="defectos-nir">
-          Defectos detectados por Infrarrojo (NIR)
-          <span>Basados en respuesta espectral: daño interno, descomposición, humedad</span>
-        </button>
+  <div class="guia-wrap">
+    <div class="guia-head">
+      <div>
+        <h3>Guía rápida de configuración</h3>
+        <p>
+          Recomendación: ajusta primero el criterio (espectros/umbrales), luego mapea la característica a una clase,
+          y finalmente habilita la salida física en el Editor de Salida.
+        </p>
       </div>
-    </section>
+      <button class="btn" id="guiaExpandAll" type="button">Expandir todo</button>
+    </div>
+
+    <div class="guia-body">
+      <div class="guia-grid">
+<!-- RGB -->
+<article class="guia-card" data-guia="rgb">
+  <div class="guia-top">
+    <h4 class="guia-title">Defecto por Color (RGB)</h4>
+    <span class="guia-pill"><span class="guia-dot"></span> RGB</span>
+  </div>
+
+  <div class="guia-content">
+    <p>
+      Para defectos detectados por <b>color (RGB)</b> (partidura, russet, inmadurez, etc.), gpVision™ usa lo capturado por
+      cámaras RGB bajo iluminación LED blanca y lo conecta con la lógica de clasificación para decidir el destino del fruto.
+    </p>
+
+    <ol class="guia-steps">
+      <li><b>Habilitación morfológica:</b> en <em>Configuración de defectos morfológicos</em>, activa la casilla del defecto específico para incluirlo en el motor lógico.</li>
+      <li><b>Espectro de Color (Spectrum):</b> en el <em>Editor de espectros</em>, ajusta rangos <em>HSV</em> (Tono/Saturación/Valor) para capturar el color exacto del defecto usando el selector sobre imágenes reales.</li>
+      <li><b>Rangos múltiples:</b> si el defecto tiene variaciones cromáticas, agrega hasta <em>cinco rangos</em> dentro del mismo espectro para cubrir tonos/bordes distintos.</li>
+      <li><b>Configuración de clase y umbrales:</b> en <em>Configuración de clase</em>, usa los sliders para definir el % de superficie afectada permitido por categoría (Premium/Comercial/Desecho).</li>
+      <li><b>Mapeo de características:</b> en <em>Mapeo de Características a Clases</em>, vincula el atributo detectado (ej. % de color inmaduro) a la clase de destino final para que exista enrutamiento físico.</li>
+      <li><b>Prioridad en tabla:</b> en la <em>Tabla de clasificación</em>, ordena criterios de arriba hacia abajo; coloca defectos críticos arriba para que se evalúen primero.</li>
+      <li><b>Guardar y validar:</b> presiona <em>Guardar y aplicar</em> (Vision Units) y valida en <em>Resultados detallados</em> que el defecto quede delineado en <b>verde</b> en la vista RGB.</li>
+    </ol>
+
+    <div class="guia-note">
+      <b>Analogía (inspector de telas):</b> el espectro es la “muestra de mancha”, los umbrales definen si pasa como primera o se rechaza,
+      y la prioridad hace que el sistema descarte primero lo crítico antes de evaluar otros criterios.
+    </div>
+
+    <div class="guia-actions">
+      <button class="btn primary" type="button" data-scroll-to="defectos-color">Ir a Defectos por Color</button>
+    </div>
+  </div>
+</article>
+
+
+<!-- NIR -->
+<article class="guia-card nir" data-guia="nir">
+  <div class="guia-top">
+    <h4 class="guia-title">Defecto por Infrarrojo Cercano (NIR)</h4>
+    <span class="guia-pill"><span class="guia-dot"></span> NIR</span>
+  </div>
+
+  <div class="guia-content">
+    <p>
+      Para defectos que requieren <b>NIR (Infrarrojo Cercano)</b> (Blando, Machucón, Black Hole, etc.), gpVision™ detecta
+      anomalías internas/estructurales del tejido que no siempre son visibles en RGB, conectando la señal infrarroja con
+      la lógica de clasificación de la máquina.
+    </p>
+
+    <ol class="guia-steps">
+      <li><b>Habilitación morfológica:</b> en <em>Configuración de defectos morfológicos</em>, activa el defecto NIR específico para habilitar su análisis estructural.</li>
+      <li><b>Espectro NIR:</b> en el <em>Editor avanzado de espectros</em>, ajusta los canales:
+        <em>NIR</em> (base), <em>NIR Grad</em> (bordes/cambios bruscos) y <em>NIR Equ</em> (resalta variaciones de densidad).
+      </li>
+      <li><b>Calibración óptica:</b> verifica que cámaras NIR e iluminación LED infrarroja lineal estén sincronizadas y calibradas, ya que NIR es sensible a temperatura, agua y estado fisiológico.</li>
+      <li><b>Umbrales por clase:</b> en <em>Configuración de clase</em>, usa sliders para definir el % de daño NIR tolerable por categoría (Premium/Comercial/Desecho).</li>
+      <li><b>Mapeo de característica:</b> en <em>Mapeo de Características a Clases</em>, vincula el atributo NIR (ej. probabilidad de punto blando) a la clase final para asegurar el enrutamiento físico.</li>
+      <li><b>Prioridad lógica:</b> en la <em>Tabla de calificación</em>, ordena los criterios NIR según jerarquía; el sistema evalúa de arriba hacia abajo y asigna la primera clase que cumpla.</li>
+      <li><b>Guardar y validar:</b> presiona <em>Guardar y aplicar</em> (Vision Units) y valida en <em>Resultados detallados</em> seleccionando cámara NIR; el defecto debe quedar delineado en <b>verde</b> sobre la imagen infrarroja.</li>
+    </ol>
+
+    <div class="guia-note">
+      <b>Analogía (escáner térmico):</b> NIR es como una cámara térmica para ver “daño oculto” detrás de la superficie:
+      no importa el color externo (RGB), importa la variación de intensidad que revela la anomalía interna y su severidad
+      para clasificar.
+    </div>
+
+    <div class="guia-actions">
+      <button class="btn primary" type="button" data-scroll-to="defectos-nir">Ir a Defectos por NIR</button>
+    </div>
+  </div>
+</article>
+
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- 3. COLOR -->
     <section class="section" id="defectos-color">
@@ -880,12 +1114,14 @@ body{
         data-signals="Grietas visibles en la piel, bordes irregulares, alto contraste en imagen RGB"
         data-confusions="Marcas superficiales, cicatrices naturales, daño mecánico leve"
         data-impact="Disminución severa de la calidad comercial y reducción de vida útil"
-        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
-        data-step2="Seleccionar o crear el defecto (spectro) 'Partidura / Cracking'."
-        data-step3="Ajustar parámetros de segmentación y umbrales de color."
-        data-step4="Validar el defecto usando imágenes recientes del sistema MultiView™."
-        data-step5="Guardar la configuración y monitorear falsos positivos."
-        data-notes="Recomendación: validar por ángulos y revisar falsos positivos en cicatrices superficiales."
+        data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Partidura' para que el motor lógico la considere."
+        data-step2="Ir a la pestaña 'Espectros' y crear/ajustar el Spectrum (RGB/HSV) que capture el tono característico de la partidura (pulpa expuesta o borde de la herida)."
+        data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica detectada de Partidura a la clase objetivo (por ejemplo: Comercial / Desecho)."
+        data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Partidura % ≥ umbral') para la clase correspondiente y verificar que el orden respete la prioridad de calidad."
+        data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y luego validar en 'Resultados detallados' que la partidura quede delineada en verde en MultiView™."
+        data-notes="Recomendación: valida con fruta real y múltiples ángulos. Si hay falsos positivos por cicatrices superficiales o reflejos, ajusta el Spectrum/umbrales y revisa iluminación. Analogía: Espectros = foto de referencia, Mapeo = dónde registrarlo, Tabla = a qué salida/clase enviarlo."
+
+
       >
         <div class="defect-thumb">
           <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Partidura (Cracking)">
@@ -905,12 +1141,13 @@ body{
         data-signals="Perforaciones visibles, zonas oscuras o irregulares, bordes no uniformes, alto contraste local en imagen RGB"
         data-confusions="Daño mecánico por impacto, partidura incipiente, pudrición localizada, marcas por insectos"
         data-impact="Disminuye severamente la calidad comercial y aumenta el riesgo de pudrición secundaria durante almacenamiento"
-        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
-        data-step2="Crear o seleccionar el defecto 'Picadura de pájaro / Bird Peck' bajo detección por Color (RGB)."
-        data-step3="Ajustar parámetros de segmentación y contraste para detectar perforaciones y pérdida de piel."
-        data-step4="Validar con imágenes recientes que incluyan diferentes tamaños y severidades de picadura."
-        data-step5="Guardar la configuración y monitorear falsos positivos con daño mecánico similar."
-        data-notes="Recomendación: validar desde múltiples ángulos. Ajustar sensibilidad para no confundir con marcas superficiales o cicatrices naturales."
+        data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Picadura de pájaro' para que el motor lógico la considere."
+        data-step2="Ir a la pestaña 'Espectros' y definir/calibrar el Spectrum (RGB) para el color típico de la picadura (tonos oscuros/secos/marrones) usando capturas reales con iluminación LED blanca."
+        data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Picadura de pájaro' a la clase destino (por ejemplo: Waste o Comercial)."
+        data-step4="En la 'Tabla de calificación', crear la regla (ej: 'Picadura de pájaro % ≥ umbral') y ubicarla con prioridad alta si debe causar descarte antes que otras condiciones."
+        data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' que la picadura quede delineada en verde en las imágenes MultiView™ (Color)."
+        data-notes="Recomendación: valida con distintos tamaños/severidades y varios ángulos. Si confunde daño mecánico o sombras, ajusta Spectrum/umbrales y revisa iluminación. Analogía: Espectro = reconocer el agujero/mancha, Mapeo = marcar como 'dañado', Tabla = enviarlo a la salida prioritaria."
+
       >
         <div class="defect-thumb">
           <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Picadura de pájaro (Bird Peck)">
@@ -930,12 +1167,12 @@ body{
         data-signals="Zonas opacas o mate, textura rugosa tipo corcho, parches decolorados café claro/amarillentos, patrón superficial irregular en imagen RGB"
         data-confusions="Cicatrices naturales, scarring por roce, marcas cosméticas, residuos superficiales (polvo/suciedad), variaciones normales de brillo o color"
         data-impact="Disminuye la calidad visual y el valor comercial, generando rechazos en mercados con altos estándares cosméticos"
-        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
-        data-step2="Crear o seleccionar el defecto 'Russet / Russeting' bajo detección por Color (RGB)."
-        data-step3="Ajustar parámetros de segmentación para identificar zonas opacas y de textura rugosa."
-        data-step4="Calibrar umbrales de contraste/superficie para diferenciar russet de cicatrices, sombras o reflejos."
-        data-step5="Validar con imágenes recientes considerando distintos calibres, variedades y niveles de severidad."
-        data-notes="Recomendación: validar desde múltiples ángulos y condiciones de iluminación. Evitar confundir russet leve con brillo irregular por humedad superficial."
+        data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Russet' para que el motor lógico lo considere en la evaluación."
+        data-step2="Ir a la pestaña 'Espectros' y crear/ajustar el Spectrum (RGB) que identifique el color amarronado/canela y la textura opaca y rugosa característica del russet."
+        data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Russet' a la clase de destino (por ejemplo: Comercial o Desecho)."
+        data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Russet % ≥ umbral') y ubicarla según la prioridad deseada, considerando que el sistema evalúa las reglas de arriba hacia abajo."
+        data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' que las zonas con russet queden delineadas en verde en las imágenes MultiView™ (Color)."
+        data-notes="Recomendación: valida con distintos niveles de severidad y variedades. Ajusta el Spectrum para no confundir russet leve con cicatrices, bloom natural o variaciones de brillo por humedad. Analogía: Espectro = reconocer color/textura áspera, Mapeo = enviarlo a segunda categoría, Tabla = definir el porcentaje que activa el descarte."
       >
         <div class="defect-thumb">
           <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Russet (Russeting)">
@@ -955,12 +1192,13 @@ body{
         data-signals="Depresiones visibles, zonas hundidas con sombra local, cambios leves de color alrededor del impacto"
         data-confusions="Daño mecánico leve, marcas de presión temporal, cicatrices superficiales"
         data-impact="Reduce la calidad visual y puede acelerar deterioro y pudrición secundaria"
-        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
-        data-step2="Crear o seleccionar el defecto 'Pitting' bajo detección por Color (RGB)."
-        data-step3="Ajustar segmentación para detectar depresiones y cambios locales de contraste."
-        data-step4="Calibrar sensibilidad para distinguir pitting real de sombras naturales."
-        data-step5="Validar con imágenes recientes considerando distintos calibres y condiciones de iluminación."
-        data-notes="Recomendación: validar desde múltiples ángulos y evitar confundir con sombreado natural."
+        data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Pitting' para que el motor lógico lo considere en el análisis."
+        data-step2="Ir a la pestaña 'Espectros' y ajustar el Spectrum por Color (RGB) para capturar las sombras y alteraciones visuales generadas por las depresiones del pitting en la piel del fruto."
+        data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Pitting' a la clase de destino correspondiente (por ejemplo: Seconds o Waste)."
+        data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Pitting % ≥ umbral') y ubicarla en la posición adecuada según la prioridad de calidad del programa."
+        data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' que las zonas de pitting queden delineadas en verde en las imágenes MultiView™."
+        data-notes="Recomendación: valida con distintos tamaños y profundidades de pitting. Ajusta el Spectrum y el umbral para no confundir sombras naturales o variaciones de iluminación con daño real. Analogía: Espectro = detectar la sombra del bache, Umbral = definir qué tan profundo cuenta, Tabla = decidir si el fruto se descarta."
+
       >
         <div class="defect-thumb">
           <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Pitting">
@@ -980,12 +1218,13 @@ body{
         data-signals="Forma irregular/asimétrica, volumen superior, hendidura o línea de unión"
         data-confusions="Fruta grande normal, deformaciones leves"
         data-impact="Afecta uniformidad y reduce aceptación comercial"
-        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
-        data-step2="Crear o seleccionar el defecto 'Hijuelo / Spur' bajo detección por Color (RGB)."
-        data-step3="Ajustar análisis de forma para detectar fusiones."
-        data-step4="Calibrar umbrales de tamaño/contorno para no confundir con fruta grande."
-        data-step5="Validar con imágenes recientes considerando grados de fusión."
-        data-notes="Recomendación: incluir fruta grande normal en sets para bajar falsos positivos."
+        data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Hijuelo' para que el motor lógico lo considere en el análisis."
+        data-step2="Ir a la pestaña 'Espectros' y ajustar el Spectrum por Color (RGB) que identifique el tejido de unión o la protuberancia característica del hijuelo."
+        data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Hijuelo' a la clase de destino correspondiente (por ejemplo: Comercial o Desecho)."
+        data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Hijuelo % ≥ umbral') y ubicarla en la posición adecuada según la prioridad de calidad del programa."
+        data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' que el hijuelo quede delineado en verde en las imágenes MultiView™."
+        data-notes="Recomendación: valida con distintos grados de fusión y calibres. Ajusta el Spectrum y el umbral para no confundir hijuelos con fruta grande normal o deformaciones leves. Analogía: Espectro = reconocer el ‘gemelo’, Mapeo = marcar la anomalía, Tabla = decidir cuándo apartarlo de primera clase."
+
       >
         <div class="defect-thumb">
           <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Hijuelo (Spur)">
@@ -1005,12 +1244,13 @@ body{
         data-signals="Zonas negras, piel colapsada/arrugada, aspecto húmedo, pérdida de forma"
         data-confusions="Manchas superficiales, fruta sobremadura, sombras"
         data-impact="Rechazo total y riesgo de contaminación cruzada"
-        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
-        data-step2="Crear o seleccionar 'Pudrición negra / Black Rot' por Color (RGB)."
-        data-step3="Ajustar umbrales de color/brillo para zonas oscuras."
-        data-step4="Calibrar segmentación para diferenciar de sombras/manchas."
-        data-step5="Validar con imágenes recientes con distintos niveles de severidad."
-        data-notes="Recomendación: validar con iluminación estable y excluir sobremadurez en calibración."
+        data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Pudrición negra' para que el motor de visión la considere en el análisis."
+        data-step2="Ir a la pestaña 'Espectros' y definir el Spectrum por Color (RGB) que identifique los tonos oscuros/negros característicos de la pudrición negra usando iluminación LED blanca estable."
+        data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Pudrición negra' a la clase de destino (normalmente Waste / Desecho)."
+        data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Pudrición negra % ≥ umbral') y ubicarla en una posición alta para que cualquier signo de descomposición genere descarte inmediato."
+        data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' que las zonas de pudrición queden delineadas en verde en las imágenes MultiView™ (Color)."
+        data-notes="Recomendación: valida con distintos niveles de avance del daño. Ajusta el Spectrum y el umbral para no confundir sombras profundas o fruta sobremadura con pudrición real. Analogía: Espectro = reconocer el moho oscuro, Umbral = definir cuánto daño cuenta, Tabla = descartar sin evaluar el resto."
+
       >
         <div class="defect-thumb">
           <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Pudrición negra (Black Rot)">
@@ -1030,12 +1270,13 @@ body{
         data-signals="Coloración irregular/moteada, zonas pálidas, deformación leve a moderada"
         data-confusions="Variaciones naturales de color, estrés hídrico, daño por frío"
         data-impact="Reduce uniformidad y genera rechazos comerciales"
-        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
-        data-step2="Crear o seleccionar 'Virosis / Virus Damage' por Color (RGB)."
-        data-step3="Ajustar homogeneidad y parámetros de moteado."
-        data-step4="Calibrar para diferenciar de variación varietal."
-        data-step5="Validar con imágenes recientes y distintos grados del daño."
-        data-notes="Recomendación: usar fruta confirmada con síntomas para calibración."
+        data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Virosis' para que el motor lógico la incluya en la evaluación."
+        data-step2="Ir a la pestaña 'Espectros' y ajustar el Spectrum por Color (RGB/HSV) para identificar los patrones de coloración anómalos o moteados característicos del daño por virosis en la piel del fruto."
+        data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Virosis' a la clase de destino correspondiente (por ejemplo: Comercial o Desecho)."
+        data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Virosis % ≥ umbral') y ubicarla en la jerarquía adecuada según la prioridad de calidad del programa."
+        data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' o 'Fruta reciente' que las zonas afectadas queden delineadas en verde en las imágenes MultiView™ (Color)."
+        data-notes="Recomendación: valida con fruta confirmada con síntomas de virosis y distintas variedades. Ajusta el Spectrum para no confundir variaciones naturales de color, estrés hídrico o daño por frío con virosis real. Analogía: Espectro = reconocer la erupción, Mapeo = diagnosticar el síntoma, Tabla = decidir cuándo apartar el fruto."
+
       >
         <div class="defect-thumb">
           <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Virosis (Virus Damage)">
@@ -1055,12 +1296,13 @@ body{
         data-signals="Zonas oscuras, áreas blandas/colapsadas, pérdida de brillo, textura irregular"
         data-confusions="Golpes severos, sobremadurez, daño por frío avanzado"
         data-impact="Pérdida total de calidad comercial y rechazo en destino"
-        data-step1="Abrir el módulo de configuración de defectos en gpVision™."
-        data-step2="Crear o seleccionar 'Pudrición / Rot' por Color (RGB)."
-        data-step3="Ajustar umbrales de color/textura para zonas colapsadas."
-        data-step4="Calibrar para diferenciar de golpes/sobremadurez."
-        data-step5="Validar con imágenes recientes con distintos grados."
-        data-notes="Recomendación: validar con fruta en distintos estados de avance; cuidado con golpes recientes."
+        data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Pudrición' para que el motor lógico la considere en la evaluación."
+        data-step2="Ir a la pestaña 'Espectros' y configurar el Spectrum por Color (RGB) para identificar zonas oscuras/colapsadas; complementar el análisis usando el canal NIR para detectar pudrición incipiente o interna no visible externamente."
+        data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Pudrición' a la clase de destino, normalmente Waste (Desecho), debido a su impacto en la vida útil del fruto."
+        data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Pudrición % ≥ umbral') y ubicarla en una posición de alta prioridad para que cualquier signo de descomposición genere descarte inmediato."
+        data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' que las zonas de pudrición queden delineadas en verde en las imágenes MultiView™ tanto en Color como en NIR."
+        data-notes="Recomendación: valida con fruta en distintos estados de avance y revisa consistencia entre RGB y NIR. Ajusta umbrales para no confundir golpes severos o sobremadurez con pudrición real. Analogía: Color = ver la mancha, NIR = ver el daño interno, Tabla = retirar inmediatamente."
+
       >
         <div class="defect-thumb">
           <img src="Imagenes/Screenshot 2025-12-31 055626.png" alt="Pudrición (Rot / Decay)">
@@ -1080,12 +1322,13 @@ body{
   data-signals="En RGB: áreas opacas o pálidas, pérdida de brillo local, zonas con textura ‘algodonosa’/difusa cerca del ombligo o alrededor del eje del fruto (cuando se refleja hacia la piel). Bajo buena iluminación se aprecia un parche blanquecino-amarillento con borde suave (no tan definido como una cicatriz)."
   data-confusions="Russet leve, bloom natural (cera), residuos de polvo/suciedad, variación de brillo por humedad superficial, cicatrices cosméticas, sobremadurez con pérdida de brillo."
   data-impact="Reduce la aceptación comercial (principalmente en mercados exigentes) y puede generar reclamos por condición interna al consumo. Incrementa rechazo si se confunde con fruta ‘opaca’ o con daño fisiológico."
-  data-step1="Abrir el módulo de configuración de defectos en gpVision™."
-  data-step2="Seleccionar o crear el defecto (spectro) 'Guata blanca / White Pith' bajo detección por Color (RGB)."
-  data-step3="Ajustar segmentación para capturar áreas opacas/decoloradas (baja saturación y brillo reducido) sin incluir sombras."
-  data-step4="Calibrar umbrales para diferenciar guata blanca de bloom/cera y de russet: validar con fruta real confirmada (idealmente con corte)."
-  data-step5="Validar con imágenes recientes en distintos calibres/variedades, guardar y monitorear falsos positivos (humedad, polvo, reflejos)."
-  data-notes="Recomendación: usar sets confirmados por corte para entrenar el criterio. Revisar iluminación y excluir fruta mojada; la humedad puede simular opacidad. Si hay mucho bloom natural, ajustar para no penalizarlo."
+  data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Guata blanca' para que el motor lógico la incluya en el análisis."
+  data-step2="Ir a la pestaña 'Espectros' y ajustar el Spectrum por Color (RGB) para identificar los tonos blanquecinos o pálidos característicos de la guata blanca en la superficie del fruto."
+  data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Guata blanca' a la clase de destino correspondiente (por ejemplo: Comercial o Desecho)."
+  data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Guata blanca % ≥ umbral') y ubicarla en la jerarquía adecuada según la severidad permitida del defecto."
+  data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' que las zonas de guata blanca queden delineadas en verde en las imágenes MultiView™ (Color)."
+  data-notes="Recomendación: valida con fruta confirmada por corte y distintos calibres/variedades. Ajusta el Spectrum para no confundir bloom natural, residuos superficiales o humedad con guata blanca real. Analogía: Espectro = reconocer la veta blanca, Mapeo = clasificar la pieza, Tabla = decidir cuándo apartarla."
+
 >
   <div class="defect-thumb">
     <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Guata blanca (White Pith)">
@@ -1105,12 +1348,13 @@ body{
   data-signals="En color (RGB): valores de luminosidad (L*) elevados, saturación reducida y predominio de tonos claros o deslavados. La fruta inmadura presenta menor intensidad de rojo y mayor presencia de matices amarillentos o blanquecinos."
   data-confusions="Variaciones naturales por variedad, fruta lavada con alta reflectancia, zonas sobreiluminadas, fruta firme con color heterogéneo."
   data-impact="Afecta la homogeneidad del lote, reduce aceptación comercial y puede generar reclamos por calidad visual y sensorial. En exportación, suele ser clasificada en categorías inferiores o descartada."
-  data-step1="Abrir gpVision™ y seleccionar detección por Color (RGB)."
-  data-step2="Crear o seleccionar el defecto 'Inmaduro (Light) / Immature (Light)'."
-  data-step3="Ajustar umbrales de color y saturación diferenciando fruta inmadura de fruta madura clara."
-  data-step4="Validar con sets de fruta inmadura, fruta madura aceptable y fruta sobremadura."
-  data-step5="Guardar la configuración y monitorear solapamientos con defectos de madurez avanzada."
-  data-notes="Recomendación: calibrar iluminación y balance de blancos antes de ajustar umbrales, y validar por variedad para evitar falsas detecciones en cultivares de color naturalmente claro."
+  data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Inmaduro' para que el motor lógico la considere en el análisis."
+  data-step2="Ir a la pestaña 'Espectros' y definir el Spectrum por Color (RGB) para los tonos claros/pálidos asociados a inmadurez (Light), diferenciándolos de fruta madura clara."
+  data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Inmaduro' a la clase de destino correspondiente (por ejemplo: Comercial o Waste), según la estrategia de calidad."
+  data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Inmaduro % ≥ umbral') y ubicarla en la jerarquía adecuada, considerando que el sistema evalúa de arriba hacia abajo."
+  data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' o 'Fruta reciente' que las zonas inmaduras queden delineadas en verde en las imágenes MultiView™ (Color)."
+  data-notes="Recomendación: calibra iluminación y balance de blancos antes de ajustar el Spectrum. Valida por variedad y usa sets de fruta inmadura, madura aceptable y sobremadura para evitar solapamientos. Analogía: Espectro = distinguir el verde claro, Mapeo = decidir si pasa, Tabla = bloquear cuando supera el límite."
+
 >
   <div class="defect-thumb">
     <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Inmaduro (Light) / Immature (Light)">
@@ -1130,12 +1374,13 @@ body{
   data-signals="En color (RGB): grietas visibles en el extremo apical, bordes irregulares o abiertos, alto contraste entre la pulpa expuesta y la piel sana. Puede observarse cambio de tonalidad alrededor de la grieta y sombras profundas en la zona afectada."
   data-confusions="Cicatrices apicales naturales, marcas cosméticas superficiales, daño mecánico puntual, pequeñas hendiduras sin ruptura real de la piel."
   data-impact="Disminuye significativamente la calidad comercial, aumenta el riesgo de ingreso de patógenos y acelera la deshidratación y pudrición durante almacenamiento y transporte."
-  data-step1="Abrir gpVision™ y seleccionar detección por Color (RGB)."
-  data-step2="Crear o seleccionar el defecto 'Partidura apical / Apical Cracking'."
-  data-step3="Ajustar parámetros de segmentación para priorizar detección en la zona apical del fruto."
-  data-step4="Calibrar umbrales de contraste y forma para diferenciar grietas reales de cicatrices superficiales."
-  data-step5="Validar con imágenes recientes considerando distintos calibres y niveles de apertura de la partidura."
-  data-notes="Recomendación: validar desde múltiples ángulos y controlar sensibilidad para evitar falsos positivos en cicatrices apicales cerradas o marcas cosméticas."
+  data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Partidura apical' para que el motor lógico active su detección."
+  data-step2="Ir a la pestaña 'Espectros' y ajustar el Spectrum por Color (RGB/HSV) para identificar el color de la herida localizada en la zona apical del fruto."
+  data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Partidura apical' a la clase de destino correspondiente (por ejemplo: Desecho o Comercial)."
+  data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Partidura apical % ≥ umbral') y ubicarla en la posición jerárquica adecuada según la prioridad de calidad."
+  data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' que la partidura apical quede delineada en verde en las imágenes MultiView™ (Color)."
+  data-notes="Recomendación: valida desde múltiples ángulos y calibres. Ajusta el Spectrum y el umbral para no confundir cicatrices apicales cerradas o marcas cosméticas con partidura real. Analogía: Espectro = reconocer la grieta en la punta, Mapeo = marcar el defecto, Tabla = retirar de la categoría premium."
+
 >
   <div class="defect-thumb">
     <img src="Imagenes/unnamed (1).png" alt="Partidura apical / Apical Cracking">
@@ -1180,12 +1425,13 @@ body{
         data-signals="Respuesta NIR más opaca o con menor contraste respecto a fruta firme..."
         data-confusions="Fruta madura normal, variaciones por variedad, temperatura..."
         data-impact="Reduce la vida útil del fruto y aumenta el riesgo de reclamos..."
-        data-step1="Abrir el módulo de configuración de defectos en gpVision™ y seleccionar NIR."
-        data-step2="Crear/seleccionar 'Blando mínimo / Soft – Minimum'."
-        data-step3="Ajustar sensibilidad y umbrales NIR."
-        data-step4="Validar con fruta firme vs levemente blanda (ideal con referencia)."
-        data-step5="Guardar y monitorear falsos positivos/negativos."
-        data-notes="Recomendación: calibrar a temperatura estable y revisar por variedad."
+        data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Blando mínimo' para que el motor lógico procese este defecto de firmeza."
+        data-step2="Acceder al Editor avanzado de espectros y configurar los canales NIR (NIR, NIR Grad y/o NIR Equ) para detectar variaciones de intensidad asociadas a pérdida leve de densidad interna."
+        data-step3="Verificar y calibrar la captura óptica NIR: confirmar iluminación LED infrarroja lineal y parámetros de cámara (ganancia/obturación) para asegurar estabilidad de la señal."
+        data-step4="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Blando mínimo' a la clase de destino correspondiente (por ejemplo: Second Class o Waste, según el estándar de firmeza)."
+        data-step5="En la 'Tabla de clasificación', definir la regla (ej: 'Blando mínimo % ≥ umbral'), guardar y aplicar la configuración; luego validar en 'Resultados detallados' (vista NIR) que las zonas blandas queden delineadas en verde."
+        data-notes="Recomendación: validar con fruta firme vs levemente blanda confirmada y a temperatura estable. Ajusta umbrales para evitar confundir madurez normal o variaciones por agua con blando real. Analogía: NIR = rayos X, Umbral = nivel de fragilidad aceptable, Tabla = decidir cuándo apartar la fruta."
+
       >
         <div class="defect-thumb">
           <img src="Imagenes/Screenshot 2025-12-31 013802.png" alt="Blando mínimo (Soft – Minimum)">
@@ -1205,12 +1451,13 @@ body{
         data-signals="Respuesta NIR más opaca y homogénea, menor contraste..."
         data-confusions="Fruta madura avanzada, variaciones por variedad..."
         data-impact="Reduce significativamente la vida útil y aumenta reclamos..."
-        data-step1="Abrir gpVision™ y seleccionar detección NIR."
-        data-step2="Crear/seleccionar 'Blando promedio / Soft – Medium'."
-        data-step3="Ajustar umbrales NIR diferenciándolo de madurez normal."
-        data-step4="Validar con sets (firme, blando mínimo y promedio)."
-        data-step5="Guardar y monitorear solapamientos con blando severo."
-        data-notes="Recomendación: definir límite claro entre blando mínimo y promedio."
+        data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Blando promedio' para que el motor lógico lo incluya en el análisis de firmeza."
+        data-step2="Acceder al Editor avanzado de espectros y configurar los canales NIR (NIR, NIR Grad y/o NIR Equ) usando iluminación LED infrarroja lineal para detectar variaciones de densidad asociadas a ablandamiento de nivel medio."
+        data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Blando promedio' a la clase de destino correspondiente (usualmente Second Class o Waste, según el estándar de firmeza)."
+        data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Blando promedio % ≥ umbral') y ubicarla con la prioridad adecuada para evitar que fruta con firmeza insuficiente se mezcle con fruta de alta calidad."
+        data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' o 'Fruta reciente' (vista NIR) que las zonas blandas queden delineadas en verde en la imagen infrarroja."
+        data-notes="Recomendación: calibra con fruta firme, blando mínimo y blando promedio confirmados para separar correctamente los niveles. Mantén temperatura y condiciones estables; el NIR es sensible a variaciones de agua y fisiología. Analogía: NIR = presionar la miga del pan, Umbral = cuánto se hunde, Tabla = decidir si pasa o no."
+
       >
         <div class="defect-thumb">
           <img src="Imagenes/unnamed (4).png" alt="Blando promedio (Soft – Medium)">
@@ -1230,12 +1477,13 @@ body{
   data-signals="En NIR: zonas con respuesta espectral alterada, generalmente más oscuras u opacas respecto al tejido sano, con contornos difusos. La señal suele aparecer localizada y no necesariamente coincide con marcas visibles en RGB, especialmente en machucones recientes."
   data-confusions="Fruta blanda por madurez, daño fisiológico incipiente, variaciones naturales de firmeza por temperatura, guata blanca interna, sobremadurez avanzada."
   data-impact="Reduce significativamente la vida útil del fruto y aumenta la probabilidad de pudrición secundaria durante almacenamiento y tránsito. Genera reclamos por daño interno no visible al despacho."
-  data-step1="Abrir gpVision™ y seleccionar el modo de detección por Infrarrojo (NIR)."
-  data-step2="Crear o seleccionar el defecto 'Machucón / Bruise' dentro de la configuración NIR."
-  data-step3="Ajustar sensibilidad y umbrales NIR para identificar diferencias de absorción asociadas a daño por impacto."
-  data-step4="Validar con sets de fruta sana vs fruta machucada confirmada (idealmente mediante inspección destructiva)."
-  data-step5="Guardar la configuración y monitorear solapamientos con defectos de blando o descomposición incipiente."
-  data-notes="Recomendación: calibrar a temperatura estable y repetir validaciones durante la jornada. Machucones recientes pueden evolucionar; revisar el comportamiento NIR a distintas horas post impacto."
+  data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Machucón' para que el motor lógico lo incluya como criterio de daño interno."
+  data-step2="Acceder al Editor de espectros y configurar el Spectrum por Infrarrojo Cercano (NIR), ajustando los canales NIR y/o NIR Equ para detectar alteraciones de densidad del tejido causadas por impacto."
+  data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Machucón' a la clase de destino correspondiente (por ejemplo: Comercial o Desecho), según la severidad aceptada."
+  data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Machucón % ≥ umbral') y ubicarla con prioridad alta si se desea evitar que fruta con daño interno llegue a clases Premium."
+  data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' (vista NIR) que los machucones queden delineados en verde en la imagen infrarroja."
+  data-notes="Recomendación: valida con fruta sana vs fruta machucada confirmada (idealmente con inspección destructiva). Ajusta umbrales para no confundir blando por madurez con daño por impacto. Analogía: NIR = escáner estructural, Umbral = nivel de deformación aceptable, Tabla = decidir descarte aunque externamente se vea bien."
+
 >
   <div class="defect-thumb">
     <img src="Imagenes/unnamed (3).png" alt="Machucón (Bruise)">
@@ -1255,12 +1503,13 @@ body{
   data-signals="En NIR: respuesta espectral irregular asociada a mayor volumen y densidad interna, con patrones de absorción no homogéneos. Se detecta un perfil NIR más complejo y extendido en comparación con fruta simple, incluso cuando externamente parece una sola unidad."
   data-confusions="Fruta de gran calibre individual, frutos muy próximos en el singulador, solapamiento momentáneo en rollers, variaciones de orientación durante la captura."
   data-impact="Afecta la uniformidad del producto final, genera problemas en embalaje y presentación, y puede provocar errores en conteo, calibrado y llenado de envases. Generalmente no cumple con estándares comerciales."
-  data-step1="Abrir gpVision™ y seleccionar detección por Infrarrojo (NIR)."
-  data-step2="Crear o seleccionar el defecto 'Doble / Twin Fruit' en la lista de defectos NIR."
-  data-step3="Ajustar umbrales considerando volumen, firma espectral y patrones NIR asociados a fruta unida."
-  data-step4="Validar con sets de fruta simple vs fruta doble confirmada visual y manualmente."
-  data-step5="Guardar la configuración y verificar que no exista solapamiento excesivo con calibres grandes normales."
-  data-notes="Recomendación: complementar la detección NIR con información geométrica (ancho/longitud) cuando esté disponible, y validar especialmente en variedades propensas a fruta doble."
+  data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Doble (Fruto siamés)' para que el motor lógico active el análisis estructural."
+  data-step2="Acceder al Editor avanzado de espectros y configurar el Spectrum por Infrarrojo Cercano (NIR), ajustando los canales NIR (y/o NIR Equ) para resaltar la unión y la forma anómala del fruto doble bajo iluminación LED infrarroja lineal."
+  data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Doble' a la clase de destino correspondiente (generalmente Desecho o Comercial), según el estándar del programa."
+  data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Doble % ≥ umbral') y ubicarla en la jerarquía adecuada para asegurar la segregación prioritaria del fruto siamés."
+  data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' (vista NIR) que el contorno del fruto doble quede delineado en verde."
+  data-notes="Recomendación: valida con fruta simple vs fruta doble confirmada y distintos calibres. Ajusta umbrales para no confundir fruta grande individual o solapamientos momentáneos con fruto siamés real. Analogía: NIR = rayos X, Umbral = volumen/silueta extra, Tabla = apartar de la fila normal."
+
 >
   <div class="defect-thumb">
     <img src="Imagenes/Screenshot 2025-12-31 013802.png" alt="Doble (Twin Fruit)">
@@ -1280,12 +1529,13 @@ body{
   data-signals="En NIR: respuesta espectral muy atenuada y no homogénea en la zona afectada, con pérdida de continuidad en la señal. La cavidad genera absorción irregular y patrones NIR anómalos respecto a fruta sana o con defectos superficiales."
   data-confusions="Blando severo, descomposición interna avanzada, fruta sobremadura con colapso de pulpa, variaciones internas por daño mecánico no visible."
   data-impact="Reduce drásticamente la calidad interna del fruto, genera rechazo en procesos de exportación y aumenta el riesgo sanitario. Generalmente clasificado como descarte por no cumplir estándares de firmeza e integridad."
-  data-step1="Abrir gpVision™ y seleccionar detección por Infrarrojo Cercano (NIR)."
-  data-step2="Crear o seleccionar el defecto 'Black Hole' en el catálogo de defectos NIR."
-  data-step3="Ajustar umbrales NIR enfocándose en pérdida de densidad y discontinuidad de señal interna."
-  data-step4="Validar con sets de fruta sana, blanda y fruta con cavidades internas confirmadas."
-  data-step5="Guardar la configuración y monitorear solapamientos con blando severo o pudrición interna."
-  data-notes="Recomendación: validar periódicamente con cortes físicos de fruta para asegurar la correcta separación entre Black Hole y otros defectos internos similares."
+  data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Black Hole' para que el motor lógico active el análisis de cavidades internas."
+  data-step2="Acceder al Editor avanzado de espectros y configurar el Spectrum por Infrarrojo Cercano (NIR), ajustando los canales NIR, NIR Grad y/o NIR Equ para detectar variaciones de intensidad y gradiente asociadas a cavidades profundas."
+  data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Black Hole' a la clase de destino correspondiente (generalmente Desecho o no Premium), según el estándar de calidad."
+  data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Black Hole % ≥ umbral') y ubicarla en la jerarquía adecuada para asegurar la segregación correcta según la severidad del defecto."
+  data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' o 'Fruta reciente' (vista NIR) que la cavidad profunda quede delineada en verde en la imagen infrarroja."
+  data-notes="Recomendación: valida con fruta sana, blanda y fruta con cavidades internas confirmadas. Ajusta umbrales para no confundir blando severo o colapso general con cavidad profunda localizada. Analogía: NIR = sonar, Umbral = profundidad peligrosa, Tabla = marcar la ruta como no apta."
+
 >
   <div class="defect-thumb">
     <img src="Imagenes/Screenshot 2025-12-31 013802.png" alt="Black Hole (NIR)">
@@ -1816,6 +2066,34 @@ body{
 
       lb?.addEventListener("click", closeLightbox);
     })();
+
+    /* =========================
+   GUÍA RÁPIDA: botones y atajos
+   ========================= */
+(function(){
+  // Scroll a secciones
+  document.querySelectorAll('[data-scroll-to]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.getAttribute('data-scroll-to');
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+
+  // Expandir todo (solo UX, no acordeón)
+  const expandBtn = document.getElementById('guiaExpandAll');
+  if(expandBtn){
+    expandBtn.addEventListener('click', ()=>{
+      // En este layout no hay colapsables; dejamos el botón como "atajo" visual:
+      // lo usamos para hacer focus/scroll al bloque y dar feedback.
+      const block = document.getElementById('guia-configuracion');
+      if(block) block.scrollIntoView({ behavior:'smooth', block:'start' });
+      expandBtn.textContent = "Listo ✓";
+      setTimeout(()=> expandBtn.textContent = "Expandir todo", 900);
+    });
+  }
+})();
+
   </script>
 </body>
 </html>
