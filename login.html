@@ -3,17 +3,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
   <title>Acceso | Informe gpVision™</title>
+
   <style>
     :root{
       --bg1:#081726; --bg2:#0b2a44;
       --card: rgba(255,255,255,.06);
       --stroke: rgba(255,255,255,.14);
       --text:#eaf2ff; --muted: rgba(234,242,255,.75);
-      --accent:#2aa7ff; --danger:#ff4d4d;
+      --accent:#2aa7ff; --danger:#ff4d4d; --ok:#45d483;
       --shadow: 0 20px 60px rgba(0,0,0,.45);
       --r:16px;
+      --focus: 0 0 0 4px rgba(42,167,255,.14);
+
+      /* GitHub button */
+      --gh-bg: rgba(255,255,255,.06);
+      --gh-bg2: rgba(0,0,0,.18);
+      --gh-stroke: rgba(255,255,255,.18);
+      --gh-text: rgba(234,242,255,.92);
     }
+
     *{box-sizing:border-box}
     body{
       margin:0; min-height:100vh; display:grid; place-items:center;
@@ -25,71 +35,113 @@
         linear-gradient(135deg, var(--bg1), var(--bg2));
       padding:24px;
     }
+
     .card{
-      width:min(420px, 100%);
+      width:min(430px, 100%);
       background:var(--card);
       border:1px solid var(--stroke);
-      border-radius:var(--r);
+      border-radius:calc(var(--r) + 2px);
       box-shadow:var(--shadow);
       padding:22px;
       backdrop-filter: blur(10px);
+      position:relative;
+      overflow:hidden;
     }
+
+    .card::before{
+      content:"";
+      position:absolute; inset:-40% -30% auto -30%;
+      height:220px;
+      background: radial-gradient(closest-side, rgba(42,167,255,.18), transparent 70%);
+      pointer-events:none;
+    }
+
     .brand{
       display:flex; align-items:center; gap:12px; margin-bottom:16px;
-    }
-    .logo{
-      width:40px; height:40px; border-radius:12px;
-      background: linear-gradient(135deg, rgba(42,167,255,.85), rgba(42,167,255,.25));
-      border:1px solid rgba(255,255,255,.18);
-      display:grid; place-items:center;
-      box-shadow: 0 10px 24px rgba(42,167,255,.18);
-      font-weight:800;
+      position:relative;
     }
 
-    /* Logo GP Graders */
-.logoWrap{
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background: rgba(0,0,0,.18);
-  border: 1px solid rgba(255,255,255,.18);
-  box-shadow: 0 10px 22px rgba(0,0,0,.25);
-  overflow: hidden;
-}
+    .logoWrap{
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 10px 22px rgba(0,0,0,.25);
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
 
-.logoWrap img{
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-    h1{font-size:18px; margin:0}
+    .logoWrap img{
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    h1{font-size:18px; margin:0; letter-spacing:.2px}
     p{margin:4px 0 0; color:var(--muted); font-size:13px; line-height:1.35}
+
+    form{ position:relative; }
+
     .field{margin-top:14px}
     label{display:block; font-size:12px; color:var(--muted); margin:0 0 6px}
+
+    .inputWrap{ position:relative; }
+    .icon{
+      position:absolute; left:12px; top:50%;
+      transform:translateY(-50%);
+      width:18px; height:18px;
+      opacity:.9;
+      pointer-events:none;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,.25));
+    }
+
     input{
       width:100%;
       background: rgba(0,0,0,.25);
       border:1px solid rgba(255,255,255,.18);
       border-radius:12px;
-      padding:12px 12px;
+      padding:12px 12px 12px 40px;
       color:var(--text);
       outline:none;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .05s ease;
     }
+
     input:focus{
       border-color: rgba(42,167,255,.6);
-      box-shadow: 0 0 0 4px rgba(42,167,255,.14);
+      box-shadow: var(--focus);
     }
+
     .row{
       display:flex; gap:10px; align-items:center; justify-content:space-between;
       margin-top:10px;
     }
     .hint{font-size:12px; color:var(--muted)}
+
+    .toggle{
+      display:flex; align-items:center; gap:10px;
+      user-select:none;
+    }
+
+    .toggle input{
+      width: 18px; height: 18px;
+      padding:0;
+      border-radius: 6px;
+      accent-color: var(--accent);
+      box-shadow:none;
+    }
+
+    .actions{
+      margin-top:14px;
+      display:grid;
+      gap:10px;
+    }
+
     button{
       width:100%;
-      margin-top:14px;
       padding:12px 14px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,.18);
@@ -97,97 +149,277 @@
       color:#03101a;
       font-weight:800;
       cursor:pointer;
+      transition: filter .15s ease, transform .05s ease, opacity .15s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
     }
+
     button:hover{filter:brightness(1.05)}
+    button:active{ transform: translateY(1px); }
+    button:disabled{
+      opacity:.7;
+      cursor:not-allowed;
+      filter:saturate(.9);
+    }
+
+    /* GitHub button */
+    .ghBtn{
+      background: linear-gradient(135deg, var(--gh-bg), var(--gh-bg2));
+      color: var(--gh-text);
+      border: 1px solid var(--gh-stroke);
+      font-weight: 800;
+    }
+    .ghBtn:hover{ filter: brightness(1.08); }
+    .ghMark{
+      width:18px; height:18px;
+      display:inline-block;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
+    }
+
+    .divider{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin: 2px 0;
+      color: rgba(234,242,255,.55);
+      font-size: 12px;
+    }
+    .divider::before, .divider::after{
+      content:"";
+      height:1px;
+      flex:1;
+      background: rgba(255,255,255,.12);
+    }
+
+    .spinner{
+      width:16px; height:16px;
+      border-radius:999px;
+      border:2px solid rgba(3,16,26,.25);
+      border-top-color: rgba(3,16,26,.95);
+      display:none;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     .msg{
       margin-top:12px;
       font-size:13px;
       padding:10px 12px;
       border-radius:12px;
       display:none;
-      border:1px solid rgba(255,77,77,.35);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+    }
+    .msg.error{
+      display:block;
+      border-color: rgba(255,77,77,.35);
       background: rgba(255,77,77,.10);
       color: #ffd0d0;
     }
+    .msg.ok{
+      display:block;
+      border-color: rgba(69,212,131,.30);
+      background: rgba(69,212,131,.10);
+      color: #d8ffe9;
+    }
+
     .footer{
       margin-top:14px;
       font-size:11px;
       color: rgba(234,242,255,.55);
       text-align:center;
     }
+
+    .shake{
+      animation: shake .35s ease;
+    }
+    @keyframes shake{
+      0%,100%{ transform: translateX(0); }
+      20%{ transform: translateX(-6px); }
+      40%{ transform: translateX(6px); }
+      60%{ transform: translateX(-4px); }
+      80%{ transform: translateX(4px); }
+    }
+
+    .smallRow{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin-top:8px;
+      color: rgba(234,242,255,.62);
+      font-size:12px;
+    }
+
+    .smallRow label{
+      margin:0;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      color: rgba(234,242,255,.62);
+      cursor:pointer;
+    }
+
+    .smallRow input[type="checkbox"]{
+      width:16px; height:16px;
+      accent-color: var(--accent);
+    }
+
+    .lockInfo{
+      margin-top:8px;
+      font-size:12px;
+      color: rgba(234,242,255,.62);
+      display:none;
+    }
+
+    .srOnly{
+      position:absolute;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
   </style>
 </head>
+
 <body>
-  <main class="card">
-<div class="brand">
-  <div class="logoWrap">
-    <img src="Imagenes/image-removebg-preview.ico" alt="GP Graders">
-  </div>
-  <div>
+  <main class="card" id="card">
+    <div class="brand">
+      <div class="logoWrap">
+        <img src="Imagenes/image-removebg-preview.ico" alt="GP Graders">
+      </div>
+      <div>
         <h1>Acceso restringido</h1>
-        <p>Ingrese credenciales para visualizar el informe técnico.</p>
+        <p>Autentícate con GitHub para visualizar el informe técnico.</p>
       </div>
     </div>
 
-    <form id="loginForm" autocomplete="off">
+    <form id="loginForm" autocomplete="off" novalidate>
+      <!-- Botón principal: GitHub OAuth -->
+      <div class="actions" style="margin-top:6px;">
+        <button id="ghBtn" class="ghBtn" type="button">
+          <svg class="ghMark" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
+          </svg>
+          <span id="ghText">Continuar con GitHub</span>
+          <span class="spinner" id="ghSpin" aria-hidden="true"></span>
+        </button>
+
+        <div class="divider">o</div>
+      </div>
+
+      <!-- Formulario antiguo (opcional). Lo dejamos como “respaldo visual”, pero no autentica -->
       <div class="field">
         <label for="user">Usuario</label>
-        <input id="user" name="user" type="text" placeholder="admin" required />
+        <div class="inputWrap">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 12a4.2 4.2 0 1 0-4.2-4.2A4.2 4.2 0 0 0 12 12Z" stroke="rgba(234,242,255,.85)" stroke-width="1.6"/>
+            <path d="M4.5 20c1.7-3.2 4.3-5 7.5-5s5.8 1.8 7.5 5" stroke="rgba(234,242,255,.75)" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <input id="user" name="user" type="text" placeholder="admin" disabled />
+        </div>
       </div>
 
       <div class="field">
         <label for="pass">Contraseña</label>
-        <input id="pass" name="pass" type="password" placeholder="••••••••" required />
+        <div class="inputWrap">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7.5 11V8.8A4.5 4.5 0 0 1 12 4.3a4.5 4.5 0 0 1 4.5 4.5V11" stroke="rgba(234,242,255,.85)" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M7.2 11h9.6c.9 0 1.7.8 1.7 1.7v5.4c0 .9-.8 1.7-1.7 1.7H7.2c-.9 0-1.7-.8-1.7-1.7v-5.4c0-.9.8-1.7 1.7-1.7Z" stroke="rgba(234,242,255,.75)" stroke-width="1.6"/>
+          </svg>
+          <input id="pass" name="pass" type="password" placeholder="••••••••" disabled />
+        </div>
       </div>
 
-      <div class="row">
-        <span class="hint">Solo acceso autorizado.</span>
-        <label class="hint" style="display:flex;align-items:center;gap:8px;">
-          <input id="show" type="checkbox" style="width:auto;margin:0;" />
+      <div class="row" aria-hidden="true">
+        <span class="hint">Acceso mediante GitHub OAuth.</span>
+        <label class="toggle hint">
+          <input id="show" type="checkbox" disabled />
           Ver clave
         </label>
       </div>
 
-      <button type="submit">Ingresar</button>
-      <div id="msg" class="msg"></div>
+      <div class="smallRow">
+        <span class="hint" id="statusHint">Verificando sesión…</span>
+        <span id="caps" style="display:none;">Mayús activado</span>
+      </div>
+
+      <div id="lockInfo" class="lockInfo"></div>
+      <div id="msg" class="msg" aria-live="polite"></div>
     </form>
 
     <div class="footer">gpVision™ | Documentación interna</div>
   </main>
 
   <script>
-    // === Credenciales (cámbialas cuando quieras) ===
-    const ALLOWED_USER = "admin";
-    const ALLOWED_PASS = "1234";
+    // ========= CONFIG =========
+    const AUTH_BASE = "https://gpgraders-auth.donice426.workers.dev";
+    const NEXT_PATH = "/GPweb/menu.html"; // a dónde volver luego de autenticar
+    const MENU_URL  = "menu.html";        // archivo local en tu repo/pages
 
-    // Si ya inició sesión, manda directo al menú
-    if (sessionStorage.getItem("auth") === "ok") {
-      window.location.href = "menu.html";
+    // ========= UI refs =========
+    const msg = document.getElementById("msg");
+    const card = document.getElementById("card");
+    const ghBtn = document.getElementById("ghBtn");
+    const ghSpin = document.getElementById("ghSpin");
+    const ghText = document.getElementById("ghText");
+    const statusHint = document.getElementById("statusHint");
+
+    function setMessage(text, type){
+      msg.textContent = text;
+      msg.className = "msg " + (type || "");
+      msg.style.display = text ? "block" : "none";
     }
 
-    const form = document.getElementById("loginForm");
-    const msg  = document.getElementById("msg");
-    const show = document.getElementById("show");
-    const pass = document.getElementById("pass");
+    function shake(){
+      card.classList.remove("shake"); void card.offsetWidth; card.classList.add("shake");
+    }
 
-    show.addEventListener("change", () => {
-      pass.type = show.checked ? "text" : "password";
-    });
+    function setGhLoading(on){
+      ghBtn.disabled = on;
+      ghSpin.style.display = on ? "inline-block" : "none";
+      ghText.textContent = on ? "Conectando…" : "Continuar con GitHub";
+    }
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
+    async function checkSession(){
+      try{
+        const res = await fetch(`${AUTH_BASE}/api/me`, { credentials: "include" });
+        if (!res.ok) return null;
+        const data = await res.json();
+        return data && data.ok ? data.user : null;
+      }catch{
+        return null;
+      }
+    }
 
-      const user = document.getElementById("user").value.trim();
-      const pwd  = pass.value;
-
-      if (user === ALLOWED_USER && pwd === ALLOWED_PASS) {
-        sessionStorage.setItem("auth", "ok");
-        window.location.href = "menu.html";
+    // 1) Si ya hay sesión, entra directo
+    (async () => {
+      const user = await checkSession();
+      if (user){
+        setMessage(`Sesión activa como @${user.login}. Redirigiendo…`, "ok");
+        statusHint.textContent = `Conectado como @${user.login}`;
+        setTimeout(() => location.href = MENU_URL, 250);
         return;
       }
+      statusHint.textContent = "Sin sesión. Inicia con GitHub.";
+      setMessage("", "");
+    })();
 
-      msg.textContent = "Usuario o contraseña incorrectos.";
-      msg.style.display = "block";
+    // 2) Iniciar OAuth
+    ghBtn.addEventListener("click", () => {
+      setGhLoading(true);
+      setMessage("Abriendo GitHub para autenticar…", "ok");
+      const next = encodeURIComponent(NEXT_PATH);
+      window.location.href = `${AUTH_BASE}/auth/start?next=${next}`;
+    });
+
+    // 3) Si el worker está caído / mal config, muestra error
+    window.addEventListener("unhandledrejection", () => {
+      setMessage("No se pudo conectar al servicio de autenticación.", "error");
+      shake();
+      setGhLoading(false);
     });
   </script>
 </body>

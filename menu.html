@@ -478,6 +478,15 @@
 
 <body>
 
+<script>
+(async () => {
+  const res = await fetch("https://gpgraders-auth.donice426.workers.dev/api/me", { credentials: "include" });
+  if (!res.ok) location.href = "login.html";
+})();
+</script>
+
+
+
   <script>
     // Protección simple: si no hay sesión, vuelve a login
     if (sessionStorage.getItem("auth") !== "ok") {
