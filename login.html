@@ -86,54 +86,6 @@
 
     form{ position:relative; }
 
-    .field{margin-top:14px}
-    label{display:block; font-size:12px; color:var(--muted); margin:0 0 6px}
-
-    .inputWrap{ position:relative; }
-    .icon{
-      position:absolute; left:12px; top:50%;
-      transform:translateY(-50%);
-      width:18px; height:18px;
-      opacity:.9;
-      pointer-events:none;
-      filter: drop-shadow(0 6px 10px rgba(0,0,0,.25));
-    }
-
-    input{
-      width:100%;
-      background: rgba(0,0,0,.25);
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:12px;
-      padding:12px 12px 12px 40px;
-      color:var(--text);
-      outline:none;
-      transition: border-color .15s ease, box-shadow .15s ease, transform .05s ease;
-    }
-
-    input:focus{
-      border-color: rgba(42,167,255,.6);
-      box-shadow: var(--focus);
-    }
-
-    .row{
-      display:flex; gap:10px; align-items:center; justify-content:space-between;
-      margin-top:10px;
-    }
-    .hint{font-size:12px; color:var(--muted)}
-
-    .toggle{
-      display:flex; align-items:center; gap:10px;
-      user-select:none;
-    }
-
-    .toggle input{
-      width: 18px; height: 18px;
-      padding:0;
-      border-radius: 6px;
-      accent-color: var(--accent);
-      box-shadow:none;
-    }
-
     .actions{
       margin-top:14px;
       display:grid;
@@ -196,8 +148,8 @@
     .spinner{
       width:16px; height:16px;
       border-radius:999px;
-      border:2px solid rgba(3,16,26,.25);
-      border-top-color: rgba(3,16,26,.95);
+      border:2px solid rgba(234,242,255,.18);
+      border-top-color: rgba(234,242,255,.85);
       display:none;
       animation: spin .8s linear infinite;
     }
@@ -252,28 +204,6 @@
       font-size:12px;
     }
 
-    .smallRow label{
-      margin:0;
-      display:flex;
-      align-items:center;
-      gap:8px;
-      font-size:12px;
-      color: rgba(234,242,255,.62);
-      cursor:pointer;
-    }
-
-    .smallRow input[type="checkbox"]{
-      width:16px; height:16px;
-      accent-color: var(--accent);
-    }
-
-    .lockInfo{
-      margin-top:8px;
-      font-size:12px;
-      color: rgba(234,242,255,.62);
-      display:none;
-    }
-
     .srOnly{
       position:absolute;
       width:1px;height:1px;
@@ -297,7 +227,6 @@
     </div>
 
     <form id="loginForm" autocomplete="off" novalidate>
-      <!-- Botón principal: GitHub OAuth -->
       <div class="actions" style="margin-top:6px;">
         <button id="ghBtn" class="ghBtn" type="button">
           <svg class="ghMark" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor">
@@ -307,46 +236,14 @@
           <span class="spinner" id="ghSpin" aria-hidden="true"></span>
         </button>
 
-        <div class="divider">o</div>
-      </div>
-
-      <!-- Formulario antiguo (opcional). Lo dejamos como “respaldo visual”, pero no autentica -->
-      <div class="field">
-        <label for="user">Usuario</label>
-        <div class="inputWrap">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 12a4.2 4.2 0 1 0-4.2-4.2A4.2 4.2 0 0 0 12 12Z" stroke="rgba(234,242,255,.85)" stroke-width="1.6"/>
-            <path d="M4.5 20c1.7-3.2 4.3-5 7.5-5s5.8 1.8 7.5 5" stroke="rgba(234,242,255,.75)" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
-          <input id="user" name="user" type="text" placeholder="admin" disabled />
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="pass">Contraseña</label>
-        <div class="inputWrap">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M7.5 11V8.8A4.5 4.5 0 0 1 12 4.3a4.5 4.5 0 0 1 4.5 4.5V11" stroke="rgba(234,242,255,.85)" stroke-width="1.6" stroke-linecap="round"/>
-            <path d="M7.2 11h9.6c.9 0 1.7.8 1.7 1.7v5.4c0 .9-.8 1.7-1.7 1.7H7.2c-.9 0-1.7-.8-1.7-1.7v-5.4c0-.9.8-1.7 1.7-1.7Z" stroke="rgba(234,242,255,.75)" stroke-width="1.6"/>
-          </svg>
-          <input id="pass" name="pass" type="password" placeholder="••••••••" disabled />
-        </div>
-      </div>
-
-      <div class="row" aria-hidden="true">
-        <span class="hint">Acceso mediante GitHub OAuth.</span>
-        <label class="toggle hint">
-          <input id="show" type="checkbox" disabled />
-          Ver clave
-        </label>
+        <div class="divider">Acceso mediante GitHub OAuth</div>
       </div>
 
       <div class="smallRow">
         <span class="hint" id="statusHint">Verificando sesión…</span>
-        <span id="caps" style="display:none;">Mayús activado</span>
+        <span class="srOnly" id="a11yStatus" aria-live="polite"></span>
       </div>
 
-      <div id="lockInfo" class="lockInfo"></div>
       <div id="msg" class="msg" aria-live="polite"></div>
     </form>
 
@@ -356,21 +253,23 @@
   <script>
     // ========= CONFIG =========
     const AUTH_BASE = "https://gpgraders-auth.donice426.workers.dev";
-    const NEXT_PATH = "/GPweb/menu.html"; // a dónde volver luego de autenticar
-    const MENU_URL  = "menu.html";        // archivo local en tu repo/pages
+    const NEXT_PATH = "/GPweb/menu.html"; // ruta en GitHub Pages a la que volver
+    const MENU_URL  = "menu.html";        // archivo local (relativo) dentro de /GPweb/
 
-    // ========= UI refs =========
+    // ========= UI =========
     const msg = document.getElementById("msg");
     const card = document.getElementById("card");
     const ghBtn = document.getElementById("ghBtn");
     const ghSpin = document.getElementById("ghSpin");
     const ghText = document.getElementById("ghText");
     const statusHint = document.getElementById("statusHint");
+    const a11yStatus = document.getElementById("a11yStatus");
 
     function setMessage(text, type){
       msg.textContent = text;
       msg.className = "msg " + (type || "");
       msg.style.display = text ? "block" : "none";
+      a11yStatus.textContent = text || "";
     }
 
     function shake(){
@@ -378,7 +277,7 @@
     }
 
     function setGhLoading(on){
-      ghBtn.disabled = on;
+      // IMPORTANTE: no deshabilitamos antes de navegar para evitar bloqueos de algunos browsers
       ghSpin.style.display = on ? "inline-block" : "none";
       ghText.textContent = on ? "Conectando…" : "Continuar con GitHub";
     }
@@ -407,12 +306,23 @@
       setMessage("", "");
     })();
 
-    // 2) Iniciar OAuth
+    // 2) Iniciar OAuth (NAVEGACIÓN DIRECTA)
     ghBtn.addEventListener("click", () => {
       setGhLoading(true);
       setMessage("Abriendo GitHub para autenticar…", "ok");
+
       const next = encodeURIComponent(NEXT_PATH);
-      window.location.href = `${AUTH_BASE}/auth/start?next=${next}`;
+      const startUrl = `${AUTH_BASE}/auth/start?next=${next}`;
+
+      // Navegación directa y confiable
+      location.assign(startUrl);
+    });
+
+    // 3) Si algo falla
+    window.addEventListener("error", () => {
+      setMessage("Ocurrió un error en la página de login.", "error");
+      shake();
+      setGhLoading(false);
     });
 
     window.addEventListener("unhandledrejection", () => {
