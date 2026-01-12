@@ -415,7 +415,6 @@
       window.location.href = `${AUTH_BASE}/auth/start?next=${next}`;
     });
 
-    // 3) Si el worker está caído / mal config, muestra error
     window.addEventListener("unhandledrejection", () => {
       setMessage("No se pudo conectar al servicio de autenticación.", "error");
       shake();
