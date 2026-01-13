@@ -8,14 +8,16 @@
   <style>
     :root{
       --bg:#0b1624;
-      --panel:#0f223a;
       --card: rgba(255,255,255,.06);
       --stroke: rgba(255,255,255,.14);
       --text:#e6edf5;
       --muted: rgba(230,237,245,.75);
       --accent:#4da3ff;
+      --accent2:#38d4ff;
       --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --shadow2: 0 22px 70px rgba(0,0,0,.50);
       --r:16px;
+      --r20:20px;
     }
     *{ box-sizing:border-box; }
 
@@ -25,7 +27,7 @@
       background:
         radial-gradient(900px 500px at 15% 10%, rgba(77,163,255,.18), transparent 60%),
         radial-gradient(700px 450px at 90% 85%, rgba(77,163,255,.10), transparent 55%),
-        var(--bg);
+        linear-gradient(135deg, #070e18, #0f1e33);
       color:var(--text);
       min-height:100vh;
       display:flex;
@@ -39,9 +41,9 @@
       inset:-40px;
       pointer-events:none;
       background:
-        radial-gradient(520px 320px at 15% 15%, rgba(77,163,255,.16), transparent 60%),
-        radial-gradient(520px 320px at 85% 80%, rgba(77,163,255,.10), transparent 62%);
-      opacity:.9;
+        radial-gradient(520px 320px at 18% 18%, rgba(77,163,255,.14), transparent 62%),
+        radial-gradient(520px 320px at 85% 82%, rgba(56,212,255,.10), transparent 64%);
+      opacity:.95;
       animation: bgFloat 10s ease-in-out infinite alternate;
       z-index:0;
     }
@@ -57,7 +59,7 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 16px;
+      gap: 14px;
       padding: 14px 18px;
       background: rgba(15,34,58,.92);
       border-bottom: 1px solid rgba(255,255,255,.10);
@@ -72,9 +74,8 @@
       display:flex;
       align-items:center;
       gap: 10px;
-      min-width: 160px;
+      min-width: 180px;
     }
-
     .logoWrap{
       width: 38px;
       height: 38px;
@@ -167,33 +168,56 @@
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.18);
       min-width: 0;
+      position: relative;
+      overflow:hidden;
     }
-    .userBadge img{
-      width: 26px; height: 26px;
+    .userBadge::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(420px 160px at 12% 0%, rgba(77,163,255,.14), transparent 62%);
+      opacity:.85;
+      pointer-events:none;
+    }
+    .avatar{
+      width: 28px; height: 28px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,.18);
-      object-fit: cover;
+      background:
+        radial-gradient(18px 18px at 30% 30%, rgba(77,163,255,.35), rgba(0,0,0,.15)),
+        rgba(255,255,255,.06);
+      display:grid;
+      place-items:center;
+      font-size: 12px;
+      font-weight: 900;
+      color: rgba(234,242,255,.92);
+      box-shadow: 0 10px 22px rgba(0,0,0,.25);
+      flex:0 0 auto;
+      position:relative;
+      z-index:1;
     }
-    .userBadge .uTxt{
+    .uTxt{
       display:flex;
       flex-direction:column;
       line-height:1.05;
       min-width: 0;
+      position:relative;
+      z-index:1;
     }
-    .userBadge .uTxt b{
+    .uTxt b{
       font-size: 12px;
       white-space: nowrap;
       overflow:hidden;
       text-overflow: ellipsis;
       max-width: 140px;
     }
-    .userBadge .uTxt span{
+    .uTxt span{
       font-size: 11px;
       color: rgba(230,237,245,.72);
       white-space: nowrap;
       overflow:hidden;
       text-overflow: ellipsis;
-      max-width: 140px;
+      max-width: 160px;
     }
 
     .btn{
@@ -208,12 +232,13 @@
       will-change: transform;
       position: relative;
       overflow:hidden;
+      white-space: nowrap;
     }
     .btn::after{
       content:"";
       position:absolute;
       inset:0;
-      background: radial-gradient(400px 120px at 10% 10%, rgba(77,163,255,.18), transparent 65%);
+      background: radial-gradient(420px 140px at 10% 10%, rgba(77,163,255,.18), transparent 65%);
       opacity:0;
       transition: opacity .2s ease;
       pointer-events:none;
@@ -222,149 +247,10 @@
       border-color: rgba(77,163,255,.55);
       transform: translateY(-1px);
       box-shadow: 0 12px 30px rgba(0,0,0,.28);
+      background: rgba(0,0,0,.14);
     }
     .btn:hover::after{ opacity:1; }
     .btn:active{ transform: translateY(0px) scale(.99); }
-
-    main{
-      width: min(980px, 100%);
-      margin: 26px auto;
-      padding: 0 18px 18px;
-      flex: 1;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero{
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: var(--r);
-      padding: 18px;
-      box-shadow: var(--shadow);
-      transform: translateY(10px);
-      opacity:0;
-      transition: transform .5s ease, opacity .5s ease;
-    }
-    .hero.reveal{ transform: translateY(0); opacity:1; }
-
-    .hero h2{ margin: 0 0 10px; font-size: 22px; letter-spacing: .2px; }
-    .hero p{
-      margin: 0 0 10px;
-      color: var(--muted);
-      line-height: 1.55;
-      font-size: 14px;
-    }
-
-    .chips{
-      display:flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-    .chip{
-      font-size: 12px;
-      color: var(--muted);
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
-      padding: 7px 10px;
-      border-radius: 999px;
-      white-space: nowrap;
-      transition: transform .15s ease, border-color .15s ease;
-    }
-    .chip:hover{ transform: translateY(-1px); border-color: rgba(77,163,255,.35); }
-
-    .grid{
-      margin-top: 14px;
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-    }
-
-    .card{
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: var(--r);
-      padding: 14px;
-      box-shadow: var(--shadow);
-      text-decoration:none;
-      color: inherit;
-      display:block;
-      position: relative;
-      overflow:hidden;
-
-      transform: translateY(10px);
-      opacity:0;
-      transition:
-        transform .5s ease,
-        opacity .5s ease,
-        border-color .15s ease,
-        box-shadow .15s ease,
-        background .15s ease;
-    }
-    .card.reveal{ transform: translateY(0); opacity:1; }
-
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:-1px;
-      border-radius: var(--r);
-      background: radial-gradient(500px 240px at 20% 10%, rgba(77,163,255,.12), transparent 60%);
-      opacity:0;
-      transition: opacity .18s ease;
-      pointer-events:none;
-    }
-
-    .card:hover{
-      border-color: rgba(77,163,255,.55);
-      transform: translateY(-2px);
-      box-shadow: 0 22px 70px rgba(0,0,0,.45);
-      background: rgba(255,255,255,.07);
-    }
-    .card:hover::before{ opacity:1; }
-    .card:active{ transform: translateY(-1px) scale(.995); }
-
-    .card .k{ color: var(--muted); font-size: 12px; }
-    .card .v{
-      margin-top: 6px;
-      font-weight: 900;
-      font-size: 15px;
-      letter-spacing: .2px;
-      display:flex;
-      align-items:center;
-      gap: 8px;
-    }
-    .card .v::after{
-      content:"";
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: rgba(77,163,255,.85);
-      box-shadow: 0 0 0 6px rgba(77,163,255,.12);
-      opacity:.85;
-      margin-left:auto;
-    }
-    .card .d{
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    footer{
-      text-align:center;
-      padding: 16px 18px 22px;
-      color: rgba(230,237,245,.55);
-      font-size: 12px;
-      position: relative;
-      z-index: 1;
-    }
-
-    @media (max-width: 720px){
-      .brand{min-width:auto}
-      .actions{min-width:auto}
-      .hero h2{font-size: 20px}
-      .userBadge .uTxt b, .userBadge .uTxt span{ max-width: 120px; }
-    }
 
     .menuBtn{
       display:none;
@@ -401,7 +287,7 @@
       top: 12px;
       right: 12px;
       left: 12px;
-      max-width: 520px;
+      max-width: 540px;
       margin-left: auto;
       background: rgba(15,34,58,.96);
       border: 1px solid rgba(255,255,255,.14);
@@ -448,9 +334,146 @@
       transform: translateY(-1px);
     }
 
-    @media (max-width: 860px){
+    @media (max-width: 920px){
       .tabs{ display:none; }
       .menuBtn{ display:inline-flex; align-items:center; justify-content:center; }
+      .actions{ min-width: auto; }
+    }
+
+    main{
+      width: min(1040px, 100%);
+      margin: 26px auto;
+      padding: 0 18px 18px;
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      transform: translateY(10px);
+      opacity:0;
+      transition: transform .55s ease, opacity .55s ease;
+      position: relative;
+      overflow:hidden;
+    }
+    .hero.reveal{ transform: translateY(0); opacity:1; }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius: inherit;
+      background: radial-gradient(700px 260px at 12% 0%, rgba(77,163,255,.12), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+    }
+
+    .hero h2{
+      margin: 0 0 10px;
+      font-size: 22px;
+      letter-spacing: .2px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero p{
+      margin: 0 0 10px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+      text-decoration:none;
+      color: inherit;
+      display:block;
+      position: relative;
+      overflow:hidden;
+
+      transform: translateY(10px);
+      opacity:0;
+      transition:
+        transform .55s ease,
+        opacity .55s ease,
+        border-color .15s ease,
+        box-shadow .15s ease,
+        background .15s ease;
+      will-change: transform;
+    }
+    .card.reveal{ transform: translateY(0); opacity:1; }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius: inherit;
+      background: radial-gradient(520px 220px at 10% 0%, rgba(77,163,255,.10), transparent 60%);
+      opacity:0;
+      transition: opacity .18s ease;
+      pointer-events:none;
+    }
+
+    .card:hover{
+      border-color: rgba(77,163,255,.55);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow2);
+      background: rgba(255,255,255,.07);
+    }
+    .card:hover::before{ opacity:1; }
+    .card:active{ transform: translateY(-1px) scale(.995); }
+
+    .k{ color: var(--muted); font-size: 12px; }
+    .v{
+      margin-top: 6px;
+      font-weight: 900;
+      font-size: 15px;
+      letter-spacing: .2px;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+    }
+    .v::after{
+      content:"";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(77,163,255,.85);
+      box-shadow: 0 0 0 6px rgba(77,163,255,.12);
+      opacity:.85;
+      margin-left:auto;
+    }
+    .d{
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    footer{
+      text-align:center;
+      padding: 16px 18px 22px;
+      color: rgba(230,237,245,.55);
+      font-size: 12px;
+      position: relative;
+      z-index: 1;
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -463,6 +486,13 @@
 
 <body>
 
+  <!-- ✅ GUARD SIMULADO: mismo sistema que el login -->
+  <script>
+    if (sessionStorage.getItem("gp_session") !== "1") {
+      location.href = "login.html";
+    }
+  </script>
+
   <header class="topbar">
     <div class="brand">
       <div class="logoWrap">
@@ -470,171 +500,142 @@
       </div>
       <div>
         <h1>Informe gpVision™</h1>
-        <p>Menú · navegación por módulos</p>
+        <p>Menú · documentación técnica</p>
       </div>
     </div>
 
-    <button class="menuBtn" id="menuBtn" type="button" aria-label="Abrir menú" aria-expanded="false">
-      ☰
-    </button>
+    <button class="menuBtn" id="menuBtn" type="button" aria-label="Abrir menú" aria-expanded="false">☰</button>
 
     <nav class="tabs" aria-label="Navegación principal">
       <a class="tab active" href="menu.html">Menú</a>
-      <a class="tab" href="sistema-gpvision.html">GpVision</a>
+      <a class="tab" href="sistema-gpvision.html">gpVision</a>
       <a class="tab" href="simple-gui.html">Simple GUI</a>
-      <a class="tab" href="software.html">Software general</a>
-      <a class="tab" href="hardware.html">Hardware general</a>
+      <a class="tab" href="software.html">Software</a>
+      <a class="tab" href="hardware.html">Hardware</a>
       <a class="tab" href="mecanica.html">Mecánica</a>
-      <a class="tab" href="correccion-errores.html">Corrección de errores</a>
+      <a class="tab" href="correccion-errores.html">Corrección</a>
       <a class="tab" href="defectos.html">Defectos</a>
     </nav>
 
-    <div class="mobileNav" id="mobileNav" aria-hidden="true">
-      <div class="mobileNavPanel" role="dialog" aria-label="Menú de navegación">
-        <div class="mobileNavHead">
-          <div>
-            <div class="mobileTitle">Informe gpVision™</div>
-            <div class="mobileSub">Navegación</div>
-          </div>
-          <button class="btn" id="closeNavBtn" type="button">✕</button>
-        </div>
-
-        <div class="mobileNavLinks">
-          <a class="mLink" href="menu.html">Menú</a>
-          <a class="mLink" href="sistema-gpvision.html">GpVision</a>
-          <a class="mLink" href="simple-gui.html">Simple GUI</a>
-          <a class="mLink" href="software.html">Software general</a>
-          <a class="mLink" href="hardware.html">Hardware general</a>
-          <a class="mLink" href="mecanica.html">Mecánica</a>
-          <a class="mLink" href="correccion-errores.html">Corrección de errores</a>
-          <a class="mLink" href="defectos.html">Defectos</a>
-        </div>
-      </div>
-    </div>
-
     <div class="actions">
       <div class="userBadge" id="userBadge" style="display:none;">
-        <img id="userAvatar" alt="avatar" />
+        <div class="avatar" id="userAvatar">U</div>
         <div class="uTxt">
           <b id="userName">Usuario</b>
-          <span id="userLogin">@login</span>
+          <span id="userRole">Sesión activa</span>
         </div>
       </div>
       <button class="btn" id="logoutBtn" type="button">Cerrar sesión</button>
     </div>
   </header>
 
+  <!-- Mobile Nav -->
+  <div class="mobileNav" id="mobileNav" aria-hidden="true">
+    <div class="mobileNavPanel" role="dialog" aria-label="Menú de navegación">
+      <div class="mobileNavHead">
+        <div>
+          <div class="mobileTitle">Informe gpVision™</div>
+          <div class="mobileSub">Navegación</div>
+        </div>
+        <button class="btn" id="closeNavBtn" type="button">✕</button>
+      </div>
+
+      <div class="mobileNavLinks">
+        <a class="mLink" href="menu.html">Menú</a>
+        <a class="mLink" href="sistema-gpvision.html">gpVision</a>
+        <a class="mLink" href="simple-gui.html">Simple GUI</a>
+        <a class="mLink" href="software.html">Software</a>
+        <a class="mLink" href="hardware.html">Hardware</a>
+        <a class="mLink" href="mecanica.html">Mecánica</a>
+        <a class="mLink" href="correccion-errores.html">Corrección de errores</a>
+        <a class="mLink" href="defectos.html">Defectos</a>
+      </div>
+    </div>
+  </div>
+
   <main>
     <section class="hero">
-      <h2>Plataforma de Clasificación GP Graders gpVision™</h2>
+      <h2>¿De qué trata esta web?</h2>
       <p>
-        Este sitio reúne el informe técnico de la plataforma <strong>gpVision™</strong>, orientado a documentar
-        arquitectura, operación, configuración de software, componentes de hardware, sistema mecánico y corrección
-        de errores asociados a la clasificación por visión artificial.
+        Esta web organiza la documentación técnica de <b>gpVision™</b>: arquitectura del sistema, operación desde la interfaz,
+        configuración (clases/defectos), componentes de hardware/mecánica y una guía práctica de corrección de fallas.
       </p>
       <p>
-        Utiliza las pestañas superiores para acceder a cada interfaz del informe. El objetivo es mantener secciones
-        claras y separadas para facilitar lectura, auditoría técnica y análisis por herramientas basadas en IA.
+        Usa el menú para navegar por módulos. La idea es que el equipo encuentre rápido lo que necesita para operar, diagnosticar
+        o ajustar el sistema sin mezclar temas.
       </p>
-
-      <div class="chips">
-        <span class="chip">MultiView™ (Color + NIR)</span>
-        <span class="chip">Cliente-Servidor</span>
-        <span class="chip">Vision Units · RTUnits</span>
-        <span class="chip">Clasificación por clases y defectos</span>
-        <span class="chip">Diagnóstico y logs</span>
-      </div>
     </section>
 
     <section class="grid" aria-label="Accesos rápidos">
       <a class="card" href="sistema-gpvision.html">
         <div class="k">Sección</div>
-        <div class="v">GpVision</div>
-        <div class="d">Visión general del sistema, arquitectura, flujo y componentes principales.</div>
+        <div class="v">gpVision</div>
+        <div class="d">Visión general del sistema, arquitectura y componentes.</div>
       </a>
 
       <a class="card" href="simple-gui.html">
         <div class="k">Sección</div>
         <div class="v">Simple GUI</div>
-        <div class="d">Pantallas de operación diaria: clases, defectos, salidas y monitoreo.</div>
+        <div class="d">Operación diaria: clases, defectos, salidas y monitoreo.</div>
       </a>
 
       <a class="card" href="software.html">
         <div class="k">Sección</div>
-        <div class="v">Software general</div>
-        <div class="d">Configuraciones, estadísticas, espectros, logs, errores y herramientas de soporte.</div>
+        <div class="v">Software</div>
+        <div class="d">Configuraciones, diagnóstico, logs y herramientas de soporte.</div>
       </a>
 
       <a class="card" href="hardware.html">
         <div class="k">Sección</div>
-        <div class="v">Hardware general</div>
-        <div class="d">Rack, PC industrial, red, RTUnits, tableros y componentes asociados.</div>
+        <div class="v">Hardware</div>
+        <div class="d">Rack, red, unidades y componentes críticos.</div>
       </a>
 
       <a class="card" href="mecanica.html">
         <div class="k">Sección</div>
         <div class="v">Mecánica</div>
-        <div class="d">Transporte por rollers, guías, motor/reductor y elementos de estabilización.</div>
+        <div class="d">Rollers, guías, motor/reductor, salidas y ajustes físicos.</div>
       </a>
 
       <a class="card" href="correccion-errores.html">
         <div class="k">Sección</div>
         <div class="v">Corrección de errores</div>
-        <div class="d">Fallas típicas (segmentación, sincronización, comunicación) y acciones de corrección.</div>
+        <div class="d">Fallas típicas y acciones para restaurar operación estable.</div>
       </a>
 
       <a class="card" href="defectos.html">
         <div class="k">Sección</div>
         <div class="v">Defectos</div>
-        <div class="d">Catálogo de defectos de cereza: definición, criterios visuales y ejemplos MultiView™.</div>
+        <div class="d">Catálogo visual y criterios de configuración.</div>
       </a>
     </section>
   </main>
 
-  <footer>
-    GP Graders · gpVision™ · Documentación técnica
-  </footer>
+  <footer>GP Graders · gpVision™ · Documentación técnica</footer>
 
   <script>
-    const AUTH_BASE = "https://gpgraders-auth.donice426.workers.dev";
+    // pinta usuario desde sessionStorage (SIN correo)
+    (function(){
+      const raw = sessionStorage.getItem("gp_user");
+      if(!raw) return;
 
-    function redirectToLogin() {
-      const next = location.pathname; // vuelve a esta página
-      location.href = `login.html?next=${encodeURIComponent(next)}`;
-    }
-
-    async function requireAuthAndPaintUser(){
       try{
-        const res = await fetch(`${AUTH_BASE}/api/me`, { credentials: "include" });
-        if(!res.ok) return redirectToLogin();
+        const u = JSON.parse(raw);
+        const uname = (u.user || "Usuario").trim();
 
-        const data = await res.json().catch(()=>null);
-        if(!data || !data.ok || !data.user) return redirectToLogin();
+        document.getElementById("userName").textContent = uname;
+        document.getElementById("userRole").textContent = "Sesión activa";
 
-        // pinta usuario
-        const badge = document.getElementById("userBadge");
-        const avatar = document.getElementById("userAvatar");
-        const name = document.getElementById("userName");
-        const login = document.getElementById("userLogin");
+        const letter = uname ? uname[0].toUpperCase() : "U";
+        document.getElementById("userAvatar").textContent = letter;
 
-        const u = data.user;
-        avatar.src = u.avatar_url || "";
-        name.textContent = u.name ? u.name : "GitHub";
-        login.textContent = u.login ? `@${u.login}` : "@usuario";
-        badge.style.display = "flex";
-      }catch{
-        redirectToLogin();
-      }
-    }
-
-    // bloquea la vista hasta validar sesión
-    requireAuthAndPaintUser();
-
-    document.getElementById("logoutBtn").addEventListener("click", async () => {
-      try{
-        await fetch(`${AUTH_BASE}/auth/logout`, { method: "POST", credentials: "include" });
+        document.getElementById("userBadge").style.display = "flex";
       }catch{}
-      redirectToLogin();
+    })();
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      sessionStorage.clear();
+      location.href = "login.html";
     });
 
     // Mobile nav
@@ -676,7 +677,7 @@
             io.unobserve(e.target);
           }
         });
-      }, { threshold: 0.15 });
+      }, { threshold: 0.14 });
 
       targets.forEach((el, i)=>{
         if(el.classList.contains("card")){

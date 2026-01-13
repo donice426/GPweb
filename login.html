@@ -4,209 +4,391 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark" />
-  <title>Acceso | Informe gpVision™</title>
+  <title>Login | GPweb</title>
 
   <style>
     :root{
-      --bg1:#081726; --bg2:#0b2a44;
+      --bg1:#070f1a;
+      --bg2:#0a2340;
       --card: rgba(255,255,255,.06);
       --stroke: rgba(255,255,255,.14);
-      --text:#eaf2ff; --muted: rgba(234,242,255,.75);
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
-      --r:16px;
-
-      --gh-bg: rgba(255,255,255,.06);
-      --gh-bg2: rgba(0,0,0,.18);
-      --gh-stroke: rgba(255,255,255,.18);
-      --gh-text: rgba(234,242,255,.92);
+      --text:#eaf2ff;
+      --muted: rgba(234,242,255,.72);
+      --accent:#4da3ff;
+      --good:#45d483;
+      --bad:#ff4d4d;
+      --shadow: 0 30px 90px rgba(0,0,0,.55);
+      --r:18px;
     }
 
-    *{box-sizing:border-box}
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+
     body{
-      margin:0; min-height:100vh; display:grid; place-items:center;
+      margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--text);
       background:
-        radial-gradient(900px 500px at 15% 15%, rgba(42,167,255,.18), transparent 60%),
-        radial-gradient(800px 400px at 85% 85%, rgba(42,167,255,.12), transparent 55%),
+        radial-gradient(900px 500px at 15% 15%, rgba(77,163,255,.22), transparent 60%),
+        radial-gradient(900px 550px at 90% 80%, rgba(69,212,131,.10), transparent 60%),
         linear-gradient(135deg, var(--bg1), var(--bg2));
+      display:grid;
+      place-items:center;
       padding:24px;
-    }
-
-    .card{
-      width:min(430px, 100%);
-      background:var(--card);
-      border:1px solid var(--stroke);
-      border-radius:calc(var(--r) + 2px);
-      box-shadow:var(--shadow);
-      padding:22px;
-      backdrop-filter: blur(10px);
-      position:relative;
       overflow:hidden;
     }
 
+    .bgGlow{
+      position:fixed;
+      inset:-60px;
+      pointer-events:none;
+      background:
+        radial-gradient(600px 260px at 20% 10%, rgba(77,163,255,.18), transparent 60%),
+        radial-gradient(520px 280px at 80% 80%, rgba(77,163,255,.12), transparent 62%);
+      animation: floaty 10s ease-in-out infinite alternate;
+    }
+    @keyframes floaty{
+      from{ transform: translate(-10px,-8px); }
+      to{ transform: translate(10px,10px); }
+    }
+
+    /* ===== card ===== */
+    .card{
+      width: min(460px, 100%);
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      padding: 26px;
+      position:relative;
+      z-index:1;
+      overflow:hidden;
+    }
     .card::before{
       content:"";
-      position:absolute; inset:-40% -30% auto -30%;
-      height:220px;
-      background: radial-gradient(closest-side, rgba(42,167,255,.18), transparent 70%);
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(520px 220px at 18% 12%, rgba(77,163,255,.18), transparent 62%),
+        radial-gradient(520px 220px at 85% 88%, rgba(56,212,255,.12), transparent 64%);
+      opacity:.9;
       pointer-events:none;
+      animation: drift 9s ease-in-out infinite alternate;
+    }
+    @keyframes drift{
+      from{ transform: translate(-8px,-6px) scale(1); }
+      to{ transform: translate(10px,9px) scale(1.03); }
     }
 
-    .brand{
-      display:flex; align-items:center; gap:12px; margin-bottom:16px;
-      position:relative;
-    }
+    .card > *{ position:relative; z-index:1; }
 
-    .logoWrap{
-      width: 42px; height: 42px; border-radius: 14px;
-      display:flex; align-items:center; justify-content:center;
-      background: rgba(0,0,0,.18);
-      border: 1px solid rgba(255,255,255,.18);
-      box-shadow: 0 10px 22px rgba(0,0,0,.25);
-      overflow: hidden;
+    .logoRow{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom: 10px;
+    }
+    .logo{
+      width:52px;
+      height:52px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
       flex: 0 0 auto;
     }
-    .logoWrap img{ max-width:100%; max-height:100%; object-fit:contain; }
-
-    h1{font-size:18px; margin:0; letter-spacing:.2px}
-    p{margin:4px 0 0; color:var(--muted); font-size:13px; line-height:1.35}
-
-    .actions{ margin-top:12px; display:grid; gap:10px; }
-
-    .ghLink{
+    .logo img{
       width:100%;
-      padding:12px 14px;
-      border-radius:12px;
-      border: 1px solid var(--gh-stroke);
-      background: linear-gradient(135deg, var(--gh-bg), var(--gh-bg2));
-      color: var(--gh-text);
-      font-weight: 800;
-      cursor:pointer;
+      height:100%;
+      object-fit:contain;
+    }
+
+    h1{
+      margin:0;
+      font-size:16px;
+      letter-spacing:.2px;
+    }
+    p.sub{
+      margin:4px 0 0;
+      font-size:12px;
+      color: var(--muted);
+      line-height:1.4;
+    }
+
+    .kicker{
+      margin-top: 14px;
       display:inline-flex;
       align-items:center;
-      justify-content:center;
       gap:10px;
-      text-decoration:none;
-      transition: filter .15s ease, transform .05s ease;
+      font-size:12px;
+      color: rgba(234,242,255,.80);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      padding: 7px 10px;
+      border-radius: 999px;
     }
-    .ghLink:hover{ filter: brightness(1.08); }
-    .ghLink:active{ transform: translateY(1px); }
-
-    .ghMark{
-      width:18px; height:18px;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,.25));
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: linear-gradient(180deg, var(--accent), rgba(56,212,255,1));
+      box-shadow: 0 0 0 7px rgba(77,163,255,.12);
+      animation: pulse 1.9s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ transform: scale(1); box-shadow:0 0 0 7px rgba(77,163,255,.12); }
+      50%{ transform: scale(1.08); box-shadow:0 0 0 11px rgba(77,163,255,.10); }
     }
 
     .msg{
-      margin-top:12px;
-      font-size:13px;
+      display:none;
+      margin: 12px 0 12px;
       padding:10px 12px;
       border-radius:12px;
-      display:none;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
+      font-size:13px;
     }
-    .msg.error{
+    .msg.bad{
       display:block;
-      border-color: rgba(255,77,77,.35);
-      background: rgba(255,77,77,.10);
-      color: #ffd0d0;
+      background: rgba(255,77,77,.12);
+      border:1px solid rgba(255,77,77,.35);
+      color:#ffd0d0;
     }
     .msg.ok{
       display:block;
-      border-color: rgba(69,212,131,.30);
-      background: rgba(69,212,131,.10);
-      color: #d8ffe9;
+      background: rgba(69,212,131,.12);
+      border:1px solid rgba(69,212,131,.35);
+      color:#d8ffe9;
     }
 
-    .smallRow{
-      display:flex; justify-content:space-between; gap:10px;
-      margin-top:8px; color: rgba(234,242,255,.62); font-size:12px;
+    .field{ margin-bottom:12px; }
+    label{
+      display:block;
+      font-size:12px;
+      margin-bottom:6px;
+      color:rgba(234,242,255,.75);
+    }
+    input{
+      width:100%;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      color:var(--text);
+      font-size:14px;
+      outline:none;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+    }
+    input:focus{
+      border-color: var(--accent);
+      box-shadow: 0 0 0 6px rgba(77,163,255,.15);
+      transform: translateY(-1px);
     }
 
-    .footer{
-      margin-top:14px;
+    .pwRow{ position:relative; }
+    .toggle{
+      position:absolute;
+      right:8px;
+      top:50%;
+      transform: translateY(-50%);
+      background:none;
+      border:none;
+      color:rgba(234,242,255,.8);
+      cursor:pointer;
+      font-size:16px;
+      padding:6px 8px;
+      border-radius:10px;
+      transition: background .15s ease;
+    }
+    .toggle:hover{ background: rgba(255,255,255,.06); }
+
+    .row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:12px;
+      color:rgba(234,242,255,.7);
+      margin:6px 0 14px;
+      gap: 10px;
+    }
+    .row label{
+      margin:0;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .row input[type="checkbox"]{
+      width:16px;
+      height:16px;
+      padding:0;
+      border-radius:6px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.22);
+      box-shadow:none;
+    }
+
+    .link{
+      color: var(--accent);
+      text-decoration:none;
+      font-weight:700;
+      white-space:nowrap;
+    }
+    .link:hover{ text-decoration:underline; }
+
+    .btn{
+      width:100%;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(77,163,255,.55);
+      background: linear-gradient(135deg, rgba(77,163,255,.28), rgba(0,0,0,.25));
+      color:white;
+      font-weight:900;
+      cursor:pointer;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .btn::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(520px 180px at 15% 15%, rgba(77,163,255,.22), transparent 60%);
+      opacity:0;
+      transition: opacity .18s ease;
+      pointer-events:none;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.4);
+      border-color: rgba(77,163,255,.85);
+    }
+    .btn:hover::after{ opacity:1; }
+    .btn:active{ transform: translateY(0) scale(.99); }
+
+    @keyframes shake{
+      0%{transform:translateX(0)}
+      25%{transform:translateX(-6px)}
+      50%{transform:translateX(6px)}
+      75%{transform:translateX(-4px)}
+      100%{transform:translateX(0)}
+    }
+    .shake{ animation: shake .25s; }
+
+    .divider{
+      margin: 14px 0 10px;
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+    }
+
+    footer{
+      margin-top:12px;
       font-size:11px;
-      color: rgba(234,242,255,.55);
       text-align:center;
+      color:rgba(234,242,255,.5);
     }
   </style>
 </head>
 
 <body>
-  <main class="card" id="card">
-    <div class="brand">
-      <div class="logoWrap">
-        <img src="Imagenes/image-removebg-preview.ico" alt="GP Graders">
+  <div class="bgGlow"></div>
+
+  <main class="card" aria-label="Login">
+
+    <div class="logoRow">
+      <div class="logo">
+        <img src="Imagenes/image-removebg-preview.ico" alt="Logo">
       </div>
       <div>
-        <h1>Acceso restringido</h1>
-        <p>Autentícate con GitHub para visualizar el informe técnico.</p>
+        <h1>Iniciar sesión</h1>
+        <p class="sub">Accede con tu usuario y contraseña</p>
       </div>
     </div>
 
-    <div class="actions">
-      <a id="ghLink" class="ghLink" href="#">
-        <svg class="ghMark" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor">
-          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
-        </svg>
-        Continuar con GitHub
-      </a>
+    <div class="kicker"><span class="dot"></span> Bienvenido a GP Graders</div>
 
-      <div class="smallRow">
-        <span id="statusHint">Verificando sesión…</span>
+    <div id="msg" class="msg"></div>
+
+    <form id="loginForm">
+      <div class="field">
+        <label for="user">Usuario</label>
+        <input id="user" minlength="3" required placeholder="ej: admin" autocomplete="username">
       </div>
 
-      <div id="msg" class="msg" aria-live="polite"></div>
-    </div>
+      <div class="field pwRow">
+        <label for="password">Contraseña</label>
+        <input id="password" type="password" minlength="6" required placeholder="••••••••" autocomplete="current-password">
+        <button type="button" class="toggle" id="togglePw" aria-label="Mostrar u ocultar contraseña">👁️</button>
+      </div>
 
-    <div class="footer">gpVision™ | Documentación interna</div>
+      <div class="row">
+        <label>
+          <input type="checkbox" id="remember">
+          Recordarme
+        </label>
+        <a href="#" id="demo" class="link">Demo</a>
+      </div>
+
+      <button class="btn" type="submit">Entrar</button>
+
+      <div class="divider"></div>
+
+      <footer>GPweb · login de prueba</footer>
+    </form>
   </main>
 
   <script>
-    (async () => {
-      const AUTH_BASE = "https://gpgraders-auth.donice426.workers.dev";
-      const statusHint = document.getElementById("statusHint");
-      const msg = document.getElementById("msg");
-      const ghLink = document.getElementById("ghLink");
+    const form = document.getElementById("loginForm");
+    const msg = document.getElementById("msg");
+    const user = document.getElementById("user");
+    const password = document.getElementById("password");
+    const togglePw = document.getElementById("togglePw");
+    const remember = document.getElementById("remember");
+    const demo = document.getElementById("demo");
 
-      function setMessage(text, type){
-        msg.textContent = text;
-        msg.className = "msg " + (type || "");
-        msg.style.display = text ? "block" : "none";
+    // auto login if session exists
+    if(sessionStorage.getItem("gp_session")==="1"){
+      location.href="menu.html";
+    }
+
+    togglePw.onclick = () => {
+      password.type = password.type === "password" ? "text" : "password";
+      togglePw.textContent = password.type === "password" ? "👁️" : "🙈";
+    };
+
+    // demo credentials
+    demo.onclick = e => {
+      e.preventDefault();
+      user.value="admin";
+      password.value="gpgraders";
+    };
+
+    form.onsubmit = e => {
+      e.preventDefault();
+      msg.className="msg";
+
+      if(user.value.length<3 || password.value.length<6){
+        msg.textContent="Datos inválidos. Revisa los campos.";
+        msg.classList.add("bad");
+        form.classList.add("shake");
+        setTimeout(()=>form.classList.remove("shake"),250);
+        return;
       }
 
-      // 1) Calcula "next" dinámico (misma carpeta -> menu.html)
-      const here = new URL(location.href);
-      const qp = here.searchParams;
-      const nextParam = qp.get("next"); // si viene desde menu.html
-      const nextPath = nextParam || here.pathname.replace(/\/[^\/]*$/, "/menu.html");
-
-      // 2) Setea el link de OAuth
-      ghLink.href = `${AUTH_BASE}/auth/start?next=${encodeURIComponent(nextPath)}`;
-
-      // 3) Si vienes con error en querystring (opcional)
-      const err = qp.get("error");
-      if (err) setMessage(decodeURIComponent(err), "error");
-
-      // 4) Si ya hay sesión, entra directo
-      try{
-        const res = await fetch(`${AUTH_BASE}/api/me`, { credentials: "include" });
-        if (res.ok){
-          const data = await res.json().catch(() => null);
-          if (data && data.ok && data.user && data.user.login){
-            statusHint.textContent = `Conectado como @${data.user.login}. Entrando…`;
-            setTimeout(() => location.href = "menu.html", 200);
-            return;
-          }
-        }
-        statusHint.textContent = "Sin sesión. Inicia con GitHub.";
-      }catch{
-        statusHint.textContent = "Servicio de autenticación no disponible.";
-        setMessage("No se pudo conectar al servicio de autenticación.", "error");
+      // (login simulado) — acepta cualquier usuario/clave válidos por longitud
+      if(remember.checked){
+        localStorage.setItem("gp_remember", JSON.stringify({ user:user.value }));
       }
-    })();
+
+      sessionStorage.setItem("gp_session","1");
+      sessionStorage.setItem("gp_user", JSON.stringify({ user:user.value }));
+
+      msg.textContent="Acceso concedido. Redirigiendo…";
+      msg.classList.add("ok");
+
+      setTimeout(()=>location.href="menu.html",600);
+    };
   </script>
 </body>
 </html>

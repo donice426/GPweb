@@ -801,15 +801,15 @@
   </section>
 
   <!-- ========================= -->
-  <!-- FICHA 1 (PLANTILLA) -->
+  <!-- FICHA 1 (ACTUALIZADA) -->
   <!-- ========================= -->
   <details class="trouble" open>
     <summary>
       <div class="sum-left">
         <div class="badge">1</div>
         <div>
-          <p class="sum-title"><b>[NOMBRE DEL PROBLEMA]</b></p>
-          <p class="sum-mini">[Descripción breve del problema en 1 línea: qué se observa / síntoma principal]</p>
+          <p class="sum-title"><b>Reinicio de cámaras desde PuTTY (SSH) – Vision Unit VU 7–8</b></p>
+          <p class="sum-mini">Cuando un carril no vuelve a funcionar con reinicios normales, se reinicia el servicio de visión desde la Vision Unit usando consola SSH.</p>
         </div>
       </div>
       <div class="tags">
@@ -823,30 +823,62 @@
       <div class="block">
         <h4>Descripción / explicación</h4>
         <p>
-          TEXTO A COMPLETAR: explicación clara y breve del problema, por qué ocurre
-          (causas típicas) y qué impacto tiene en el proceso.
+          El uso de <b>PuTTY</b> (o cualquier consola <b>SSH</b>) es fundamental para la gestión técnica del sistema <b>gpVision™</b>,
+          porque permite el acceso remoto directo a las <b>Vision Units</b>, que son las computadoras industriales encargadas de
+          procesar las imágenes de cada carril.
+          <br><br>
+          Esta herramienta se utiliza para <b>recuperar la operatividad de cámaras/carriles</b> sin un apagado físico, ejecutando comandos
+          directamente en el sistema operativo de la Vision Unit. Es especialmente útil cuando un problema con las cámaras no se puede
+          solucionar de manera convencional desde la interfaz (Simple GUI).
+          <br><br>
+          <b>¿Por qué se usa PuTTY en estos casos?</b>
+          <br>
+          • <b>Reinicio de servicios sin detener la línea:</b> permite reiniciar servicios de visión específicos que pueden haberse bloqueado,
+          intentando recuperar un carril con falla sin detener completamente la operación.
+          <br>
+          • <b>Resolución de errores de adquisición y sincronía:</b> se usa cuando aparecen fallas como <b>errores persistentes de buffer</b>
+          (memoria de procesamiento saturada), <b>pérdida de sincronización</b> (captura no coincide con el paso de la fruta) o <b>desconexión lógica</b>
+          (el software deja de reconocer la cámara aunque esté conectada físicamente).
+          <br>
+          • <b>Diagnóstico avanzado y mantenimiento:</b> permite verificar procesos internos, monitorear CPU/memoria y revisar logs locales
+          para definir si la falla es de software o de hardware (cables, switches, etc.).
+          <br>
+          • <b>Soporte remoto eficiente:</b> facilita que soporte GP Graders o técnicos especializados intervengan sin estar frente a la máquina,
+          reduciendo tiempos de inactividad durante la temporada.
         </p>
       </div>
 
       <div class="block">
         <h4>Imagen de referencia</h4>
-        <p>Coloca una imagen que ayude a ubicar el problema (captura de pantalla, foto del módulo, tablero, etc.).</p>
-        <div class="ph">IMAGEN GUÍA / CAPTURA DEL PROBLEMA</div>
+        <p>
+          Coloca una captura/foto de: configuración de PuTTY (IP de la VU), ventana de consola conectada, o mensaje de error del carril.
+        </p>
+        <div class="ph">IMAGEN: CONEXIÓN SSH / CONSOLA PuTTY / ERROR DE CÁMARA</div>
       </div>
 
       <div class="block">
         <h4>Solución paso a paso</h4>
         <ol class="steps">
-          <li>PASO 1: [acción concreta]</li>
-          <li>PASO 2: [verificación / prueba]</li>
-          <li>PASO 3: [ajuste recomendado]</li>
-          <li>PASO 4: [validación final]</li>
+          <li><b>Abrir PuTTY</b> (programa para conectarse a la Vision Unit sin enchufar pantalla/teclado).</li>
+          <li><b>Conectarse a la Vision Unit</b> correspondiente: en este caso <b>VU 7–8</b> (según configuración de la planta).</li>
+          <li>En la consola, cuando pida usuario/login, escribir (tal cual): <b>gbk</b> y presionar <b>Enter</b>.</li>
+          <li>Cuando pida contraseña, escribir: <b>gbkngpg</b> y presionar <b>Enter</b>.
+            <br><i>Nota:</i> la contraseña <b>no se verá</b> mientras la escribes. Es normal.</li>
+          <li>Ya dentro de la Vision Unit, ejecutar el comando (respetando mayúsculas/minúsculas):
+            <br><b>killall VisionUnit</b>
+          </li>
+          <li>Presionar <b>Enter</b>. Esto apagará momentáneamente la visión de <b>VU 7 y 8</b>, pero debería volver a levantarse automáticamente.</li>
+          <li><b>Validación:</b> volver a la interfaz (Simple GUI) y confirmar que las cámaras/carriles vuelven a entregar imagen y estado normal.</li>
+          <li><b>Finalizar:</b> cerrar la ventana negra (consola) cuando el carril ya esté operativo.</li>
         </ol>
       </div>
 
     </div>
   </details>
 
+  <!-- ========================= -->
+  <!-- FICHA 2 (PLANTILLA) -->
+  <!-- ========================= -->
   <details class="trouble">
     <summary>
       <div class="sum-left">
