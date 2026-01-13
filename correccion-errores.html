@@ -679,6 +679,12 @@
 
 <body>
 
+    <script>
+    if (sessionStorage.getItem("gp_session") !== "1") {
+      location.href = "login.html";
+    }
+  </script>
+
 <header>
   <div class="wrap">
     <div>

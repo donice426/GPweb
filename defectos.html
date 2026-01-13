@@ -920,6 +920,13 @@ body{
 </head>
 
 <body>
+
+    <script>
+    if (sessionStorage.getItem("gp_session") !== "1") {
+      location.href = "login.html";
+    }
+  </script>
+
   <header>
     <div class="wrap">
       <div>
@@ -1112,7 +1119,7 @@ body{
         data-type="color"
         data-es="Partidura"
         data-en="Cracking"
-        data-img="Imagenes/Screenshot 2025-12-31 013121.png"
+        data-img="Imagenes/fd6a3b48-0328-4bf2-9ad7-cc3d2057c727.png"
         data-desc="La partidura corresponde a una ruptura de la piel del fruto, generalmente causada por absorción excesiva de agua durante la etapa de precosecha o lluvia cercana a cosecha."
         data-signals="Grietas visibles en la piel, bordes irregulares, alto contraste en imagen RGB"
         data-confusions="Marcas superficiales, cicatrices naturales, daño mecánico leve"
@@ -1127,7 +1134,7 @@ body{
 
       >
         <div class="defect-thumb">
-          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Partidura (Cracking)">
+          <img src="Imagenes/fd6a3b48-0328-4bf2-9ad7-cc3d2057c727.png" alt="Partidura (Cracking)">
         </div>
         <div class="defect-names">
           <div class="es">Partidura</div>
@@ -1139,7 +1146,7 @@ body{
         data-type="color"
         data-es="Picadura de pájaro"
         data-en="Bird Peck"
-        data-img="Imagenes/DEFECTO_BIRD_PECK_COLOR.jpeg"
+        data-img="Imagenes/b9290767-785d-4cdd-9059-bbef2929fbe9.png"
         data-desc="La picadura de pájaro corresponde a un daño mecánico localizado causado por aves durante la etapa de precosecha. Se manifiesta como perforaciones o áreas irregulares en la piel del fruto, frecuentemente con pérdida de tejido, bordes rasgados y exposición de pulpa."
         data-signals="Perforaciones visibles, zonas oscuras o irregulares, bordes no uniformes, alto contraste local en imagen RGB"
         data-confusions="Daño mecánico por impacto, partidura incipiente, pudrición localizada, marcas por insectos"
@@ -1153,7 +1160,7 @@ body{
 
       >
         <div class="defect-thumb">
-          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Picadura de pájaro (Bird Peck)">
+          <img src="Imagenes/b9290767-785d-4cdd-9059-bbef2929fbe9.png" alt="Picadura de pájaro (Bird Peck)">
         </div>
         <div class="defect-names">
           <div class="es">Picadura de pájaro</div>
@@ -1165,7 +1172,7 @@ body{
         data-type="color"
         data-es="Russet"
         data-en="Russeting"
-        data-img="Imagenes/Screenshot 2025-12-31 013121.png"
+        data-img="Imagenes/a5e67d34-d94d-46b3-8f80-562af1b4ee44.png"
         data-desc="El russet corresponde a un daño superficial en la piel del fruto que se manifiesta como áreas ásperas, corchosas o decoloradas. En cerezas suele asociarse a microlesiones tempranas, fricción entre frutos, condiciones ambientales (humedad/rocío/lluvia) o sensibilidad varietal, afectando principalmente la apariencia."
         data-signals="Zonas opacas o mate, textura rugosa tipo corcho, parches decolorados café claro/amarillentos, patrón superficial irregular en imagen RGB"
         data-confusions="Cicatrices naturales, scarring por roce, marcas cosméticas, residuos superficiales (polvo/suciedad), variaciones normales de brillo o color"
@@ -1178,7 +1185,7 @@ body{
         data-notes="Recomendación: valida con distintos niveles de severidad y variedades. Ajusta el Spectrum para no confundir russet leve con cicatrices, bloom natural o variaciones de brillo por humedad. Analogía: Espectro = reconocer color/textura áspera, Mapeo = enviarlo a segunda categoría, Tabla = definir el porcentaje que activa el descarte."
       >
         <div class="defect-thumb">
-          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Russet (Russeting)">
+          <img src="Imagenes/a5e67d34-d94d-46b3-8f80-562af1b4ee44.png" alt="Russet (Russeting)">
         </div>
         <div class="defect-names">
           <div class="es">Russet</div>
@@ -1190,7 +1197,7 @@ body{
         data-type="color"
         data-es="Pitting"
         data-en="Pitting"
-        data-img="Imagenes/DEFECTO_PITTING_COLOR.jpeg"
+        data-img="Imagenes/130c487a-09ff-4270-bff7-706721617394.png"
         data-desc="El pitting corresponde a un daño superficial caracterizado por pequeñas depresiones o hundimientos en la piel del fruto, generalmente causados por impacto, presión o manipulación durante cosecha, proceso o transporte."
         data-signals="Depresiones visibles, zonas hundidas con sombra local, cambios leves de color alrededor del impacto"
         data-confusions="Daño mecánico leve, marcas de presión temporal, cicatrices superficiales"
@@ -1204,7 +1211,7 @@ body{
 
       >
         <div class="defect-thumb">
-          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Pitting">
+          <img src="Imagenes/130c487a-09ff-4270-bff7-706721617394.png" alt="Pitting">
         </div>
         <div class="defect-names">
           <div class="es">Pitting</div>
@@ -1214,35 +1221,9 @@ body{
 
       <article class="defect-card"
         data-type="color"
-        data-es="Hijuelo"
-        data-en="Spur"
-        data-img="Imagenes/DEFECTO_HIJUELO_COLOR.jpeg"
-        data-desc="El hijuelo corresponde a un defecto de forma en el que dos frutos se desarrollan parcial o totalmente unidos."
-        data-signals="Forma irregular/asimétrica, volumen superior, hendidura o línea de unión"
-        data-confusions="Fruta grande normal, deformaciones leves"
-        data-impact="Afecta uniformidad y reduce aceptación comercial"
-        data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Hijuelo' para que el motor lógico lo considere en el análisis."
-        data-step2="Ir a la pestaña 'Espectros' y ajustar el Spectrum por Color (RGB) que identifique el tejido de unión o la protuberancia característica del hijuelo."
-        data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Hijuelo' a la clase de destino correspondiente (por ejemplo: Comercial o Desecho)."
-        data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Hijuelo % ≥ umbral') y ubicarla en la posición adecuada según la prioridad de calidad del programa."
-        data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' que el hijuelo quede delineado en verde en las imágenes MultiView™."
-        data-notes="Recomendación: valida con distintos grados de fusión y calibres. Ajusta el Spectrum y el umbral para no confundir hijuelos con fruta grande normal o deformaciones leves. Analogía: Espectro = reconocer el ‘gemelo’, Mapeo = marcar la anomalía, Tabla = decidir cuándo apartarlo de primera clase."
-
-      >
-        <div class="defect-thumb">
-          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Hijuelo (Spur)">
-        </div>
-        <div class="defect-names">
-          <div class="es">Hijuelo</div>
-          <div class="en">Spur</div>
-        </div>
-      </article>
-
-      <article class="defect-card"
-        data-type="color"
         data-es="Pudrición negra"
         data-en="Black Rot"
-        data-img="Imagenes/DEFECTO_PUDRICION_NEGRA_COLOR.jpeg"
+        data-img="Imagenes/7b2ef648-ce18-4b49-9bb0-d4cddc04f413.png"
         data-desc="La pudrición negra corresponde a un defecto severo por descomposición, asociado a infecciones fúngicas o bacterianas."
         data-signals="Zonas negras, piel colapsada/arrugada, aspecto húmedo, pérdida de forma"
         data-confusions="Manchas superficiales, fruta sobremadura, sombras"
@@ -1256,7 +1237,7 @@ body{
 
       >
         <div class="defect-thumb">
-          <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Pudrición negra (Black Rot)">
+          <img src="Imagenes/7b2ef648-ce18-4b49-9bb0-d4cddc04f413.png" alt="Pudrición negra (Black Rot)">
         </div>
         <div class="defect-names">
           <div class="es">Pudrición negra</div>
@@ -1294,7 +1275,7 @@ body{
         data-type="color"
         data-es="Pudrición"
         data-en="Rot / Decay"
-        data-img="Imagenes/Screenshot 2025-12-31 055626.png"
+        data-img="Imagenes/8df0bd7a-79fc-4066-8d52-40c740ca4b55.png"
         data-desc="La pudrición corresponde a un proceso de descomposición del fruto causado principalmente por hongos o bacterias."
         data-signals="Zonas oscuras, áreas blandas/colapsadas, pérdida de brillo, textura irregular"
         data-confusions="Golpes severos, sobremadurez, daño por frío avanzado"
@@ -1308,7 +1289,7 @@ body{
 
       >
         <div class="defect-thumb">
-          <img src="Imagenes/Screenshot 2025-12-31 055626.png" alt="Pudrición (Rot / Decay)">
+          <img src="Imagenes/8df0bd7a-79fc-4066-8d52-40c740ca4b55.png" alt="Pudrición (Rot / Decay)">
         </div>
         <div class="defect-names">
           <div class="es">Pudrición</div>
@@ -1342,31 +1323,6 @@ body{
   </div>
 </article>
 
-<article class="defect-card"
-  data-type="color"
-  data-es="Inmaduro (Claro)"
-  data-en="Immature (Light)"
-  data-img="Imagenes/DEFECTO_INMADURO_LIGHT.png"
-  data-desc="El defecto Inmaduro (Light) corresponde a fruta que presenta tonalidades más claras de lo permitido para el estándar de cosecha y comercialización. Este tipo de fruta no ha alcanzado el nivel óptimo de madurez, evidenciándose principalmente por coloraciones pálidas, bajo desarrollo de pigmentación y menor intensidad cromática en la piel."
-  data-signals="En color (RGB): valores de luminosidad (L*) elevados, saturación reducida y predominio de tonos claros o deslavados. La fruta inmadura presenta menor intensidad de rojo y mayor presencia de matices amarillentos o blanquecinos."
-  data-confusions="Variaciones naturales por variedad, fruta lavada con alta reflectancia, zonas sobreiluminadas, fruta firme con color heterogéneo."
-  data-impact="Afecta la homogeneidad del lote, reduce aceptación comercial y puede generar reclamos por calidad visual y sensorial. En exportación, suele ser clasificada en categorías inferiores o descartada."
-  data-step1="Entrar a Operator Station → Configuración de defectos morfológicos y habilitar la casilla 'Inmaduro' para que el motor lógico la considere en el análisis."
-  data-step2="Ir a la pestaña 'Espectros' y definir el Spectrum por Color (RGB) para los tonos claros/pálidos asociados a inmadurez (Light), diferenciándolos de fruta madura clara."
-  data-step3="Abrir 'Mapeo de Características a Clases' y asignar la característica 'Inmaduro' a la clase de destino correspondiente (por ejemplo: Comercial o Waste), según la estrategia de calidad."
-  data-step4="En la 'Tabla de calificación', definir la regla (ej: 'Inmaduro % ≥ umbral') y ubicarla en la jerarquía adecuada, considerando que el sistema evalúa de arriba hacia abajo."
-  data-step5="Presionar 'Guardar y aplicar' para enviar la configuración a las Vision Units y validar en 'Resultados detallados' o 'Fruta reciente' que las zonas inmaduras queden delineadas en verde en las imágenes MultiView™ (Color)."
-  data-notes="Recomendación: calibra iluminación y balance de blancos antes de ajustar el Spectrum. Valida por variedad y usa sets de fruta inmadura, madura aceptable y sobremadura para evitar solapamientos. Analogía: Espectro = distinguir el verde claro, Mapeo = decidir si pasa, Tabla = bloquear cuando supera el límite."
-
->
-  <div class="defect-thumb">
-    <img src="Imagenes/Screenshot 2025-12-31 013121.png" alt="Inmaduro (Light) / Immature (Light)">
-  </div>
-  <div class="defect-names">
-    <div class="es">Inmaduro (Light)</div>
-    <div class="en">Immature (Light)</div>
-  </div>
-</article>
 
 <article class="defect-card"
   data-type="color"
@@ -1501,7 +1457,7 @@ body{
   data-type="nir"
   data-es="Doble (Fruto siamés)"
   data-en="Double / Twin Fruit"
-  data-img="Imagenes/DEFECTO_DOBLE_NIR.png"
+  data-img="Imagenes/92020184-06b2-4ef7-a675-aa93ea0156b6.png"
   data-desc="El defecto Doble corresponde a frutos siameses o unidos, donde dos cerezas comparten tejido parcial o total. Este tipo de defecto suele originarse por alteraciones fisiológicas durante la floración y el desarrollo. Aunque en algunos casos es visible externamente, su identificación confiable se realiza mediante análisis infrarrojo cercano (NIR), debido a la masa, volumen y estructura interna anómala del fruto."
   data-signals="En NIR: respuesta espectral irregular asociada a mayor volumen y densidad interna, con patrones de absorción no homogéneos. Se detecta un perfil NIR más complejo y extendido en comparación con fruta simple, incluso cuando externamente parece una sola unidad."
   data-confusions="Fruta de gran calibre individual, frutos muy próximos en el singulador, solapamiento momentáneo en rollers, variaciones de orientación durante la captura."
@@ -1515,7 +1471,7 @@ body{
 
 >
   <div class="defect-thumb">
-    <img src="Imagenes/Screenshot 2025-12-31 013802.png" alt="Doble (Twin Fruit)">
+    <img src="Imagenes/92020184-06b2-4ef7-a675-aa93ea0156b6.png" alt="Doble (Twin Fruit)">
   </div>
   <div class="defect-names">
     <div class="es">Doble (Fruto siamés)</div>
@@ -1527,7 +1483,7 @@ body{
   data-type="nir"
   data-es="Black Hole"
   data-en="Black Hole"
-  data-img="Imagenes/DEFECTO_BLACK_HOLE_NIR.png"
+  data-img="Imagenes/f76716b4-fc04-4845-9a17-eaa6fb28e979.png"
   data-desc="El defecto Black Hole corresponde a cavidades profundas u orificios internos en el fruto, generalmente asociados a colapsos del tejido, pudrición localizada o daño interno severo. Aunque puede no ser evidente externamente en color, este defecto se identifica de forma confiable mediante análisis en infrarrojo cercano (NIR), debido a la alteración estructural del tejido interno."
   data-signals="En NIR: respuesta espectral muy atenuada y no homogénea en la zona afectada, con pérdida de continuidad en la señal. La cavidad genera absorción irregular y patrones NIR anómalos respecto a fruta sana o con defectos superficiales."
   data-confusions="Blando severo, descomposición interna avanzada, fruta sobremadura con colapso de pulpa, variaciones internas por daño mecánico no visible."
@@ -1541,7 +1497,7 @@ body{
 
 >
   <div class="defect-thumb">
-    <img src="Imagenes/Screenshot 2025-12-31 013802.png" alt="Black Hole (NIR)">
+    <img src="Imagenes/f76716b4-fc04-4845-9a17-eaa6fb28e979.png" alt="Black Hole (NIR)">
   </div>
   <div class="defect-names">
     <div class="es">Black Hole</div>
