@@ -33,7 +33,6 @@
       overflow-x:hidden;
     }
 
-    /* ===== subtle animated glow background (respetando colores) ===== */
     body::before{
       content:"";
       position:fixed;
@@ -42,7 +41,6 @@
       background:
         radial-gradient(520px 320px at 15% 15%, rgba(77,163,255,.16), transparent 60%),
         radial-gradient(520px 320px at 85% 80%, rgba(77,163,255,.10), transparent 62%);
-      filter: blur(0px);
       opacity:.9;
       animation: bgFloat 10s ease-in-out infinite alternate;
       z-index:0;
@@ -52,7 +50,6 @@
       to  { transform: translate3d(10px,8px,0) scale(1.02); }
     }
 
-    /* Topbar */
     .topbar{
       position: sticky;
       top: 0;
@@ -69,9 +66,7 @@
       opacity:0;
       animation: fadeDown .45s ease forwards;
     }
-    @keyframes fadeDown{
-      to{ transform: translateY(0); opacity:1; }
-    }
+    @keyframes fadeDown{ to{ transform: translateY(0); opacity:1; } }
 
     .brand{
       display:flex;
@@ -80,7 +75,6 @@
       min-width: 160px;
     }
 
-    /* Logo GP Graders */
     .logoWrap{
       width: 38px;
       height: 38px;
@@ -100,12 +94,7 @@
       border-color: rgba(77,163,255,.55);
       box-shadow: 0 14px 30px rgba(77,163,255,.14);
     }
-    .logoWrap img{
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      transform: translateZ(0);
-    }
+    .logoWrap img{ max-width: 100%; max-height: 100%; object-fit: contain; }
 
     .brand h1{
       margin:0;
@@ -119,7 +108,6 @@
       color: var(--muted);
     }
 
-    /* Tabs */
     .tabs{
       display:flex;
       align-items:center;
@@ -166,8 +154,46 @@
       display:flex;
       align-items:center;
       gap: 10px;
-      min-width: 140px;
+      min-width: 220px;
       justify-content: flex-end;
+    }
+
+    .userBadge{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 7px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      min-width: 0;
+    }
+    .userBadge img{
+      width: 26px; height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      object-fit: cover;
+    }
+    .userBadge .uTxt{
+      display:flex;
+      flex-direction:column;
+      line-height:1.05;
+      min-width: 0;
+    }
+    .userBadge .uTxt b{
+      font-size: 12px;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      max-width: 140px;
+    }
+    .userBadge .uTxt span{
+      font-size: 11px;
+      color: rgba(230,237,245,.72);
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      max-width: 140px;
     }
 
     .btn{
@@ -200,14 +226,6 @@
     .btn:hover::after{ opacity:1; }
     .btn:active{ transform: translateY(0px) scale(.99); }
 
-    .btn.primary{
-      background: linear-gradient(135deg, rgba(77,163,255,.95), rgba(77,163,255,.55));
-      color: #07121a;
-      border-color: rgba(255,255,255,.18);
-      font-weight: 800;
-    }
-
-    /* Main */
     main{
       width: min(980px, 100%);
       margin: 26px auto;
@@ -227,16 +245,9 @@
       opacity:0;
       transition: transform .5s ease, opacity .5s ease;
     }
-    .hero.reveal{
-      transform: translateY(0);
-      opacity:1;
-    }
+    .hero.reveal{ transform: translateY(0); opacity:1; }
 
-    .hero h2{
-      margin: 0 0 10px;
-      font-size: 22px;
-      letter-spacing: .2px;
-    }
+    .hero h2{ margin: 0 0 10px; font-size: 22px; letter-spacing: .2px; }
     .hero p{
       margin: 0 0 10px;
       color: var(--muted);
@@ -260,10 +271,7 @@
       white-space: nowrap;
       transition: transform .15s ease, border-color .15s ease;
     }
-    .chip:hover{
-      transform: translateY(-1px);
-      border-color: rgba(77,163,255,.35);
-    }
+    .chip:hover{ transform: translateY(-1px); border-color: rgba(77,163,255,.35); }
 
     .grid{
       margin-top: 14px;
@@ -280,7 +288,6 @@
       box-shadow: var(--shadow);
       text-decoration:none;
       color: inherit;
-      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
       display:block;
       position: relative;
       overflow:hidden;
@@ -294,10 +301,7 @@
         box-shadow .15s ease,
         background .15s ease;
     }
-    .card.reveal{
-      transform: translateY(0);
-      opacity:1;
-    }
+    .card.reveal{ transform: translateY(0); opacity:1; }
 
     .card::before{
       content:"";
@@ -319,10 +323,7 @@
     .card:hover::before{ opacity:1; }
     .card:active{ transform: translateY(-1px) scale(.995); }
 
-    .card .k{
-      color: var(--muted);
-      font-size: 12px;
-    }
+    .card .k{ color: var(--muted); font-size: 12px; }
     .card .v{
       margin-top: 6px;
       font-weight: 900;
@@ -332,8 +333,6 @@
       align-items:center;
       gap: 8px;
     }
-
-    /* mini indicator */
     .card .v::after{
       content:"";
       width: 8px;
@@ -344,7 +343,6 @@
       opacity:.85;
       margin-left:auto;
     }
-
     .card .d{
       margin-top: 8px;
       color: var(--muted);
@@ -361,14 +359,13 @@
       z-index: 1;
     }
 
-    /* Responsive */
     @media (max-width: 720px){
       .brand{min-width:auto}
       .actions{min-width:auto}
       .hero h2{font-size: 20px}
+      .userBadge .uTxt b, .userBadge .uTxt span{ max-width: 120px; }
     }
 
-    /* ===== HAMBURGER + MOBILE NAV ===== */
     .menuBtn{
       display:none;
       cursor:pointer;
@@ -415,10 +412,7 @@
       opacity:0;
       transition: transform .18s ease, opacity .18s ease;
     }
-    .mobileNav.open .mobileNavPanel{
-      transform: translateY(0);
-      opacity:1;
-    }
+    .mobileNav.open .mobileNavPanel{ transform: translateY(0); opacity:1; }
 
     .mobileNavHead{
       padding: 14px 14px;
@@ -429,15 +423,8 @@
       border-bottom: 1px solid rgba(255,255,255,.10);
     }
 
-    .mobileTitle{
-      font-weight: 900;
-      font-size: 14px;
-    }
-    .mobileSub{
-      margin-top:2px;
-      font-size: 12px;
-      color: rgba(230,237,245,.70);
-    }
+    .mobileTitle{ font-weight: 900; font-size: 14px; }
+    .mobileSub{ margin-top:2px; font-size: 12px; color: rgba(230,237,245,.70); }
 
     .mobileNavLinks{
       padding: 10px;
@@ -461,13 +448,11 @@
       transform: translateY(-1px);
     }
 
-    /* Responsive behavior */
     @media (max-width: 860px){
       .tabs{ display:none; }
       .menuBtn{ display:inline-flex; align-items:center; justify-content:center; }
     }
 
-    /* ===== Reduced motion ===== */
     @media (prefers-reduced-motion: reduce){
       *{ animation: none !important; transition: none !important; }
       html{ scroll-behavior:auto; }
@@ -477,23 +462,6 @@
 </head>
 
 <body>
-
-<script>
-(async () => {
-  const AUTH_BASE = "https://gpgraders-auth.donice426.workers.dev";
-
-  try {
-    const res = await fetch(`${AUTH_BASE}/api/me`, { credentials: "include" });
-    if (!res.ok) {
-      location.href = "login.html";
-      return;
-    }
-  } catch {
-    location.href = "login.html";
-  }
-})();
-</script>
-
 
   <header class="topbar">
     <div class="brand">
@@ -506,12 +474,10 @@
       </div>
     </div>
 
-    <!-- Botón hamburguesa (solo móvil) -->
     <button class="menuBtn" id="menuBtn" type="button" aria-label="Abrir menú" aria-expanded="false">
       ☰
     </button>
 
-    <!-- Tabs normales (desktop) -->
     <nav class="tabs" aria-label="Navegación principal">
       <a class="tab active" href="menu.html">Menú</a>
       <a class="tab" href="sistema-gpvision.html">GpVision</a>
@@ -523,7 +489,6 @@
       <a class="tab" href="defectos.html">Defectos</a>
     </nav>
 
-    <!-- Menú móvil (overlay) -->
     <div class="mobileNav" id="mobileNav" aria-hidden="true">
       <div class="mobileNavPanel" role="dialog" aria-label="Menú de navegación">
         <div class="mobileNavHead">
@@ -548,6 +513,13 @@
     </div>
 
     <div class="actions">
+      <div class="userBadge" id="userBadge" style="display:none;">
+        <img id="userAvatar" alt="avatar" />
+        <div class="uTxt">
+          <b id="userName">Usuario</b>
+          <span id="userLogin">@login</span>
+        </div>
+      </div>
       <button class="btn" id="logoutBtn" type="button">Cerrar sesión</button>
     </div>
   </header>
@@ -624,25 +596,52 @@
   </footer>
 
   <script>
+    const AUTH_BASE = "https://gpgraders-auth.donice426.workers.dev";
 
-  const AUTH_BASE = "https://gpgraders-auth.donice426.workers.dev";
+    function redirectToLogin() {
+      const next = location.pathname; // vuelve a esta página
+      location.href = `login.html?next=${encodeURIComponent(next)}`;
+    }
 
-  document.getElementById("logoutBtn").addEventListener("click", async () => {
-    try{
-      await fetch(`${AUTH_BASE}/auth/logout`, {
-        method: "POST",
-        credentials: "include"
-      });
-    }catch{}
-    location.href = "login.html";
-  });
+    async function requireAuthAndPaintUser(){
+      try{
+        const res = await fetch(`${AUTH_BASE}/api/me`, { credentials: "include" });
+        if(!res.ok) return redirectToLogin();
 
+        const data = await res.json().catch(()=>null);
+        if(!data || !data.ok || !data.user) return redirectToLogin();
 
+        // pinta usuario
+        const badge = document.getElementById("userBadge");
+        const avatar = document.getElementById("userAvatar");
+        const name = document.getElementById("userName");
+        const login = document.getElementById("userLogin");
+
+        const u = data.user;
+        avatar.src = u.avatar_url || "";
+        name.textContent = u.name ? u.name : "GitHub";
+        login.textContent = u.login ? `@${u.login}` : "@usuario";
+        badge.style.display = "flex";
+      }catch{
+        redirectToLogin();
+      }
+    }
+
+    // bloquea la vista hasta validar sesión
+    requireAuthAndPaintUser();
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      try{
+        await fetch(`${AUTH_BASE}/auth/logout`, { method: "POST", credentials: "include" });
+      }catch{}
+      redirectToLogin();
+    });
+
+    // Mobile nav
     (function(){
       const btn = document.getElementById("menuBtn");
       const overlay = document.getElementById("mobileNav");
       const closeBtn = document.getElementById("closeNavBtn");
-
       if(!btn || !overlay || !closeBtn) return;
 
       function openNav(){
@@ -660,21 +659,12 @@
 
       btn.addEventListener("click", openNav);
       closeBtn.addEventListener("click", closeNav);
-
-      overlay.addEventListener("click", (e)=>{
-        if(e.target === overlay) closeNav();
-      });
-
-      document.addEventListener("keydown", (e)=>{
-        if(e.key === "Escape" && overlay.classList.contains("open")) closeNav();
-      });
-
-      overlay.querySelectorAll("a").forEach(a=>{
-        a.addEventListener("click", closeNav);
-      });
+      overlay.addEventListener("click", (e)=>{ if(e.target === overlay) closeNav(); });
+      document.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && overlay.classList.contains("open")) closeNav(); });
+      overlay.querySelectorAll("a").forEach(a=> a.addEventListener("click", closeNav));
     })();
 
-    /* ===== Reveal animation (hero + cards) ===== */
+    // Reveal animation
     (function(){
       const targets = document.querySelectorAll(".hero, .card");
       if(!targets.length) return;
@@ -689,7 +679,6 @@
       }, { threshold: 0.15 });
 
       targets.forEach((el, i)=>{
-        // Stagger suave en cards
         if(el.classList.contains("card")){
           el.style.transitionDelay = `${Math.min(i * 70, 420)}ms`;
         }
