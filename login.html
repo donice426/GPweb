@@ -17,6 +17,7 @@
       --r:16px;
       --focus: 0 0 0 4px rgba(42,167,255,.14);
 
+      /* GitHub button */
       --gh-bg: rgba(255,255,255,.06);
       --gh-bg2: rgba(0,0,0,.18);
       --gh-stroke: rgba(255,255,255,.18);
@@ -91,7 +92,7 @@
       gap:10px;
     }
 
-    button, .ghLink{
+    button{
       width:100%;
       padding:12px 14px;
       border-radius:12px;
@@ -105,25 +106,24 @@
       align-items:center;
       justify-content:center;
       gap:10px;
-      text-decoration:none;
     }
 
-    button:hover, .ghLink:hover{filter:brightness(1.05)}
-    button:active, .ghLink:active{ transform: translateY(1px); }
+    button:hover{filter:brightness(1.05)}
+    button:active{ transform: translateY(1px); }
     button:disabled{
       opacity:.7;
       cursor:not-allowed;
       filter:saturate(.9);
     }
 
-    /* GitHub styles */
-    .ghBtn, .ghLink{
+    /* GitHub button */
+    .ghBtn{
       background: linear-gradient(135deg, var(--gh-bg), var(--gh-bg2));
       color: var(--gh-text);
       border: 1px solid var(--gh-stroke);
       font-weight: 800;
     }
-    .ghBtn:hover, .ghLink:hover{ filter: brightness(1.08); }
+    .ghBtn:hover{ filter: brightness(1.08); }
     .ghMark{
       width:18px; height:18px;
       display:inline-block;
@@ -211,20 +211,6 @@
       overflow:hidden;clip:rect(0,0,0,0);
       white-space:nowrap;border:0;
     }
-
-    /* Fallback link box */
-    .fallback{
-      display:none;
-      margin-top:10px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      color: rgba(234,242,255,.82);
-      font-size:12px;
-      line-height:1.35;
-    }
-    .fallback a{ color: rgba(234,242,255,.95); }
   </style>
 </head>
 
@@ -242,18 +228,12 @@
 
     <form id="loginForm" autocomplete="off" novalidate>
       <div class="actions" style="margin-top:6px;">
-        <!-- ✅ PLAN A: link real (infalible) -->
-        <a id="ghLink" class="ghLink" href="#">
+        <button id="ghBtn" class="ghBtn" type="button">
           <svg class="ghMark" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor">
             <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/>
           </svg>
           <span id="ghText">Continuar con GitHub</span>
           <span class="spinner" id="ghSpin" aria-hidden="true"></span>
-        </a>
-
-        <!-- 🔁 PLAN B: botón con JS (opcional, mismo destino) -->
-        <button id="ghBtn" class="ghBtn" type="button" style="display:none;">
-          Continuar con GitHub (JS)
         </button>
 
         <div class="divider">Acceso mediante GitHub OAuth</div>
@@ -265,11 +245,6 @@
       </div>
 
       <div id="msg" class="msg" aria-live="polite"></div>
-
-      <div id="fallback" class="fallback">
-        Si no te redirige, abre este enlace manualmente:<br>
-        <a id="fallbackUrl" href="#" target="_self" rel="noopener">Abrir autorización GitHub</a>
-      </div>
     </form>
 
     <div class="footer">gpVision™ | Documentación interna</div>
@@ -278,20 +253,17 @@
   <script>
     // ========= CONFIG =========
     const AUTH_BASE = "https://gpgraders-auth.donice426.workers.dev";
-    const NEXT_PATH = "/GPweb/menu.html";
-    const MENU_URL  = "menu.html";
+    const NEXT_PATH = "/GPweb/menu.html"; // ruta en GitHub Pages a la que volver
+    const MENU_URL  = "menu.html";        // archivo local (relativo) dentro de /GPweb/
 
     // ========= UI =========
     const msg = document.getElementById("msg");
     const card = document.getElementById("card");
-    const ghLink = document.getElementById("ghLink");
     const ghBtn = document.getElementById("ghBtn");
     const ghSpin = document.getElementById("ghSpin");
     const ghText = document.getElementById("ghText");
     const statusHint = document.getElementById("statusHint");
     const a11yStatus = document.getElementById("a11yStatus");
-    const fallback = document.getElementById("fallback");
-    const fallbackUrl = document.getElementById("fallbackUrl");
 
     function setMessage(text, type){
       msg.textContent = text;
@@ -304,14 +276,10 @@
       card.classList.remove("shake"); void card.offsetWidth; card.classList.add("shake");
     }
 
-    function setLoading(on){
+    function setGhLoading(on){
+      // IMPORTANTE: no deshabilitamos antes de navegar para evitar bloqueos de algunos browsers
       ghSpin.style.display = on ? "inline-block" : "none";
       ghText.textContent = on ? "Conectando…" : "Continuar con GitHub";
-    }
-
-    function buildStartUrl(){
-      const next = encodeURIComponent(NEXT_PATH);
-      return `${AUTH_BASE}/auth/start?next=${next}`;
     }
 
     async function checkSession(){
@@ -324,11 +292,6 @@
         return null;
       }
     }
-
-    // ✅ Setea href del link (Plan A) siempre
-    const startUrl = buildStartUrl();
-    ghLink.href = startUrl;
-    fallbackUrl.href = startUrl;
 
     // 1) Si ya hay sesión, entra directo
     (async () => {
@@ -343,36 +306,29 @@
       setMessage("", "");
     })();
 
-    // 2) UX: cuando hacen click, mostramos “conectando…”
-    ghLink.addEventListener("click", () => {
-      setLoading(true);
-      setMessage("Abriendo GitHub para autenticar…", "ok");
-
-      // Si por alguna razón no navega, mostramos fallback en 1.2s
-      setTimeout(() => {
-        fallback.style.display = "block";
-      }, 1200);
-    });
-
-    // 3) Plan B opcional (por si quieres usar botón)
+    // 2) Iniciar OAuth (NAVEGACIÓN DIRECTA)
     ghBtn.addEventListener("click", () => {
-      setLoading(true);
+      setGhLoading(true);
       setMessage("Abriendo GitHub para autenticar…", "ok");
+
+      const next = encodeURIComponent(NEXT_PATH);
+      const startUrl = `${AUTH_BASE}/auth/start?next=${next}`;
+
+      // Navegación directa y confiable
       location.assign(startUrl);
     });
 
+    // 3) Si algo falla
     window.addEventListener("error", () => {
       setMessage("Ocurrió un error en la página de login.", "error");
       shake();
-      setLoading(false);
-      fallback.style.display = "block";
+      setGhLoading(false);
     });
 
     window.addEventListener("unhandledrejection", () => {
       setMessage("No se pudo conectar al servicio de autenticación.", "error");
       shake();
-      setLoading(false);
-      fallback.style.display = "block";
+      setGhLoading(false);
     });
   </script>
 </body>

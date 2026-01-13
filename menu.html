@@ -480,19 +480,20 @@
 
 <script>
 (async () => {
-  const res = await fetch("https://gpgraders-auth.donice426.workers.dev/api/me", { credentials: "include" });
-  if (!res.ok) location.href = "login.html";
+  const AUTH_BASE = "https://gpgraders-auth.donice426.workers.dev";
+
+  try {
+    const res = await fetch(`${AUTH_BASE}/api/me`, { credentials: "include" });
+    if (!res.ok) {
+      location.href = "login.html";
+      return;
+    }
+  } catch {
+    location.href = "login.html";
+  }
 })();
 </script>
 
-
-
-  <script>
-    // Protección simple: si no hay sesión, vuelve a login
-    if (sessionStorage.getItem("auth") !== "ok") {
-      window.location.href = "login.html";
-    }
-  </script>
 
   <header class="topbar">
     <div class="brand">
@@ -623,10 +624,19 @@
   </footer>
 
   <script>
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      sessionStorage.removeItem("auth");
-      window.location.href = "login.html";
-    });
+
+  const AUTH_BASE = "https://gpgraders-auth.donice426.workers.dev";
+
+  document.getElementById("logoutBtn").addEventListener("click", async () => {
+    try{
+      await fetch(`${AUTH_BASE}/auth/logout`, {
+        method: "POST",
+        credentials: "include"
+      });
+    }catch{}
+    location.href = "login.html";
+  });
+
 
     (function(){
       const btn = document.getElementById("menuBtn");
