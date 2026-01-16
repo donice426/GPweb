@@ -52,7 +52,6 @@
       to{ transform: translate(10px,10px); }
     }
 
-    /* ===== card ===== */
     .card{
       width: min(460px, 100%);
       background: var(--card);
@@ -185,26 +184,9 @@
       transform: translateY(-1px);
     }
 
-    .pwRow{ position:relative; }
-    .toggle{
-      position:absolute;
-      right:8px;
-      top:50%;
-      transform: translateY(-50%);
-      background:none;
-      border:none;
-      color:rgba(234,242,255,.8);
-      cursor:pointer;
-      font-size:16px;
-      padding:6px 8px;
-      border-radius:10px;
-      transition: background .15s ease;
-    }
-    .toggle:hover{ background: rgba(255,255,255,.06); }
-
     .row{
       display:flex;
-      justify-content:space-between;
+      justify-content:flex-start;
       align-items:center;
       font-size:12px;
       color:rgba(234,242,255,.7);
@@ -228,14 +210,6 @@
       background: rgba(0,0,0,.22);
       box-shadow:none;
     }
-
-    .link{
-      color: var(--accent);
-      text-decoration:none;
-      font-weight:700;
-      white-space:nowrap;
-    }
-    .link:hover{ text-decoration:underline; }
 
     .btn{
       width:100%;
@@ -313,13 +287,12 @@
     <form id="loginForm">
       <div class="field">
         <label for="user">Usuario</label>
-        <input id="user" minlength="3" required placeholder="ej: admin" autocomplete="username">
+        <input id="user" minlength="3" required placeholder="admin" autocomplete="username">
       </div>
 
-      <div class="field pwRow">
+      <div class="field">
         <label for="password">Contraseña</label>
-        <input id="password" type="password" minlength="6" required placeholder="••••••••" autocomplete="current-password">
-        <button type="button" class="toggle" id="togglePw" aria-label="Mostrar u ocultar contraseña">👁️</button>
+        <input id="password" type="password" minlength="8" required placeholder="••••••••" autocomplete="current-password">
       </div>
 
       <div class="row">
@@ -327,14 +300,13 @@
           <input type="checkbox" id="remember">
           Recordarme
         </label>
-        <a href="#" id="demo" class="link">Demo</a>
       </div>
 
       <button class="btn" type="submit">Entrar</button>
 
       <div class="divider"></div>
 
-      <footer>GPweb · login de prueba</footer>
+      <footer>GPweb · acceso interno</footer>
     </form>
   </main>
 
@@ -343,46 +315,51 @@
     const msg = document.getElementById("msg");
     const user = document.getElementById("user");
     const password = document.getElementById("password");
-    const togglePw = document.getElementById("togglePw");
     const remember = document.getElementById("remember");
-    const demo = document.getElementById("demo");
+
+    // ✅ Credenciales únicas
+    const ADMIN_USER = "admin";
+    const ADMIN_PASS = "Gpgraders#24"; // fuerte + rápida de escribir
 
     // auto login if session exists
     if(sessionStorage.getItem("gp_session")==="1"){
       location.href="menu.html";
     }
 
-    togglePw.onclick = () => {
-      password.type = password.type === "password" ? "text" : "password";
-      togglePw.textContent = password.type === "password" ? "👁️" : "🙈";
-    };
-
-    // demo credentials
-    demo.onclick = e => {
-      e.preventDefault();
-      user.value="admin";
-      password.value="gpgraders";
-    };
+    // restore remembered user
+    (function(){
+      const raw = localStorage.getItem("gp_remember");
+      if(!raw) return;
+      try{
+        const u = JSON.parse(raw);
+        if(u?.user) user.value = u.user;
+        remember.checked = true;
+      }catch{}
+    })();
 
     form.onsubmit = e => {
       e.preventDefault();
       msg.className="msg";
 
-      if(user.value.length<3 || password.value.length<6){
-        msg.textContent="Datos inválidos. Revisa los campos.";
+      const u = (user.value || "").trim();
+      const p = (password.value || "").trim();
+
+      if(u !== ADMIN_USER || p !== ADMIN_PASS){
+        msg.textContent="Credenciales incorrectas. Verifica usuario y contraseña.";
         msg.classList.add("bad");
         form.classList.add("shake");
         setTimeout(()=>form.classList.remove("shake"),250);
         return;
       }
 
-      // (login simulado) — acepta cualquier usuario/clave válidos por longitud
       if(remember.checked){
-        localStorage.setItem("gp_remember", JSON.stringify({ user:user.value }));
+        localStorage.setItem("gp_remember", JSON.stringify({ user: ADMIN_USER }));
+      }else{
+        localStorage.removeItem("gp_remember");
       }
 
       sessionStorage.setItem("gp_session","1");
-      sessionStorage.setItem("gp_user", JSON.stringify({ user:user.value }));
+      sessionStorage.setItem("gp_user", JSON.stringify({ user: ADMIN_USER }));
 
       msg.textContent="Acceso concedido. Redirigiendo…";
       msg.classList.add("ok");
